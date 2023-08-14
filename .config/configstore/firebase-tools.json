@@ -1,0 +1,38 @@
+{
+	"motd": {
+		"minVersion": "3.0.5"
+	},
+	"motd.fetched": 1549004042982,
+	"activeProjects": {
+		"/Users/zanven/go/src/gitlab.com/zanven/witt/web": "when-is-the-thing"
+	},
+	"analytics-uuid": "e96678fe-2ebb-4265-bda3-8a9900c4d4e1",
+	"usage": true,
+	"user": {
+		"iss": "accounts.google.com",
+		"azp": "563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com",
+		"aud": "563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com",
+		"sub": "117291334275586451759",
+		"email": "zanven42@gmail.com",
+		"email_verified": true,
+		"at_hash": "CQTR7NT5wZtr7HOaahin9g",
+		"iat": 1547483595,
+		"exp": 1547487195
+	},
+	"tokens": {
+		"expires_at": 1549007642372,
+		"refresh_token": "1/pCGEIKk3fp14KoyjCFs4Z9ozI3ol-ebIAx40jBfFM2Q",
+		"scopes": [
+			"email",
+			"https://www.googleapis.com/auth/cloud-platform",
+			"https://www.googleapis.com/auth/cloudplatformprojects.readonly",
+			"https://www.googleapis.com/auth/firebase",
+			"openid"
+		],
+		"access_token": "ya29.GlyjBqeoo1ZftdOAyrb1a1CYFE7T7M3JGTofecaliisdPz2rElMikR_-T-vzOBMlVYZroX15h-pUJTO0dy7eXzd16L8R2mJIFz6iq6dB4rwYIPLoPFlxjpKhRThGSg",
+		"expires_in": 3600,
+		"scope": "https://www.googleapis.com/auth/firebase https://www.googleapis.com/auth/plus.me https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/userinfo.email",
+		"token_type": "Bearer",
+		"id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjZmYjA1Zjc0MjM2NmVlNGNmNGJjZjQ5Zjk4NGM0ODdlNDVjOGM4M2QiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJhY2NvdW50cy5nb29nbGUuY29tIiwiYXpwIjoiNTYzNTg0MzM1ODY5LWZncmhnbWQ0N2JxbmVraWo1aThiNXByMDNobzg0OWU2LmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiNTYzNTg0MzM1ODY5LWZncmhnbWQ0N2JxbmVraWo1aThiNXByMDNobzg0OWU2LmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwic3ViIjoiMTE3MjkxMzM0Mjc1NTg2NDUxNzU5IiwiZW1haWwiOiJ6YW52ZW40MkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiYXRfaGFzaCI6InVNZVVISXlHRWh0N2RNSDVqSGdZOHciLCJpYXQiOjE1NDkwMDQwNDIsImV4cCI6MTU0OTAwNzY0Mn0.QpfA0uuQCfQ9FZMJVZXkdH9gBcuh_chaS_EW7jfeGCzlhPboSU5cXX5bULzMAgEAXDigo7qLnZwHmiNUinQC8ydO4FVl11FEmIg4DazGObKxKjS048O9I8gWYs_OFiOg6GAkVzOVwZeQfh3M6BYR0R3OeIGOGjBOGBBv5s35aYhgLa363Qjo9fVn6rd-MJ9FNHuymK1ASF4H6i4Axd0My0PoURuTA03G0LQuYkBMAa95arAnDg3jMcMAdrSOFvCLDx5cWoufNQU9LKIffBAHVr_Liv7qeqASltgkFy64lqRfvSHwPQsQWTYf9xxgAcv1tYaiKAnakly9NHiw15-Vmw"
+	}
+}

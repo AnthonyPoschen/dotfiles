@@ -1,0 +1,200 @@
+#!/bin/bash
+# git dotfiles management alias
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+# config file edits
+alias conf-nvim='nvim ~/.config/nvim/init.vim'
+alias conf-kitty='nvim ~/.config/kitty/kitty.conf'
+alias conf-kube='nvim ~/.kube/config'
+alias conf-tmux='nvim ~/.tmux.conf'
+alias conf-zsh='nvim ~/.zshrc'
+export DOCKER_BUILDKIT=1
+# shopt -s lastpipe
+# how to record stuff
+# script -r
+# how to play back
+# script -p < typescript
+# if [ $(git rev-parse --show-toplevel) -eq 1 ]; then echo "no"; else echo "yes"; fi
+# n=$(git rev-parse --show-toplevel); if [ $n -eq 1 ]; then echo "no"; else echo "yes"; fi
+# git
+alias gpl='git fetch --tags -f && git pull --rebase' # get tags with force to overwrite clobbering tags error
+alias gph='git push'
+alias gphr='git push && git retag'
+alias gaa='git add .'
+alias ga='git add'
+alias gcm='git cam'
+alias gs='git status'
+alias gc='git checkout'
+alias gcb='git checkout -b'
+alias gm='git merge'
+alias gms='git merge --squash'
+alias gla='/usr/bin/git log --date-order --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit --date=relative --all'
+
+# kubernetes
+alias wkg='watch kubectl get'
+alias kg='kubectl get'
+alias wkge="watch kubectl get events --sort-by='.lasttimestamp'"
+alias kge="kubectl get events --sort-by='.lastTimestamp'"
+alias kga='kubectlgetall' # dumps all resources of all types
+alias ka='kubectl apply -f'
+alias kd='kubectl describe'
+alias ke='kubectl edit'
+alias kex='kubectl exec -it'
+alias kl='kubectl logs'
+alias klt='kubectl logs --tail 20'
+alias kdel='kubectl delete'
+alias kpf='kubectl port-forward'
+## Merge kube configs
+alias kconfmerge='KUBECONFIG=~/.kube/config-work:~/.kube/config-homelab kubectl config view --merge --flatten > ~/.kube/config'
+# alias j2='jinja2'
+
+function kubectlgetall {
+  for i in $(kubectl api-resources --verbs=list --namespaced -o name | grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq); do
+    echo "Resource:" $i
+    kubectl get -n ${1}  --ignore-not-found=true ${i}
+  done
+}
+# interactive jq filtering of json with fzf
+alias fzfj='jsonexplorer'
+function jsonexplorer {
+    cmd='jq --color-output "$(input={q};echo "${input:-.} | del(.[]?[]?)")" <(printf "%s" "$json")'
+    cmdraw='echo -n "query: {q}\n\n" && jq --color-output "$(input={q};echo "${input:-.}")" <(printf "%s" "$json")'
+    (export json=$(< /dev/stdin);export cmd=$cmd;export cmdraw=$cmdraw; export post=$post;
+    echo '' | fzf --print-query --preview-window='top,99%' --preview=$cmd --bind='enter:execute:'$cmdraw'' --bind='tab:preview:'$cmdraw'' --bind='ctrl-j:preview-half-page-down' --bind='ctrl-k:preview-half-page-up')
+}
+# util
+alias duf='du -d 1 -hc . | sort -h'
+alias watch="\watch " # allows alias expansion before execution to watch other alias commands
+# alias brew="arch -arm64 \brew"
+# alias ssh='docker run --rm -it -v $HOME/.ssh:/root/.ssh ssh:latest ssh'
+alias sshw='ssh -o ProxyCommand="corkscrew 127.0.0.1 3128 %h %p"'
+alias ywd='pwd | pbcopy'
+alias sed='gsed'
+
+[[ -f ~/.aliases-work ]] && source ~/.aliases-work
+
+# recording and playback
+alias recordscreen='ffmpeg -f x11grab -video_size 1920x1080 -framerate 25 -i $DISPLAY -f alsa -i default -c:v libx264 -preset ultrafast -c:a aac ~/tmp/screen.mp4'
+alias playscreen='mplayer ~/tmp/screen.mp4'
+alias webcam='ffplay -f video4linux2 -i /dev/video0 -video_size 320x240'
+
+# misc
+# alias weather= 'curl http://wttr.in/Sydney'
+# alias weather()
+# {
+#     curl -H "Accept-Language: ${LANG%_*}" wttr.in/"${1:-Sydney}"
+# }
+alias weather='curl -H "Accept-Language: ${LANG%_*}" wttr.in/"${1:-Sydney}"'
+alias pwdc='pwd | pbcopy -'
+alias tf='terraform'
+
+# use launchctl remove <com.company.app> to remove undesired startup apps
+alias startupapps='launchctl list | Rg -v "com.apple"'
+
+# Start a mac calculator for when you need to multi calculator
+# alias calc='/Applications/Calculator.app/Contents/MacOS/Calculator >&/dev/null&'
+alias calc="="
+function =
+{
+  echo "$@" | bc -l
+}
+
+alias docker-clean='docker rmi $(docker images --filter "dangling=true" -q --no-trunc)'
+
+alias diff='nvim -c \"b:coc_enabled=0\" -d $@'
+
+# Cant be fucked to remember the aws syntax
+alias ssm="aws ssm start-session --target"
+
+alias ec2-terminate="_ec2-terminate"
+_ec2-terminate() {
+    AWS_PAGER='' aws ec2 terminate-instances --instance-ids "$@"
+}
+alias ec2-instance-types="_ec2-instance-types"
+_ec2-instance-types() {
+    # TODO: make this show memory as GB not MiB
+    AWS_PAGER='' aws ec2 describe-instance-types --query "InstanceTypes[*].{Type:InstanceType,Network:NetworkInfo.NetworkPerformance,Cpu:VCpuInfo.DefaultCores,Memory_MiB:MemoryInfo.SizeInMiB} | sort_by([],&to_string(Type))" --output table
+}
+alias ec2-list="_ec2-list"
+_ec2-list() {
+    # AWS_PAGER='' aws ec2 describe-instances --filters "Name=tag:Name,Values=*$1*" --query "Reservations[*].Instances[*].{ID:InstanceId,IP:PrivateIpAddress,Name:Tags[?Key==\`Name\`]|[0].Value,Status: State.Name != \`terminated\`} | sort_by([], &to_string(Name))" --output table
+    AWS_PAGER='' aws ec2 describe-instances --filters Name=tag:Name,Values=\*$1\* Name=instance-state-name,Values=pending,running --query "Reservations[*].Instances[*].{ID:InstanceId,IP:PrivateIpAddress,Name:Tags[?Key==\`Name\`]|[0].Value,Status: State.Name} | sort_by([], &to_string(Name))" --output table
+}
+
+longest-line() {
+    find . -name '$@' | xargs awk '{ if(length() > 100) print length(),FILENAME":"FNR }' | sort -n
+}
+# WIP to show all private ip's
+# alias ec2-list="AWS_PAGER='' aws ec2 describe-instances --query 'Reservations[*].Instances[*].{ID:InstanceId,IP:join(\`,\`,to_array(NetworkInterfaces[*].PrivateIpAddresses[*].PrivateIpAddress)) ,Name:Tags[?Key==\`Name\`]|[0].Value,Status: State.Name} | sort_by([], &to_string(Name))' --output table"
+
+# modify the cd command to go to git root if in a git repo instead of home directory when no arguments used
+alias cd=cdwithgit
+cdwithgit() {
+    if [ -z "$@" ]; then
+        if git rev-parse --show-toplevel &>/dev/null; then
+            if [[ "$(git rev-parse --show-toplevel)" != "$(pwd)" ]];
+                then \cd $(git rev-parse --show-toplevel); return;
+            fi;
+        fi;
+    fi;
+    \cd "$@"
+}
+
+gstat() {
+    branch=master
+    if [ -n "$1" ]
+    then
+        branch=$1;
+    fi
+    git diff --stat $(git merge-base HEAD $branch);
+}
+
+gfiles() {
+    branch=master
+    if [ -n "$1" ]
+    then
+        branch=$1;
+    fi
+    git diff --name-only $(git merge-base HEAD $branch)
+}
+
+awsexport() {
+    profile=default
+    if [ -n "$1" ]
+    then
+        profile=$1;
+    fi
+    export AWS_ACCESS_KEY_ID=$(aws configure get $profile.aws_access_key_id);
+    export AWS_SECRET_ACCESS_KEY=$(aws configure get $profile.aws_secret_access_key);
+    export AWS_DEFAULT_REGION=$(aws configure get $profile.region);
+    export AWS_SESSION_TOKEN=$(aws configure get $profile.aws_session_token);
+    export AWS_SECURITY_TOKEN=$(aws configure get $profile.aws_security_token);
+    echo "exported AWS creds for profile \033[0;31m$profile\033[0m";
+}
+alias awsunset='unset $(env | grep -o "^AWS_[^=]*")'
+
+awsprofile() {
+    profile=$(aws_profiles | fzf --height 10 --reverse)
+    if [ -z "$profile" ]
+    then
+        unset AWS_PROFILE
+        echo "AWS profile \033[0;31munset\033[0m"
+        return
+    fi
+    export AWS_PROFILE=$profile
+    echo "AWS profile is now \033[0;31m$profile\033[0m"
+}
+
+alias docker-login-github='cat ~/.secrets/github-package-read-token | docker login docker.pkg.github.com -u zanven42 --password-stdin'
+
+function seecert () {
+  nslookup $1
+  address=$1;
+  if [ -n "$2" ]
+  then
+    address=$2
+  fi
+  (openssl s_client -showcerts -servername $1 -connect $address:443 <<< "Q" | openssl x509 -text | grep -iA2 "Validity")
+}
+
+alias aws-asg-count="AWS_PAGER='' aws autoscaling describe-auto-scaling-groups --query \"AutoScalingGroups[*].{Min:MinSize,Desired:DesiredCapacity,Max:MaxSize,Name:AutoScalingGroupName}\" --output table"
+alias aws-asg-scale="echo \"Enter Min instance count:\" && read min && echo \"Enter Desired count:\" && read desired && echo \"Enter Max count:\" && read max && aws autoscaling describe-auto-scaling-groups | jq -r '.AutoScalingGroups[] | .AutoScalingGroupName' | fzf --multi | xargs -I{} -L1 aws autoscaling update-auto-scaling-group --auto-scaling-group-name {} --min-size=$min --desired-capacity=$desired --max-size=$max && echo \"Successfully Updated Min: $min, Desired: $desired, Max: $max\""
