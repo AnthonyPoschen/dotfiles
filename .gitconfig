@@ -1,0 +1,92 @@
+[core]
+	editor = nvim
+    abbrev = 8
+[user]
+	email = zanven42@gmail.com
+	name = Anthony Poschen
+[branch]
+	autosetuprebase = always
+[fetch]
+    prune = true
+    pruneTags = true
+[pull]
+	rebase = true
+	default = current
+[push]
+	followTags = true
+	default = upstream
+	autoSetupRemote = true
+[clean]
+	requireForce = false
+[remote "origin"]
+#   fetch = +refs/heads/*:refs/remotes/origin/*
+#   fetch = +refs/notes/*:refs/notes/*
+  # push = +simple
+  # push = +refs/notes/*:refs/notes/*
+  # pull = +refs/notes/*:refs/notes/*
+[merge]
+	tool = fugitive
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
+	keepBackup = false
+[diff]
+	tool = fugitive
+[difftool]
+	prompt = false
+[mergetool "fugitive"]
+    cmd = nvim -f -c \"b:coc_enabled=0\" -c\"Gvdiffsplit!\" \"$MERGED\"
+[credential]
+    helper = store
+
+[alias]
+    # url gets the origin url to make sharing repositories faster
+    url = "!git remote get-url origin"
+    # chekcout
+    co = checkout
+    # merge and squash only if other branch is fast forwarded
+    ms="!git merge --squash --ff-only"
+    # One-line log
+    lt = "!sh -c \"git log --committer='$*.*' -i --pretty=format:'%<(5)%C(auto,yellow)%h %ad %C(auto,blue)%><(20)[ %cn ] %Creset%-s %C(dim blue)(%ar)%-C(auto,bold red)%-d' --decorate --date=short\" -"
+    lts = "!sh -c \"git log -i --since='$1' --until='$2' --committer='$3.*$4.*$5.*' --pretty=format:'%C(auto,yellow)%h %ad %C(auto,blue)%><(20)[ %cn ] %Creset%s %C(auto,red)%d' --decorate --date=short\" -"
+    lte = "!sh -c \"git log --committer='$*.*' -i --pretty=format:'%<(5)%C(auto,yellow)%h %ad %C(auto,blue)%><(20)[ %cn ] %Creset%s %C(auto,red)%d' --decorate --date=short --graph\" -"
+    # Multi-Line Log
+    # lge = "!sh -c \"git log --notes='*' --graph\" -"
+    lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %C(dim ul white)%an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+    lge ="log --pretty=medium --notes='*' --decorate --date=short --abbrev-commit --graph"
+
+    lines = "!f() { git log --author=\"$1\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2; } END { printf \"Added:\t %s\\nRemoved: %s\\nTotal:\t %s\\n\", add, subs, loc }' -;};f"
+    # git log --author="Anthony Poschen" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -
+    # see all devs by commit number without email
+    devs = shortlog -sn
+    devss = "shortlog -sn --since='3 weeks ago'"
+    # see all commits by a dev
+    # Log-tree
+    # lt = log --graph --oneline --decorate --all
+    # Commit - All - Message
+    cam = commit -am
+    # List branches sorted by last modified
+    b = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
+    # Undo commit
+    uc = reset --soft HEAD~1
+    # list aliases
+    ls = "!git config -l | grep alias | cut -c 7-"
+    s = "!git status -sb"
+
+    files= "!f(){ to=master;from=HEAD; [[ -n \"$1\" ]] && from=$1; [[ -n \"$2\" ]] && to=$2; git diff --name-only $(git merge-base $from $to);};f"
+    stat= "!f(){ to=master;from=HEAD; [[ -n \"$1\" ]] && from=$1; [[ -n \"$2\" ]] && to=$2; git diff --stat $(git merge-base $from $to);};f"
+    review= "!f(){ to=master;from=HEAD; [[ -n \"$1\" ]] && from=$1; [[ -n \"$2\" ]] && to=$2; nvim -p $(git files $from $to) -c \"tabdo Gvdiffsplit! ${from}...${to}\";};f"
+    history= "!git diff $1 HEAD --stat"
+    # discard= "!git restore . | git clean -f"
+    discard="!git restore . | git clean -df"
+    undo="!f(){to=1; [[ -n \"$1\" ]] && to=$1; git reset --soft HEAD~$to;};f"
+    gone = !"git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D"
+    retag = "!f(){ if [ -z \"$(git tag -l $1)\" ]; then echo \"tag does not exist\"; else git push --delete origin $1 || true && git tag -f $1 && git push origin refs/tags/$1;fi;};f"
+[include]
+    path = "~/.gitconfig-work-includes"
+
+#        color
+           # The value for a variable that takes a color is a list of colors (at most two, one for foreground and one for background) and attributes (as many as you want), separated by spaces.
+           # The basic colors accepted are normal, black, red, green, yellow, blue, magenta, cyan and white. The first color given is the foreground; the second is the background. All the basic colors except normal have a bright variant that can be speficied by prefixing the color with bright, like brightred.
+           # Colors may also be given as numbers between 0 and 255; these use ANSI 256-color mode (but note that not all terminals may support this). If your terminal supports it, you may also specify 24-bit RGB values as hex, like #ff0ab3.
+           # The accepted attributes are bold, dim, ul, blink, reverse, italic, and strike (for crossed-out or "strikethrough" letters). The position of any attributes with respect to the colors (before, after, or in between), doesn't matter. Specific attributes may be turned off by prefixing them with no or no- (e.g., noreverse, no-ul, etc).
