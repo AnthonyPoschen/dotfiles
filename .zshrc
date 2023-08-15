@@ -151,6 +151,7 @@ export PATH="/usr/local/Cellar/openssh/8.3p1/sbin:$PATH" # temporary fix till ss
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/bin:$PATH"
 export PATH="$PATH:/Users/zanven/istio-1.5.1/bin"
 
+export DOCKER_BUILDKIT=1
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
