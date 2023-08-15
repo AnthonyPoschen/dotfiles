@@ -40,3 +40,11 @@ Installing oh-my-zsh plugins
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
 ```
+
+
+Configuring podman post install
+```
+podman machine init --cpu 8 --memory=8192
+podman machine ssh sudo rpm-ostree install qemu-user-static
+podman machine ssh sudo systemctl reboot
+```
