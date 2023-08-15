@@ -18,11 +18,11 @@ let g:python2_host_prog = '/Library/Frameworks/Python.framework/Versions/2.7/bin
 filetype plugin on
 filetype plugin indent on    " required by vim-go
 syntax on
-let g:go_gocode_propose_source = 1
-let g:go_fmt_command = "goimports"
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
-let g:go_def_mapping_enabled = 0
+" let g:go_gocode_propose_source = 1
+" let g:go_fmt_command = "goimports"
+" let g:go_def_mode='gopls'
+" let g:go_info_mode='gopls'
+" let g:go_def_mapping_enabled = 0
 
 
 " do not close the preview tab when switching to other buffers
@@ -65,7 +65,7 @@ endfunction
 " disable vim-go godoc so we can use coc's K
 let g:go_doc_keywordprg_enabled = 0
 " allow suggestions for unimported packages
-let g:go_gopls_complete_unimported = "gopls"
+" let g:go_gopls_complete_unimported = "gopls"
 " The editor.action.organizeImport code action will auto-format code and add missing imports. To run this automatically on save, add the following line to your init.vim:
 " autocmd BufWritePre *.go :call CocAction('runCommand', 'editor.action.organizeImport')
 " modify go add tags to use camelcase instead of snakeCase
@@ -558,41 +558,30 @@ local on_attach = function(client, bufnr)
     --     augroup end
     -- ]])
 end
-vim.api.nvim_create_autocmd("bufwritepre", {
-  pattern = { "*.go" },
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = '*.go',
   callback = function()
-	  vim.lsp.buf.formatting_sync(nil, 3000)
-  end,
-})
-
-vim.api.nvim_create_autocmd("bufwritepre", {
-	pattern = { "*.go" },
-	callback = function()
-		local params = vim.lsp.util.make_range_params(nil, vim.lsp.util._get_offset_encoding())
-		params.context = {only = {"source.organizeimports"}}
-
-		local result = vim.lsp.buf_request_sync(0, "textdocument/codeaction", params, 3000)
-		for _, res in pairs(result or {}) do
-			for _, r in pairs(res.result or {}) do
-				if r.edit then
-					vim.lsp.util.apply_workspace_edit(r.edit, vim.lsp.util._get_offset_encoding())
-				else
-					vim.lsp.buf.execute_command(r.command)
-				end
-			end
-		end
-	end,
+    vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
+  end
 })
 
 local lspconfig = require('lspconfig')
+local util = require('lspconfig/util')
 lspconfig.gopls.setup{
 	capabilities = capabilities,
 	on_attach = on_attach,
-	settings = {
-		gopls = {
-			gofumpt = true,
-		},
-	},
+    cmd = {"gopls", "serve"},
+    filetypes = {"go", "gomod"},
+    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+      gopls = {
+		gofumpt = true,
+        analyses = {
+          unusedparams = true,
+        },
+        staticcheck = true,
+      },
+    },
 	flags = {
 		debounce_text_changes = 150,
 	},
