@@ -198,3 +198,15 @@ function seecert () {
 
 alias aws-asg-count="AWS_PAGER='' aws autoscaling describe-auto-scaling-groups --query \"AutoScalingGroups[*].{Min:MinSize,Desired:DesiredCapacity,Max:MaxSize,Name:AutoScalingGroupName}\" --output table"
 alias aws-asg-scale="echo \"Enter Min instance count:\" && read min && echo \"Enter Desired count:\" && read desired && echo \"Enter Max count:\" && read max && aws autoscaling describe-auto-scaling-groups | jq -r '.AutoScalingGroups[] | .AutoScalingGroupName' | fzf --multi | xargs -I{} -L1 aws autoscaling update-auto-scaling-group --auto-scaling-group-name {} --min-size=$min --desired-capacity=$desired --max-size=$max && echo \"Successfully Updated Min: $min, Desired: $desired, Max: $max\""
+
+palette() {
+    local -a colors
+    for i in {000..255}; do
+        colors+=("%F{$i}$i%f")
+    done
+    print -cP $colors
+}
+printc() {
+    local color="%F{$1}"
+    echo -E ${(qqqq)${(%)color}}
+}

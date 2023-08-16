@@ -90,8 +90,16 @@ zplug load
 # [[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# palette - prints color palette
+# printc prints the palette color as a code to use in PS1
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --smart-case --glob "!.git/*"'
-
+zstyle ':fzf-tab:*' default-color $'\033[38;5;255m'
+FZF_TAB_GROUP_COLORS=(
+    $'\033[94m' $'\033[32m' $'\033[33m' $'\033[35m' $'\033[31m' $'\033[38;5;27m' $'\033[36m' \
+    $'\033[38;5;100m' $'\033[38;5;98m' $'\033[91m' $'\033[38;5;80m' $'\033[92m' \
+    $'\033[38;5;214m' $'\033[38;5;165m' $'\033[38;5;124m' $'\033[38;5;120m'
+)
+zstyle ':fzf-tab:*' group-colors $FZF_TAB_GROUP_COLORS
 # export RPROMPT=$'%F{blue}$(__git_ps1 "%s")$(kube_ps1)'
 # export PROMPT='%F{yellow}%~ %b$%B%F{grey}%f%b '
 # export GIT_PS1_SHOWDIRTYSTATE=1
