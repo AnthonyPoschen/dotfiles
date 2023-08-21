@@ -114,6 +114,10 @@ _ec2-instance-types() {
     # TODO: make this show memory as GB not MiB
     AWS_PAGER='' aws ec2 describe-instance-types --query "InstanceTypes[*].{Type:InstanceType,Network:NetworkInfo.NetworkPerformance,Cpu:VCpuInfo.DefaultCores,Memory_MiB:MemoryInfo.SizeInMiB} | sort_by([],&to_string(Type))" --output table
 }
+alias ec2-terminate="_ec2-terminate"
+_ec2-terminate() {
+    AWS_PAGER='' aws ec2 terminate-instances --instance-ids $@
+}
 alias ec2-list="_ec2-list"
 _ec2-list() {
     # AWS_PAGER='' aws ec2 describe-instances --filters "Name=tag:Name,Values=*$1*" --query "Reservations[*].Instances[*].{ID:InstanceId,IP:PrivateIpAddress,Name:Tags[?Key==\`Name\`]|[0].Value,Status: State.Name != \`terminated\`} | sort_by([], &to_string(Name))" --output table
