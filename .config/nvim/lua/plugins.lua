@@ -62,9 +62,6 @@ return require('packer').startup(function(use)
     --devicons
     use 'kyazdani42/nvim-web-devicons'
 
-
-
-
     -- tabline visual tool
     -- use {'romgrk/barbar.nvim', wants = 'nvim-web-devicons'}
     -- editor config
