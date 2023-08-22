@@ -199,9 +199,9 @@ autocmd QuitPre * call s:goldenRatioEnabler()
 
 """"""""""""""""""""""""""
 " Copilot
-let g:copilot_no_tab_map = v:true " required atm as lua broken to test working
-let g:copilot_assume_mapped = v:true " required atm as lua broken to test working
-let g:copilot_proxy = $HTTPS_PROXY
+" let g:copilot_no_tab_map = v:true " required atm as lua broken to test working
+" let g:copilot_assume_mapped = v:true " required atm as lua broken to test working
+" let g:copilot_proxy = $HTTPS_PROXY
 
 """"""""""""""""""""""""""
 """"""""""""""""""""""""""
@@ -262,6 +262,7 @@ vim.cmd.colorscheme "catppuccin"
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 vim.g.copilot_tab_fallback = ""
+vim.g.copilot_proxy = vim.env.HTTPS_PROXY
 
 -- Telescope config
 local actions = require "telescope.actions"
