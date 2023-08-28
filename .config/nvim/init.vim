@@ -1,6 +1,6 @@
 " au BufRead,BufNewFile *.ts set filetype=typescript
 " au BufNewFile,BufRead ~/.ssh/prod,~/.ssh/prodall,~/.ssh/dev setf sshconfig
-autocmd FileType css,html,javascript,vue,yaml,yml,typescript,typescriptreact,json setlocal ts=2 | setlocal sw=2 | setlocal sts=2
+autocmd FileType css,html,javascript,vue,yaml,yml,typescript,typescriptreact,json setlocal ts=2 sw=2 sts=2
 
 " Make netrw display line number
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
