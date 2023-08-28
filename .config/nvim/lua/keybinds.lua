@@ -79,8 +79,6 @@ map('n', '<Leader>b', ':Telescope buffers<CR>', opt_noremap)
 
 -- Golang Config
 utils.create_augroup({
-  {'FileType', '*', 'setlocal', 'shiftwidth=4'},
-  {'FileType', 'ocaml,lua', 'setlocal', 'shiftwidth=2'},
   {'FileType', 'dap-rel', [[lua require('dap.ext.autocompl').attach()]]}
 }, 'Tab2')
 

@@ -30,7 +30,7 @@ alias gms='git merge --squash'
 alias gla='/usr/bin/git log --date-order --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit --date=relative --all'
 
 # kubernetes
-alias wkg='watch kubectl get'
+alias wkg='watch -n 5 kubectl get'
 alias kg='kubectl get'
 alias wkge="watch kubectl get events --sort-by='.lasttimestamp'"
 alias kge="kubectl get events --sort-by='.lastTimestamp'"

@@ -6,7 +6,7 @@ opt.ttimeoutlen = 50
 opt.ts = 4
 opt.sw = 4
 opt.sts = 4
--- opt.listchars = eol:↲,tab:→\ ,trail:~,extends:>,precedes:<,nbsp:␣
+-- opt.listchars = {  eol="↲",tab="-",trail="-",extends=">",precedes="<",nbsp="␣" }
 opt.list = true
 
 opt.expandtab = true
