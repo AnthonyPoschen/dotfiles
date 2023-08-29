@@ -1,6 +1,10 @@
 *
-!.gitignore
-!.tmux.conf
-!.zshrc
-!.p10k.zsh
-!.config/**
+**
+
+!\.gitignore
+!\.tmux.conf
+!\.zshrc
+!\.config
+!\.config/nvim
+!\.config/nvim/lua
+!\.config/nvim/lua/**
