@@ -1,6 +1,6 @@
 *
-**
-.cfg
-!.config
-!.oh-my-zsh/custom/
-
+!.gitignore
+!.tmux.conf
+!.zshrc
+!.p10k.zsh
+!.config/**
