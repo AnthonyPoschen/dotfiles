@@ -18,11 +18,6 @@ let g:python2_host_prog = '/Library/Frameworks/Python.framework/Versions/2.7/bin
 filetype plugin on
 filetype plugin indent on    " required by vim-go
 syntax on
-" let g:go_gocode_propose_source = 1
-" let g:go_fmt_command = "goimports"
-" let g:go_def_mode='gopls'
-" let g:go_info_mode='gopls'
-" let g:go_def_mapping_enabled = 0
 
 
 " do not close the preview tab when switching to other buffers
@@ -87,23 +82,6 @@ let g:ranger_command_override = 'ranger --cmd "set hidden_filter \.(?:pyc|pyo|ba
 
 " FZF config
 let g:fzf_prefer_tmux = 1
-" noremap <Leader>f :Files <cr>
-" noremap <Leader>f :Telescope find_files<cr>
-" noremap <Leader>b :Telescope buffers <cr>
-" nnore <C-W>s :<C-U>sp \| :Buffers <CR>
-" nnore <C-W>v :<C-U>vsp \| :Buffers <CR>
-
-" git fugitive review staged changes in a new tab
-" command Greview :tabedit<cr> :r !git diff --staged | grep "^[^\+\-\ ]"
-" command Greview :Gtabedit! diff --staged
-" command Greview :Gtabedit! diff --staged \| grep \"^[^\+-\ ]\"
-" nnoremap <leader>gr :Greview<cr>
-
-" nnoremap <M-c> :Calendar -position=here -first_day=monday<cr>
-" let g:calendar_view = "week"
-" let g:calendar_google_calendar = 1
-" let g:calendar_google_task = 1
-" let g:calendar_views = ['year', 'month', 'week' , 'day' , 'clock' ]
 
 " theme
 let g:onedark_termcolors=256
@@ -112,9 +90,6 @@ syntax enable
 set background=dark
 colorscheme onedark
 
-" colors for coc vim
-" :help CocHighlightText
-" Floats are the virtual
 
 
 " :Find command with RipGrep
@@ -197,11 +172,6 @@ autocmd QuitPre * call s:goldenRatioEnabler()
 " autocmd WinEnter * call set tabstop&
 " autocmd FileType make setlocal noexpandtab
 
-""""""""""""""""""""""""""
-" Copilot
-" let g:copilot_no_tab_map = v:true " required atm as lua broken to test working
-" let g:copilot_assume_mapped = v:true " required atm as lua broken to test working
-" let g:copilot_proxy = $HTTPS_PROXY
 
 """"""""""""""""""""""""""
 """"""""""""""""""""""""""
@@ -266,6 +236,8 @@ vim.g.copilot_proxy = vim.env.HTTPS_PROXY
 
 -- Telescope config
 local actions = require "telescope.actions"
+local cc = require('conventional_commits')
+-- local ccactions = require("telescope._extensions.conventional_commits.actions")
 require('telescope').setup({
   extensions = {
     fzf = {
@@ -274,6 +246,19 @@ require('telescope').setup({
       override_file_sorter = true,     -- override the file sorter
       case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
                                        -- the default case_mode is "smart_case"
+    },
+    conventional_commits = {
+        action = cc.prompt,
+        -- include_body_and_footer = true,
+        -- action = function(entry)
+        --     entry = {
+        --         display = "feat       A new feature hello",
+        --         index = 7,
+        --         ordinal = "feat",
+        --         value = "feat"
+        --     }
+        --     print(vim.inspect(entry))
+        -- end,
     },
   },
   defaults = {
@@ -305,6 +290,7 @@ require('telescope').setup({
 })
 -- require('telescope').load_extension('fzf')
 require('telescope').load_extension('file_browser')
+require('telescope').load_extension("conventional_commits")
 -- require('telescope').load_extension('coc')
 -- lualine
 require('lualine').setup{

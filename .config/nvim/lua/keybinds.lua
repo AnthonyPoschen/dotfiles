@@ -103,6 +103,11 @@ utils.create_augroup({
     {'FileType', 'go', 'nnoremap', '<buffer>', '<F10>',  ':GoDebugStepOut<CR>'}
 },'goKeys')
 
+utils.create_augroup({
+    {'FileType', 'fugitive', 'nnoremap','<buffer>', 'cc', ':Telescope conventional_commits<CR>'},
+    {'FileType', 'fugitive', 'nnoremap','<buffer>', 'cu', ':!Git reset --soft HEAD~1<CR>'}
+},"fugitive_custom")
+
 -- CMP / LSP
 -- map('n', '<Space>e', vim.diagnostic.open_float, opt_noremap_silent)
 -- map('n', '[d', vim.diagnostic.goto_prev, opt_noremap_silent)
