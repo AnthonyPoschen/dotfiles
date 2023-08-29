@@ -120,6 +120,7 @@ return require('packer').startup(function(use)
 
     -- git plugins
     use 'tpope/vim-fugitive'
+    use 'olacin/telescope-cc.nvim'
 
     -- Alternative file manager
     use 'rbgrouleff/bclose.vim'
