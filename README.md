@@ -6,7 +6,7 @@ brew bundle
 
 Clone the repo down
 ```
-git clone --bare https://github.com/AnthonyPoschen/dotfiles.cfg $HOME/.cfg
+git clone --bare https://github.com/AnthonyPoschen/dotfiles $HOME/.cfg
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 config checkout
 ```
@@ -16,9 +16,12 @@ Install brew
 # Brew might not be in path so might need to fix that / run binary directly
 brew bundle
 ```
+
+swap to kitty terminal before proceeding.
+
 Install ohmyzsh
 ```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc
 ```
 config may be required for oh my zsh
 
@@ -28,7 +31,7 @@ git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
 Setting up p10k
-install custom fonts
+install custom fonts before setting up zsh
 ```
 https://github.com/romkatv/powerlevel10k#meslo-nerd-font-patched-for-powerlevel10k
 
