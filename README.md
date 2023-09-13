@@ -30,6 +30,11 @@ Install tmux plugin manager
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
+Install tmux plugins with following hotkey Ctrl+A I
+```
+^A + I
+```
+
 Setting up p10k
 install custom fonts before setting up zsh
 ```
