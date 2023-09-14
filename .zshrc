@@ -176,11 +176,11 @@ export COLUMNS="120"
 # openapi2jsonschema -o "schemas" --kubernetes --stand-alone k8s-swagger.json
 # then use the output as the yaml jsonschema for k8s files
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/zanven/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/zanven/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/zanven/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/zanven/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+# # The next line updates PATH for the Google Cloud SDK.
+# if [ -f '/Users/zanven/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/zanven/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+#
+# # The next line enables shell command completion for gcloud.
+# if [ -f '/Users/zanven/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/zanven/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
 # Added by GDK bootstrap
 # source /Users/zanven/.asdf/asdf.sh
