@@ -663,7 +663,8 @@ require('lspconfig')['yamlls'].setup{
     settings = {
         yaml = {
           schemas = {
-            kubernetes = "*.{yml,yaml}",
+            -- kubernetes = "*.{yml,yaml}",
+            ["https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.28.1-standalone/all.json"] = "*.{yml,yaml}",
             ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
             ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
             ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
