@@ -34,6 +34,10 @@ Install tmux plugins with following hotkey Ctrl+A I
 ```
 ^A + I
 ```
+Install zsh zplug plugins
+```
+zplug install
+```
 
 Setting up p10k
 install custom fonts before setting up zsh
