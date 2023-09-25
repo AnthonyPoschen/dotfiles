@@ -1,6 +1,7 @@
 #!/bin/bash
 # git dotfiles management alias
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias brew-update='brew bundle -f --file ~/Brewfile && brew bundle dump -f --file ~/Brewfile'
 # config file edits
 alias conf-nvim='nvim ~/.config/nvim/init.vim'
 alias conf-kitty='nvim ~/.config/kitty/kitty.conf'
