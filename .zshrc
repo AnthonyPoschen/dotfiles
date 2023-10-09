@@ -145,6 +145,8 @@ else
     export TERM=xterm-256color
 fi
 
+# make jq use nicer colour printing
+export JQ_COLORS="0;90:0;39:0;39:0;39:0;32:1;39:1;39:1;34"
 # make vim as default editor
 export EDITOR=nvim
 
