@@ -106,6 +106,8 @@ alias diff='nvim -c \"b:coc_enabled=0\" -d $@'
 # Cant be fucked to remember the aws syntax
 alias ssm="aws ssm start-session --target"
 
+alias aws-account-id="aws sts get-caller-identity | jq -r '.Account'"
+
 alias ec2-terminate="_ec2-terminate"
 _ec2-terminate() {
     AWS_PAGER='' aws ec2 terminate-instances --instance-ids "$@"
