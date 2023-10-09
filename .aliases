@@ -32,6 +32,7 @@ alias gla='/usr/bin/git log --date-order --graph --pretty=format:'\''%Cred%h%Cre
 
 # kubernetes
 alias wkg='watch -n 5 kubectl get'
+alias wkd='watch -n 5 kubectl describe'
 alias kg='kubectl get'
 alias wkge="watch kubectl get events --sort-by='.lasttimestamp'"
 alias kge="kubectl get events --sort-by='.lastTimestamp'"
