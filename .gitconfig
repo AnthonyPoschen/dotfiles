@@ -58,6 +58,9 @@
     lines = "!f() { git log --author=\"$1\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2; } END { printf \"Added:\t %s\\nRemoved: %s\\nTotal:\t %s\\n\", add, subs, loc }' -;};f"
     # git log --author="Anthony Poschen" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -
     # see all devs by commit number without email
+    changes = "!f() { [[ -z \"$1\" ]] && git diff HEAD^ HEAD && exit; [[ -z \"$2\" ]] && git diff $1^ $1 && exit; git diff $1^ $1 -- \"$2\";};f"
+    changes-ls = "!f() { [[ -z \"$1\" ]] && git diff --compact-summary HEAD^ HEAD && exit; [[ -z \"$2\" ]] && git diff --compact-summary $1^ $1  && exit; git diff --compact-summary $1^ $1 -- \"$2\" ;};f"
+
     devs = shortlog -sn
     devss = "shortlog -sn --since='3 weeks ago'"
     # see all commits by a dev
