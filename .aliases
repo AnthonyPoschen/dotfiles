@@ -19,6 +19,7 @@ export DOCKER_BUILDKIT=1
 # git
 alias gpl='git fetch --tags -f && git pull --rebase' # get tags with force to overwrite clobbering tags error
 alias gph='git push'
+alias gsm='git switch master 2&> /dev/null || git switch main'
 alias gphr='git push && git retag'
 alias gaa='git add .'
 alias ga='git add'
