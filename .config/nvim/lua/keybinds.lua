@@ -111,5 +111,5 @@ utils.create_augroup({
 
 -- CMP / LSP
 -- map('n', '<Space>e', vim.diagnostic.open_float, opt_noremap_silent)
-map('n', '[d', vim.diagnostic.goto_prev, opt_noremap_silent)
-map('n', ']d', vim.diagnostic.goto_next, opt_noremap_silent)
+-- map('n', '[d', vim.diagnostic.goto_prev, opt_noremap_silent)
+-- map('n', ']d', vim.diagnostic.goto_next, opt_noremap_silent)
