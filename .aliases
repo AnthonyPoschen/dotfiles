@@ -51,6 +51,8 @@ alias kpf='kubectl port-forward'
 alias kconfmerge='KUBECONFIG=~/.kube/config-work:~/.kube/config-homelab kubectl config view --merge --flatten > ~/.kube/config'
 # alias j2='jinja2'
 
+alias j2=jinja2
+
 function kubectlgetall {
   for i in $(kubectl api-resources --verbs=list --namespaced -o name | grep -v "events.events.k8s.io" | grep -v "events" | sort | uniq); do
     echo "Resource:" $i
@@ -127,7 +129,7 @@ _ec2-terminate() {
 alias ec2-list="_ec2-list"
 _ec2-list() {
     # AWS_PAGER='' aws ec2 describe-instances --filters "Name=tag:Name,Values=*$1*" --query "Reservations[*].Instances[*].{ID:InstanceId,IP:PrivateIpAddress,Name:Tags[?Key==\`Name\`]|[0].Value,Status: State.Name != \`terminated\`} | sort_by([], &to_string(Name))" --output table
-    AWS_PAGER='' aws ec2 describe-instances --filters Name=tag:Name,Values=\*$1\* Name=instance-state-name,Values=pending,running --query "Reservations[*].Instances[*].{ID:InstanceId,IP:PrivateIpAddress,Name:Tags[?Key==\`Name\`]|[0].Value,Status: State.Name} | sort_by([], &to_string(Name))" --output table
+    AWS_PAGER='' aws ec2 describe-instances --filters Name=tag:Name,Values=\*$1\* Name=instance-state-name,Values=pending,running --query "Reservations[*].Instances[*].{ID:InstanceId,IP:PrivateIpAddress,Name:Tags[?Key==\`Name\`]|[0].Value,Status: State.Name,Launch_Time: LaunchTime} | sort_by([], &to_string(Name))" --output table
 }
 
 longest-line() {
