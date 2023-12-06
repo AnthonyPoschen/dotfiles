@@ -32,8 +32,6 @@ return require('packer').startup(function(use)
         run = function() vim.fn["mkdp#util#install"]() end,
     })
 
-    --File browsing
-    use 'nvim-telescope/telescope-file-browser.nvim'
 
     --Buffer navigation
     use 'nvim-lualine/lualine.nvim'
@@ -49,6 +47,8 @@ return require('packer').startup(function(use)
     --Telescope
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
     use 'fannheyward/telescope-coc.nvim'
+    --Telescope File browsing
+    use 'nvim-telescope/telescope-file-browser.nvim'
 
     --Git tools
     use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
@@ -119,7 +119,6 @@ return require('packer').startup(function(use)
     use 'olacin/telescope-cc.nvim'
 
     -- Alternative file manager
-    use 'rbgrouleff/bclose.vim'
     use 'francoiscabrol/ranger.vim'
 
     -- fuzzy search
@@ -136,6 +135,7 @@ return require('packer').startup(function(use)
     use 'KabbAmine/vCoolor.vim'
     -- git plugin
     use {'fatih/vim-go', run = ':GoUpdateBinaries' }
+
     -- hide secrets from myself even
     use 'laytan/cloak.nvim'
 end)

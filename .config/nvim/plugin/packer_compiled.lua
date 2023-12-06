@@ -84,11 +84,6 @@ _G.packer_plugins = {
     path = "/Users/ap/.local/share/nvim/site/pack/packer/start/auto-pairs",
     url = "https://github.com/jiangmiao/auto-pairs"
   },
-  ["bclose.vim"] = {
-    loaded = true,
-    path = "/Users/ap/.local/share/nvim/site/pack/packer/start/bclose.vim",
-    url = "https://github.com/rbgrouleff/bclose.vim"
-  },
   catppuccin = {
     loaded = true,
     path = "/Users/ap/.local/share/nvim/site/pack/packer/start/catppuccin",
