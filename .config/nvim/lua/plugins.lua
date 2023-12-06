@@ -27,7 +27,6 @@ return require('packer').startup(function(use)
     -- Theme
     use {'catppuccin/nvim', as = 'catppuccin'}
     --Markdown preview
-    use 'ellisonleao/glow.nvim'
     use({
         "iamcco/markdown-preview.nvim",
         run = function() vim.fn["mkdp#util#install"]() end,
@@ -107,16 +106,13 @@ return require('packer').startup(function(use)
     -- VIM plubins (not lua)
     --
     -- Color scheme
-    use 'joshdick/onedark.vim'
+    -- use 'joshdick/onedark.vim'
 
     -- Tcomment for fast commenting and uncommenting of code
     use 'tomtom/tcomment_vim'
 
     -- RipGrep search
     use 'jremmen/vim-ripgrep'
-
-    -- TODO: Review if needed
-    use 'vim-scripts/matchit.zip'
 
     -- git plugins
     use 'tpope/vim-fugitive'
@@ -125,12 +121,10 @@ return require('packer').startup(function(use)
     -- Alternative file manager
     use 'rbgrouleff/bclose.vim'
     use 'francoiscabrol/ranger.vim'
+
     -- fuzzy search
     use {'junegunn/fzf', run = function() vim.fn['fzf#install()'](0) end }
     use 'junegunn/fzf.vim'
-
-    -- align text
-    use 'junegunn/vim-easy-align'
 
     -- Auto pair automatically closer bracers and quotations
     use 'jiangmiao/auto-pairs'
@@ -142,4 +136,6 @@ return require('packer').startup(function(use)
     use 'KabbAmine/vCoolor.vim'
     -- git plugin
     use {'fatih/vim-go', run = ':GoUpdateBinaries' }
+    -- hide secrets from myself even
+    use 'laytan/cloak.nvim'
 end)
