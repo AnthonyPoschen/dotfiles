@@ -3,11 +3,12 @@
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias brew-update='brew bundle -f --file ~/Brewfile && brew bundle dump -f --file ~/Brewfile'
 # config file edits
-alias conf-nvim='nvim ~/.config/nvim/init.vim'
+alias conf-nvim='nvim ~/.config/nvim/init.lua'
 alias conf-kitty='nvim ~/.config/kitty/kitty.conf'
 alias conf-kube='nvim ~/.kube/config'
 alias conf-tmux='nvim ~/.tmux.conf'
 alias conf-zsh='nvim ~/.zshrc'
+alias conf-aliases='nvim ~/.aliases'
 export DOCKER_BUILDKIT=1
 # shopt -s lastpipe
 # how to record stuff
