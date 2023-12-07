@@ -23,6 +23,8 @@ require('cloak').setup({
       cloak_pattern = {
           {'(aws_access_key_id%s*=).+',replace = '%1 '},
           {'(aws_secret_access_key%s*=).+',replace = '%1 '},
+          {'(aws_session_token%s*=).+',replace = '%1 '},
+          {'(aws_security_token%s*=).+',replace = '%1 '},
      },
       -- cloak_pattern = {'(aws_access_key_id =).+'},
 
@@ -31,6 +33,24 @@ require('cloak').setup({
       -- The actual replacement will contain the 'cloak_character'
       -- where it doesn't cover the original text.
       -- If left emtpy the legacy behavior of keeping the first character is retained.
+      replace = nil,
+    },
+    {
+      file_pattern = '.cntlm.conf',
+      cloak_pattern = {
+          {'(#%s.*=).+',replace = '%1'},
+          {'(PassLM%s*).+',replace = '%1'},
+          {'(PassNTLMv2%s*).+',replace = '%1'},
+          {'(PassNT%s*).+',replace = '%1'},
+     },
+      replace = nil,
+    },
+    {
+      file_pattern = '.git-credentials',
+      cloak_pattern = {
+          {'(https)(://)(.*):.+@(.*)',replace = '[%1] %3@%4 # Line obfuscated by Cloak!'},
+          {'(http)(://)(.*):.+@(.*)',replace = '[%1] %3@%4 # Line obfuscated by Cloak!'},
+     },
       replace = nil,
     },
   },
