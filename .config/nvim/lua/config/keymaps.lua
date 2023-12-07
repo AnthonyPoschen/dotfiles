@@ -1,3 +1,7 @@
+-- Keymaps are automatically loaded on the VeryLazy event
+-- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
+-- Add any additional keymaps here
+-- extra doco https://www.lazyvim.org/configuration/general
 local utils = require('utils')
 local map = utils.map
 local g = vim.g
@@ -19,8 +23,6 @@ map('n', '}', ':tabnext<cr>', opt_noremap)
 map('n', '+', ':tabnew<cr>', opt_noremap)
 map('n', '_', ':tabclose<cr>', opt_noremap)
 
--- File Browser
-map('n', '-', ':Ranger<CR>', opt_noremap)
 
 -- easier moving of code blocks
 map('v', '<', '<gv', opt_noremap)
@@ -41,8 +43,8 @@ map('n', '<C-l>', '<C-w>w', opt_noremap)
 map('n', '<C-h>', '<C-w>W', opt_noremap)
 
 -- allow scrolling previous console commands, invert direction to feel more natural
-map('c', '<C-j>', '<Up>', opt_noremap)
-map('c', '<C-k>', '<Down>', opt_noremap)
+-- map('c', '<C-j>', '<Up>', opt_noremap)
+-- map('c', '<C-k>', '<Down>', opt_noremap)
 
 -- move line up and down ( does not work )
 map('n', '<M-j>', ':m +1<CR>', opt_noremap_silent)
@@ -63,12 +65,12 @@ map('n', '<Leader>gb', ':DiffviewFileHistory %%<CR>', opt_noremap)
 -- nnoremap <Leader>gb :Git blame --date=short<cr> -- Old config using fugitive
 -- End Git Keys --
 
--- TComment
-map('v', '<Leader>c', ':TComment<CR>', opt_noremap)
-map('n', '<Leader>c', ':TComment<CR>', opt_noremap)
+-- -- TComment
+-- map('v', '<Leader>c', ':TComment<CR>', opt_noremap)
+-- map('n', '<Leader>c', ':TComment<CR>', opt_noremap)
 
 -- clear search
-map('n', '<C-c>', ':noh<CR>', opt_noremap)
+map('n', '<C-c>', ':noh<CR>', opt_noremap_silent)
 
 -- Copilot
 map('i', '<C-Space>', 'copilot#Accept("<CR>")', { silent = true, expr = true, script = true})
