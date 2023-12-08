@@ -7,8 +7,8 @@ opt.ts = 4
 opt.sw = 4
 opt.sts = 4
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "css","html","javascript","vue","yaml","yml","typescript","typescriptreact","json" },
-  command = "setlocal ts=2 sw=2 sts=2",
+	pattern = { "css", "html", "javascript", "vue", "yaml", "yml", "typescript", "typescriptreact", "json", "nvim", "lua" },
+	command = "setlocal ts=2 sw=2 sts=2",
 })
 -- opt.listchars = {  eol="↲",tab="-",trail="-",extends=">",precedes="<",nbsp="␣" }
 opt.list = true
@@ -22,8 +22,8 @@ opt.wrap = false
 opt.vb = true -- turn off beep sound = true
 opt.number = true
 opt.relativenumber = true
-opt.clipboard= "unnamedplus"
-opt.inccommand= "split"
+opt.clipboard = "unnamedplus"
+opt.inccommand = "split"
 opt.guicursor = ""
 
 opt.backup = false
@@ -41,9 +41,9 @@ opt.smartcase = true
 opt.incsearch = true
 
 -- folding settings
-opt.foldmethod = "syntax"   -- fold based on indent
-opt.foldnestmax = 10      -- deepest fold is 10 levels
-opt.foldenable = false       -- dont fold by default
+opt.foldmethod = "syntax" -- fold based on indent
+opt.foldnestmax = 10 -- deepest fold is 10 levels
+opt.foldenable = false -- dont fold by default
 -- set foldlevel=1       -- this is just what i use
 
 -- Split to right and below by default

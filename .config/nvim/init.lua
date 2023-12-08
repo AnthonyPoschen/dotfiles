@@ -65,8 +65,3 @@ require("vim_options")
 -- vim.g.copilot_assume_mapped = true
 -- vim.g.copilot_tab_fallback = ""
 vim.g.copilot_proxy = vim.env.HTTPS_PROXY
-require("conform").setup({
-	formatters_by_ft = {
-		go = { "goreturns" },
-	},
-})

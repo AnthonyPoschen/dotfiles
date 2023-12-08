@@ -78,5 +78,4 @@ podman machine ssh sudo systemctl reboot
 Configure golang packages that aren't managed elsewhere
 
 ```sh
-go install github.com/sqs/goreturns@latest
 ````
