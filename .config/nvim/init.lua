@@ -1,4 +1,4 @@
--- lazy package manager
+-- laz:LazyExtrasy package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   -- bootstrap lazy.nvim
@@ -14,14 +14,9 @@ require("lazy").setup({
 		{ import = "lazyvim.plugins.extras.lang.typescript" },
 		{ import = "lazyvim.plugins.extras.lang.json" },
 		{ import = "lazyvim.plugins.extras.lang.go" },
-		{ "laytan/cloak.nvim" },
-		{ "tpope/vim-fugitive" },
-		{ "jremmen/vim-ripgrep" },
-		{ "s1n7ax/nvim-window-picker" },
-
 		-- { import = "lazyvim.plugins.extras.ui.mini-animate" },
 		-- import/override with your plugins
-		-- { import = "plugins" },
+		{ import = "plugins" },
 	},
 	defaults = {
 		-- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
