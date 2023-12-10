@@ -1,3 +1,8 @@
+-- TODO: make a bar show up with details when having multiple tabs
+-- allowing easier management when having multiple spaces
+-- TODO: <leader>l has a lot of sub commands on it mosrtly go file specific
+-- so that is causing input delay when using that harpoon jump
+--
 -- laz:LazyExtrasy package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then

@@ -19,11 +19,12 @@ function M.add_rtp(path)
 end
 
 -- Map a key with optional options
-function M.map(mode, keys, action, options)
+function M.map(mode, lhs, rhs, options)
 	if options == nil then
 		options = {}
 	end
-	vim.api.nvim_set_keymap(mode, keys, action, options)
+	-- vim.api.nvim_set_keymap(mode, keys, action, options)
+	vim.keymap.set(mode, lhs, rhs, options)
 end
 
 -- Map a key to a lua callback

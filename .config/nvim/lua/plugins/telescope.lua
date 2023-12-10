@@ -23,7 +23,7 @@ return {
 				{ "<leader>fR", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
 				-- git
 				{ "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
-				{ "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "status" },
+				-- { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "status" },
 				-- search
 				{ '<leader>s"', "<cmd>Telescope registers<cr>", desc = "Registers" },
 				{ "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
@@ -76,6 +76,7 @@ return {
 		end,
 		opts = function()
 			local actions = require("telescope.actions")
+			local cc = require("conventional_commits")
 
 			local open_with_trouble = function(...)
 				return require("trouble.providers.telescope").open_with_trouble(...)
@@ -95,8 +96,30 @@ return {
 			end
 
 			return {
+				extensions = {
+					fzf = {
+						fuzzy = true, -- false will only do exact matching
+						override_generic_sorter = true, -- override the generic sorter
+						override_file_sorter = true, -- override the file sorter
+						case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+						-- the default case_mode is "smart_case"
+					},
+					conventional_commits = {
+						action = cc.prompt,
+					},
+				},
+				pickers = {
+					find_files = {
+						theme = "dropdown",
+						hidden = true,
+					},
+					file_browser = {
+						hidden = true,
+					},
+				},
 				defaults = {
 					prompt_prefix = " ",
+					file_ignore_patterns = { ".git/", "vendor/", "node_modules/" },
 					selection_caret = " ",
 					-- open files in the first window that is an actual file.
 					-- use the current window if no other window is available.
@@ -143,6 +166,7 @@ return {
 			build = "make",
 			config = function()
 				require("telescope").load_extension("fzf")
+				require("telescope").load_extension("conventional_commits")
 			end,
 		},
 	},
