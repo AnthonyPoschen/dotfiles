@@ -22,7 +22,7 @@ require("diffview").setup({
 		--    |'diff4_mixed'
 		default = {
 			-- layout = "diff2_horizontal", -- Default
-			layout = "diff3_mixed",
+			layout = "diff2_horizontal",
 		},
 		merge_tool = {
 			-- Config for conflicted files in diff views during a merge or rebase.
