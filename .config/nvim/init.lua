@@ -61,7 +61,7 @@ require("lazy").setup({
 -- lazyvim
 -- require('lazyvim').setup()
 -- vim options and autocmds
-require("vim_options")
+-- require("vim_options")
 -- need to remove any that are for plugins into its after file
 --" learning materials for lua
 --" https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/

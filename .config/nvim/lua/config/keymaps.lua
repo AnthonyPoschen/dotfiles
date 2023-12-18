@@ -43,18 +43,23 @@ map("n", "<Leader>o", "<cmd>below 10sp term://$SHELL<CR>i", opt_noremap)
 -- Add extra pagination keys to make navigating up, down and between windows easier
 map("n", "<C-d>", "<C-d>zz", opt_noremap)
 map("n", "<C-u>", "<C-u>zz", opt_noremap)
-map("n", "<C-l>", "<C-w>w", opt_noremap)
-map("n", "<C-h>", "<C-w>W", opt_noremap)
+map("n", "<S-l>", "<C-w>w", opt_noremap)
+map("n", "<S-h>", "<C-w>W", opt_noremap)
+-- map("n", "<C-l>", "<C-w>w", opt_noremap)
+-- map("n", "<C-h>", "<C-w>W", opt_noremap)
 
 -- allow scrolling previous console commands, invert direction to feel more natural
 -- map('c', '<C-j>', '<Up>', opt_noremap)
 -- map('c', '<C-k>', '<Down>', opt_noremap)
 
 -- move line up and down ( Macos Option-j and Option-k produce the weird symbols )
-map("n", "∆", "<cmd>m +1<CR>", opt_noremap_silent)
-map("n", "˚", "<cmd>m -2<CR>", opt_noremap_silent)
-map("v", "∆", "<cmd>m '>+1<CR>gv=gv", opt_noremap_silent)
-map("v", "˚", "<cmd>m '<-2<CR>gv=gv", opt_noremap_silent)
+map("n", "∆", "<cmd>m .+1<CR>==", { desc = "Move line down", noremap = true, silent = true })
+map("n", "˚", "<cmd>m .-2<CR>==", { desc = "Move line up", noremap = true, silent = true })
+map("v", "∆", "<cmd>m '>+1<CR>gv=gv", { desc = "Move line down", noremap = true, silent = true })
+map("v", "˚", "<cmd>m '<-2<CR>gv=gv", { desc = "Move line up", noremap = true, silent = true })
+map("i", "∆", "<esc><cmd>m .+1<cr>==gi", { desc = "Move line down", noremap = true, silent = true })
+map("i", "˚", "<esc><cmd>m .-2<cr>==gi", { desc = "Move line up", noremap = true, silent = true })
+
 -- define the same but for windows pcs
 -- map("n", "<A-j>", "<cmd>m +1<CR>", opt_noremap_silent)
 -- map("n", "<A-k>", "<cmd>m -2<CR>", opt_noremap_silent)
