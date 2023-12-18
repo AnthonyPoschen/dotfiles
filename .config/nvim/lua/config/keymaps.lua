@@ -41,8 +41,8 @@ map("n", "<Leader>q", "<cmd>q<CR>", opt_noremap)
 map("n", "<Leader>o", "<cmd>below 10sp term://$SHELL<CR>i", opt_noremap)
 
 -- Add extra pagination keys to make navigating up, down and between windows easier
-map("n", "<C-j>", "<C-d>", opt_noremap)
-map("n", "<C-k>", "<C-u>", opt_noremap)
+map("n", "<C-d>", "<C-d>zz", opt_noremap)
+map("n", "<C-u>", "<C-u>zz", opt_noremap)
 map("n", "<C-l>", "<C-w>w", opt_noremap)
 map("n", "<C-h>", "<C-w>W", opt_noremap)
 

@@ -1,12 +1,13 @@
--- return {
--- 	"francoiscabrol/ranger.vim",
--- 	keys = {
---		{ "-", "<cmd>Ranger<CR>" },
---	},
---}
+return {
+	"francoiscabrol/ranger.vim",
+	keys = {
+		{ "-", "<cmd>Ranger<CR>" },
+	},
+}
 -- return {
 -- 	-- NOTE: this is a 2 day old repo when added,
--- 	-- expect the keys to be done properly eventually
+-- 	-- currently the cool floating window breaks when you tab out and in, requiring a reboot of vim.
+--
 -- 	"Kicamon/ranger.nvim",
 -- 	config = function()
 -- 		require("ranger").setup({
@@ -19,8 +20,8 @@
 -- 			open = {
 -- 				["edit"] = "-",
 -- 				["tabedit"] = "=",
--- 				["split"] = "<leader>abcdfefg",
--- 				["vsplit"] = "<leader>abcdfefh",
+-- 				["split"] = nil,
+-- 				["vsplit"] = nil,
 -- 			},
 -- 		})
 -- 	end,
