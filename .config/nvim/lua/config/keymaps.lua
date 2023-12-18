@@ -128,8 +128,8 @@ utils.create_augroup({
 }, "fugitive_custom")
 
 utils.create_augroup({
-	{ "FileType", "harpoon", "nnoremap", "<C-j>", "<cmd>m +1<CR>" },
-	{ "FileType", "harpoon", "nnoremap", "<C-k>", "<cmd>m -2<CR>" },
+	{ "FileType", "harpoon", "nnoremap", "<buffer>", "<C-j>", "<cmd>m +1<CR>" },
+	{ "FileType", "harpoon", "nnoremap", "<buffer>", "<C-k>", "<cmd>m -2<CR>" },
 }, "harpoon_custom")
 -- CMP / LSP
 -- map('n', '<Space>e', vim.diagnostic.open_float, opt_noremap_silent)
