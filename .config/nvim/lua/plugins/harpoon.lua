@@ -3,9 +3,8 @@ return {
 	"ThePrimeagen/harpoon",
 	event = "VeryLazy",
 	branch = "harpoon2",
-	dependencies = {
-		"nvim-lua/plenary.nvim",
-	},
+	dependencies = {},
+	"nvim-lua/plenary.nvim",
 	config = function(_, opts)
 		require("harpoon"):setup(opts)
 	end,
@@ -57,6 +56,20 @@ return {
 				require("harpoon"):list():select(4)
 			end,
 			desc = "Harpoon Select 4",
+		},
+		{
+			"<S-h>",
+			function()
+				require("harpoon"):list():prev()
+			end,
+			desc = "Harpoon Previous",
+		},
+		{
+			"<S-l>",
+			function()
+				require("harpoon"):list():next()
+			end,
+			desc = "Harpoon Next",
 		},
 	},
 }

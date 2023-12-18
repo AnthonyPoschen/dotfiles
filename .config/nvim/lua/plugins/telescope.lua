@@ -1,5 +1,9 @@
 local Util = require("lazyvim.util")
 return {
+	{
+		"nvim-telescope/telescope-file-browser.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+	},
 	{ "olacin/telescope-cc.nvim" },
 	{
 		"nvim-telescope/telescope.nvim",
@@ -18,8 +22,8 @@ return {
 				{ "<leader>fb", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
 				{ "<leader>fc", Util.telescope.config_files(), desc = "Find Config File" },
 				{ "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
-				{ "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
 				{ "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
+				{ "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
 				{ "<leader>fR", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
 				-- git
 				{ "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
@@ -72,10 +76,32 @@ return {
 					end,
 					desc = "Goto Symbol (Workspace)",
 				},
+				{
+					"-",
+					function()
+						local telescope = require("telescope")
+						local function telescope_buffer_dir()
+							return vim.fn.expand("%:p:h")
+						end
+
+						telescope.extensions.file_browser.file_browser({
+							path = "%:p:h",
+							cwd = telescope_buffer_dir(),
+							respect_gitignore = true,
+							hidden = true,
+							grouped = true,
+							previewer = false,
+							initial_mode = "normal",
+							layout_config = { height = 40 },
+						})
+					end,
+					desc = "File Browser",
+				},
 			}
 		end,
 		opts = function()
 			local actions = require("telescope.actions")
+			local fb_actions = require("telescope").extensions.file_browser.actions
 			local cc = require("conventional_commits")
 
 			local open_with_trouble = function(...)
@@ -107,6 +133,18 @@ return {
 					conventional_commits = {
 						action = cc.prompt,
 					},
+					file_browser = {
+						theme = "dropdown",
+						hijack_netrw = true,
+						mappings = {
+							n = {
+								N = fb_actions.create,
+								h = fb_actions.goto_parent_dir,
+								l = fb_actions.open,
+								g = false,
+							},
+						},
+					},
 				},
 				pickers = {
 					find_files = {
@@ -119,6 +157,10 @@ return {
 				},
 				defaults = {
 					prompt_prefix = " ",
+					layout_strategy = "horizontal",
+					layout_config = { prompt_position = "top" },
+					winblend = 0,
+					sorting_strategy = "ascending",
 					file_ignore_patterns = { ".git/", "vendor/", "node_modules/" },
 					selection_caret = " ",
 					-- open files in the first window that is an actual file.
@@ -163,10 +205,39 @@ return {
 		"telescope.nvim",
 		dependencies = {
 			"nvim-telescope/telescope-fzf-native.nvim",
+			"nvim-telescope/telescope-file-browser.nvim",
 			build = "make",
-			config = function()
+			config = function(_, opts)
 				require("telescope").load_extension("fzf")
 				require("telescope").load_extension("conventional_commits")
+				require("telescope").load_extension("file_browser")
+				local actions = require("telescope.actions")
+				local fb_actions = require("telescope").extensions.file_browser.actions
+				local cc = require("conventional_commits")
+				opts.extensions = {
+					fzf = {
+						fuzzy = true, -- false will only do exact matching
+						override_generic_sorter = true, -- override the generic sorter
+						override_file_sorter = true, -- override the file sorter
+						case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+						-- the default case_mode is "smart_case"
+					},
+					conventional_commits = {
+						action = cc.prompt,
+					},
+					file_browser = {
+						theme = "dropdown",
+						hijack_netrw = true,
+						mappings = {
+							["n"] = {
+								["N"] = fb_actions.create,
+								["h"] = fb_actions.goto_parent_dir,
+								["l"] = fb_actions.open,
+								["g"] = false,
+							},
+						},
+					},
+				}
 			end,
 		},
 	},

@@ -56,10 +56,10 @@ map("n", "˚", "<cmd>m -2<CR>", opt_noremap_silent)
 map("v", "∆", "<cmd>m '>+1<CR>gv=gv", opt_noremap_silent)
 map("v", "˚", "<cmd>m '<-2<CR>gv=gv", opt_noremap_silent)
 -- define the same but for windows pcs
-map("n", "<A-j>", "<cmd>m +1<CR>", opt_noremap_silent)
-map("n", "<A-k>", "<cmd>m -2<CR>", opt_noremap_silent)
-map("v", "<A-j>", "<cmd>m '>+1<CR>gv=gv", opt_noremap_silent)
-map("v", "<A-k>", "<cmd>m '<-2<CR>gv=gv", opt_noremap_silent)
+-- map("n", "<A-j>", "<cmd>m +1<CR>", opt_noremap_silent)
+-- map("n", "<A-k>", "<cmd>m -2<CR>", opt_noremap_silent)
+-- map("v", "<A-j>", "<cmd>m '>+1<CR>gv=gv", opt_noremap_silent)
+-- map("v", "<A-k>", "<cmd>m '<-2<CR>gv=gv", opt_noremap_silent)
 
 -- search for work under cursor
 map("n", "<Leader>s", ":Rg <cword><CR>", opt_noremap)

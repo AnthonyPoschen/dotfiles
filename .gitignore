@@ -8,3 +8,7 @@
 !\.config/nvim
 !\.config/nvim/lua
 !\.config/nvim/lua/**
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store
