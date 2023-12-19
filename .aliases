@@ -9,6 +9,7 @@ alias conf-kube='nvim ~/.kube/config'
 alias conf-tmux='nvim ~/.tmux.conf'
 alias conf-zsh='nvim ~/.zshrc'
 alias conf-aliases='nvim ~/.aliases'
+alias conf-tmux-paths='nvim ~/.project-paths.sh'
 export DOCKER_BUILDKIT=1
 # shopt -s lastpipe
 # how to record stuff

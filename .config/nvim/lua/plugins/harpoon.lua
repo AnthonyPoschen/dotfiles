@@ -59,19 +59,5 @@ return {
 			end,
 			desc = "Harpoon Select 4",
 		},
-		-- {
-		-- 	"<S-h>",
-		-- 	function()
-		-- 		require("harpoon"):list():prev()
-		-- 	end,
-		-- 	desc = "Harpoon Previous",
-		-- },
-		-- {
-		-- 	"<S-l>",
-		-- 	function()
-		-- 		require("harpoon"):list():next()
-		-- 	end,
-		-- 	desc = "Harpoon Next",
-		-- },
 	},
 }
