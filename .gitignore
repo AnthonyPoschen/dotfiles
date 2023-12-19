@@ -15,6 +15,9 @@
 !\.local/scripts/*
 
 \.config/github-copilot
+\.config/pip
+\.config/containers
+\.config/configstore
 .DS_Store
 ._.DS_Store
 **/.DS_Store
