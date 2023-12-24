@@ -36,7 +36,7 @@ return {
 			function()
 				require("harpoon"):list():select(1)
 			end,
-			desc = "Harpoon Select 1",
+			{ desc = "Harpoon Select 1", noremap = true, mode = { "n" } },
 		},
 		{
 			"<C-j>",
