@@ -2,6 +2,7 @@
 -- allowing easier management when having multiple spaces
 -- TODO: <leader>l has a lot of sub commands on it mosrtly go file specific
 -- so that is causing input delay when using that harpoon jump
+-- TODO: C-; for harpoon is also bound to line searching need to fix
 --
 -- laz:LazyExtrasy package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

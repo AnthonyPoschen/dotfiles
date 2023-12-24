@@ -76,27 +76,27 @@ return {
 					end,
 					desc = "Goto Symbol (Workspace)",
 				},
-				-- {
-				-- 	"-",
-				-- 	function()
-				-- 		local telescope = require("telescope")
-				-- 		local function telescope_buffer_dir()
-				-- 			return vim.fn.expand("%:p:h")
-				-- 		end
-				--
-				-- 		telescope.extensions.file_browser.file_browser({
-				-- 			path = "%:p:h",
-				-- 			cwd = telescope_buffer_dir(),
-				-- 			respect_gitignore = true,
-				-- 			hidden = true,
-				-- 			grouped = true,
-				-- 			previewer = false,
-				-- 			initial_mode = "normal",
-				-- 			layout_config = { height = 40 },
-				-- 		})
-				-- 	end,
-				-- 	desc = "File Browser",
-				-- },
+				{
+					"-",
+					function()
+						local telescope = require("telescope")
+						local function telescope_buffer_dir()
+							return vim.fn.expand("%:p:h")
+						end
+
+						telescope.extensions.file_browser.file_browser({
+							path = "%:p:h",
+							cwd = telescope_buffer_dir(),
+							respect_gitignore = true,
+							hidden = true,
+							grouped = true,
+							previewer = false,
+							initial_mode = "normal",
+							layout_config = { height = 40 },
+						})
+					end,
+					desc = "File Browser",
+				},
 			}
 		end,
 		opts = function()

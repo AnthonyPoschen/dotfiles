@@ -12,7 +12,6 @@ local opt_noremap_silent = { noremap = true, silent = true }
 
 -- map leader
 g.mapleader = " "
-
 map("i", "jj", "<Esc>", opt_noremap)
 
 map("n", "n", "nzz")
@@ -66,7 +65,7 @@ map("i", "˚", "<esc><cmd>m .-2<cr>==gi", { desc = "Move line up", noremap = tru
 -- map("v", "<A-j>", "<cmd>m '>+1<CR>gv=gv", opt_noremap_silent)
 -- map("v", "<A-k>", "<cmd>m '<-2<CR>gv=gv", opt_noremap_silent)
 
--- search for work under cursor
+-- search for word under cursor
 map("n", "<Leader>s", ":Rg <cword><CR>", opt_noremap)
 
 -- GIT Keys --
