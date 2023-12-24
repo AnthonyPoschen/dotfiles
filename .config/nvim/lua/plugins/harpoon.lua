@@ -24,12 +24,12 @@ return {
 			desc = "Add File to Harpoon",
 		},
 		{
-			"<C-h>",
+			"<C-b>",
 			function()
 				local harpoon = require("harpoon")
 				harpoon.ui:toggle_quick_menu(harpoon:list())
 			end,
-			desc = "Harpoon menu",
+			{ desc = "Harpoon menu", noremap = true, mode = { "n" } },
 		},
 		{
 			"<C-f>",
@@ -43,21 +43,21 @@ return {
 			function()
 				require("harpoon"):list():select(2)
 			end,
-			desc = "Harpoon Select 2",
+			{ desc = "Harpoon Select 2", noremamp = true, mode = { "n" } },
 		},
 		{
 			"<C-k>",
 			function()
 				require("harpoon"):list():select(3)
 			end,
-			desc = "Harpoon Select 3",
+			{ desc = "Harpoon Select 3", noremap = true, mode = { "n" } },
 		},
 		{
-			"<C-l>",
+			"<C-e>",
 			function()
 				require("harpoon"):list():select(4)
 			end,
-			{ desc = "Harpoon Select 4", noremap = true },
+			{ desc = "Harpoon Select 4", noremap = true, mode = { "n" } },
 		},
 	},
 }
