@@ -29,8 +29,12 @@ actions.commit = function(t, inputs)
 end
 
 actions.prompt = function(entry, include_extra_steps)
-	vim.ui.input({ prompt = "scope? (optional) " }, function(inputs)
+	vim.ui.input({ prompt = "scope? (optional) " }, function(input)
+		--@param scope string
+		--@param msg string
+		local inputs = {}
 		inputs.msg = ""
+		inputs.scope = input
 		-- ccinput("Enter a description: ", "msg", inputs)
 		-- ccinput("Enter commit message: ", "msg", inputs)
 		actions.commit(entry.value, inputs)
