@@ -3,7 +3,6 @@
 -- Add any additional options here
 local opt = vim.opt
 opt.autochdir = false
-
 opt.ttyfast = true
 opt.ttimeout = true
 opt.ttimeoutlen = 80
@@ -64,7 +63,7 @@ opt.wildmenu = true
 opt.wildmode = "longest:full,list:full"
 
 -- override
-opt.completeopt = "noinsert,menuone,noselect,preview"
+opt.completeopt = "menu,menuone,preview,noinsert,noselect"
 -- add's - to keywords so autocomplete is awesome in css
 opt.iskeyword = opt.iskeyword + "-"
 
