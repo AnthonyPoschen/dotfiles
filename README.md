@@ -78,4 +78,8 @@ podman machine ssh sudo systemctl reboot
 Configure golang packages that aren't managed elsewhere
 
 ```sh
-````
+
+```
+
+configuring fonts:
+[fragment mono: https://fonts.google.com/specimen/Fragment+Mono]

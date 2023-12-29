@@ -60,6 +60,9 @@
     # see all devs by commit number without email
     changes = "!f() { [[ -z \"$1\" ]] && git diff HEAD^ HEAD && exit; [[ -z \"$2\" ]] && git diff $1^ $1 && exit; git diff $1^ $1 -- \"$2\";};f"
     changes-ls = "!f() { [[ -z \"$1\" ]] && git diff --compact-summary HEAD^ HEAD && exit; [[ -z \"$2\" ]] && git diff --compact-summary $1^ $1  && exit; git diff --compact-summary $1^ $1 -- \"$2\" ;};f"
+    # git tagcommit <tagname>
+    # will show the commit a tag is on
+    tagcommit = rev-list -n 1
 
     devs = shortlog -sn
     devss = "shortlog -sn --since='3 weeks ago'"

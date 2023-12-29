@@ -1,9 +1,9 @@
 local Util = require("lazyvim.util")
 return {
-	-- {
-	-- 	"nvim-telescope/telescope-file-browser.nvim",
-	-- 	dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
-	-- },
+	{
+		"nvim-telescope/telescope-file-browser.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+	},
 	{ "olacin/telescope-cc.nvim" },
 	{
 		"nvim-telescope/telescope.nvim",
@@ -19,6 +19,8 @@ return {
 				{ "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
 				-- { "<leader><space>", Util.telescope("files"), desc = "Find Files (root dir)" },
 				-- find
+				--
+				{ "<leader>f", Util.telescope("files"), desc = "Find files" },
 				{ "<leader>fb", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
 				{ "<leader>fc", Util.telescope.config_files(), desc = "Find Config File" },
 				{ "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
@@ -76,32 +78,32 @@ return {
 					end,
 					desc = "Goto Symbol (Workspace)",
 				},
-				{
-					"-",
-					function()
-						local telescope = require("telescope")
-						local function telescope_buffer_dir()
-							return vim.fn.expand("%:p:h")
-						end
-
-						telescope.extensions.file_browser.file_browser({
-							path = "%:p:h",
-							cwd = telescope_buffer_dir(),
-							respect_gitignore = true,
-							hidden = true,
-							grouped = true,
-							previewer = false,
-							initial_mode = "normal",
-							layout_config = { height = 40 },
-						})
-					end,
-					desc = "File Browser",
-				},
+				-- {
+				-- 	"-",
+				-- 	function()
+				-- 		local telescope = require("telescope")
+				-- 		local function telescope_buffer_dir()
+				-- 			return vim.fn.expand("%:p:h")
+				-- 		end
+				--
+				-- 		telescope.extensions.file_browser.file_browser({
+				-- 			path = "%:p:h",
+				-- 			cwd = telescope_buffer_dir(),
+				-- 			respect_gitignore = true,
+				-- 			hidden = true,
+				-- 			grouped = true,
+				-- 			previewer = false,
+				-- 			initial_mode = "normal",
+				-- 			layout_config = { height = 40 },
+				-- 		})
+				-- 	end,
+				-- 	desc = "File Browser",
+				-- },
 			}
 		end,
 		opts = function()
 			local actions = require("telescope.actions")
-			-- local fb_actions = require("telescope").extensions.file_browser.actions
+			local fb_actions = require("telescope").extensions.file_browser.actions
 			local cc = require("conventional_commits")
 
 			local open_with_trouble = function(...)
@@ -110,16 +112,16 @@ return {
 			local open_selected_with_trouble = function(...)
 				return require("trouble.providers.telescope").open_selected_with_trouble(...)
 			end
-			-- local find_files_no_ignore = function()
-			-- 	local action_state = require("telescope.actions.state")
-			-- 	local line = action_state.get_current_line()
-			-- 	Util.telescope("find_files", { no_ignore = true, default_text = line })()
-			-- end
-			-- local find_files_with_hidden = function()
-			-- 	local action_state = require("telescope.actions.state")
-			-- 	local line = action_state.get_current_line()
-			-- 	Util.telescope("find_files", { hidden = true, default_text = line })()
-			-- end
+			local find_files_no_ignore = function()
+				local action_state = require("telescope.actions.state")
+				local line = action_state.get_current_line()
+				Util.telescope("find_files", { no_ignore = true, default_text = line })()
+			end
+			local find_files_with_hidden = function()
+				local action_state = require("telescope.actions.state")
+				local line = action_state.get_current_line()
+				Util.telescope("find_files", { hidden = true, default_text = line })()
+			end
 
 			return {
 				extensions = {
@@ -205,12 +207,12 @@ return {
 		"telescope.nvim",
 		dependencies = {
 			"nvim-telescope/telescope-fzf-native.nvim",
-			-- "nvim-telescope/telescope-file-browser.nvim",
+			"nvim-telescope/telescope-file-browser.nvim",
 			build = "make",
 			config = function(_, opts)
 				require("telescope").load_extension("fzf")
 				require("telescope").load_extension("conventional_commits")
-				-- require("telescope").load_extension("file_browser")
+				require("telescope").load_extension("file_browser")
 				local actions = require("telescope.actions")
 				local fb_actions = require("telescope").extensions.file_browser.actions
 				local cc = require("conventional_commits")
