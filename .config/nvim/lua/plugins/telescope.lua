@@ -103,6 +103,7 @@ return {
 		end,
 		opts = function()
 			local actions = require("telescope.actions")
+			local actions_set = require("telescope.actions.set")
 			local fb_actions = require("telescope").extensions.file_browser.actions
 			local cc = require("conventional_commits")
 
@@ -150,8 +151,19 @@ return {
 				},
 				pickers = {
 					find_files = {
-						theme = "dropdown",
+						-- theme = "dropdown",
 						hidden = true,
+						previewer = false,
+						layout_strategy = "vertical",
+						sorting_strategy = "descending",
+						layout_config = {
+							prompt_position = "bottom",
+							width = 130,
+							height = 0.75,
+						},
+						show_line = false,
+						results_title = false,
+						-- preview_title = false,
 					},
 					file_browser = {
 						hidden = true,
@@ -161,7 +173,7 @@ return {
 					prompt_prefix = " ",
 					layout_strategy = "horizontal",
 					layout_config = { prompt_position = "top" },
-					winblend = 0,
+					previewer = false,
 					sorting_strategy = "ascending",
 					file_ignore_patterns = { ".git/", "vendor/", "node_modules/" },
 					selection_caret = " ",
@@ -181,7 +193,7 @@ return {
 					mappings = {
 						i = {
 							["<c-t>"] = open_with_trouble,
-							["<a-t>"] = open_selected_with_trouble,
+							["<C-s>"] = open_selected_with_trouble,
 							-- ["<a-i>"] = find_files_no_ignore,
 							-- ["<a-h>"] = find_files_with_hidden,
 							["<C-Down>"] = actions.cycle_history_next,
@@ -190,6 +202,12 @@ return {
 							["<C-b>"] = actions.preview_scrolling_up,
 							["<c-j>"] = actions.move_selection_next,
 							["<c-k>"] = actions.move_selection_previous,
+							["<c-d>"] = function(bufnr)
+								actions_set.shift_selection(bufnr, 10)
+							end,
+							["<c-u>"] = function(bufnr)
+								actions_set.shift_selection(bufnr, -10)
+							end,
 							["<c-c>"] = actions.close,
 						},
 						n = {
@@ -212,15 +230,15 @@ return {
 			config = function(_, opts)
 				require("telescope").load_extension("fzf")
 				require("telescope").load_extension("conventional_commits")
-				require("telescope").load_extension("file_browser")
+				-- require("telescope").load_extension("file_browser")
 				local actions = require("telescope.actions")
 				local fb_actions = require("telescope").extensions.file_browser.actions
 				local cc = require("conventional_commits")
 				opts.extensions = {
 					fzf = {
 						fuzzy = true, -- false will only do exact matching
-						override_generic_sorter = true, -- override the generic sorter
-						override_file_sorter = true, -- override the file sorter
+						override_generic_sorter = false, -- override the generic sorter
+						override_file_sorter = false, -- override the file sorter
 						case_mode = "smart_case", -- or "ignore_case" or "respect_case"
 						-- the default case_mode is "smart_case"
 					},
