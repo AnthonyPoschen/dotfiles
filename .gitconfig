@@ -63,6 +63,7 @@
     # git tagcommit <tagname>
     # will show the commit a tag is on
     tagcommit = rev-list -n 1
+    tagbranch = "!sh -c \"git --no-pager branch --contains tags/$1\""
 
     devs = shortlog -sn
     devss = "shortlog -sn --since='3 weeks ago'"
