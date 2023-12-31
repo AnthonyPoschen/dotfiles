@@ -1,2 +1,0 @@
---listen-on=unix:/tmp/kitty
---allow_remote_control=socket-only
