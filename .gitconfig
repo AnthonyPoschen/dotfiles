@@ -16,6 +16,7 @@
 	followTags = true
 	default = upstream
 	autoSetupRemote = true
+	autoSetupRemote = true
 [clean]
 	requireForce = false
 [remote "origin"]
