@@ -63,6 +63,8 @@ return {
 					i = function(fallback)
 						if cmp.visible() and cmp.get_active_entry() then
 							cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+						elseif luasnip.expand_or_jumpable() then
+							luasnip.expand_or_jump()
 						else
 							fallback()
 						end
@@ -71,27 +73,11 @@ return {
 					c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
 				}),
 				["<Tab>"] = cmp.mapping(tab, { "i", "s" }),
-				-- ["<c-j>"] = cmp.mapping(tab, { "i", "s" }),
 				["<S-Tab>"] = cmp.mapping(stab, { "i", "s" }),
 				["<C-Space>"] = cmp.mapping(complete, { "i", "s" }),
-				-- ["<c-k>"] = cmp.mapping(stab, { "i", "s" }),
-				-- ["<c-d>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-				-- ["<c-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+				["<c-t>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+				["<c-y>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
 			})
 		end,
 	},
 }
--- return {
---   {
---     "hrsh7th/nvim-cmp",
---     dependencies = {
---       "windwp/nvim-autopairs",
---       opts = {},
---     },
---     opts = function()
---       local cmp = require("cmp")
---       local cmp_autopairs = require("nvim-autopairs.completion.cmp")
---       cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
---     end,
---   },
--- }

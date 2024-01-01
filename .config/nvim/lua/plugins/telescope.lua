@@ -10,27 +10,13 @@ return {
 		-- replace all Telescope keymaps with only one mapping
 		keys = function()
 			return {
-				{
-					"<leader>,",
-					"<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>",
-					desc = "Switch Buffer",
-				},
 				{ "<leader>/", Util.telescope("live_grep"), desc = "Grep (root dir)" },
-				{ "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+				-- { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
 				-- { "<leader><space>", Util.telescope("files"), desc = "Find Files (root dir)" },
-				-- find
-				--
 				{ "<leader>f", Util.telescope("files"), desc = "Find files" },
-				-- { "<leader>fb", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
-				-- { "<leader>fc", Util.telescope.config_files(), desc = "Find Config File" }, -- this opens file finder of just vim config files
-				-- { "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
-				{ "<leader>r", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },
-				-- { "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Fjnd Files (cwd)" },
-				-- { "<leader>fR", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
+				-- { "<leader>r", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
 				-- git
 				-- { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
-				{ "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
-				-- { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "status" },
 				-- search
 				{ "<leader>sa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
 				{ "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
@@ -38,8 +24,8 @@ return {
 				{ "<leader>sC", "<cmd>Telescope commands<cr>", desc = "Commands" },
 				{ "<leader>sd", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document diagnostics" },
 				{ "<leader>sD", "<cmd>Telescope diagnostics<cr>", desc = "Workspace diagnostics" },
-				{ "<leader>sg", Util.telescope("live_grep"), desc = "Grep (root dir)" },
-				{ "<leader>sG", Util.telescope("live_grep", { cwd = false }), desc = "Grep (cwd)" },
+				-- { "<leader>sg", Util.telescope("live_grep"), desc = "Grep (root dir)" },
+				-- { "<leader>sG", Util.telescope("live_grep", { cwd = false }), desc = "Grep (cwd)" },
 				{ "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "Help Pages" },
 				{ "<leader>sH", "<cmd>Telescope highlights<cr>", desc = "Search Highlight Groups" },
 				{ "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
@@ -48,19 +34,19 @@ return {
 				{ "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
 				{ '<leader>sr"', "<cmd>Telescope registers<cr>", desc = "Registers" },
 				-- { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
-				{ "<leader>sw", Util.telescope("grep_string", { word_match = "-w" }), desc = "Word (root dir)" },
-				{
-					"<leader>sW",
-					Util.telescope("grep_string", { cwd = false, word_match = "-w" }),
-					desc = "Word (cwd)",
-				},
-				{ "<leader>sw", Util.telescope("grep_string"), mode = "v", desc = "Selection (root dir)" },
-				{ "<leader>sW", Util.telescope("grep_string", { cwd = false }), mode = "v", desc = "Selection (cwd)" },
-				{
-					"<leader>uC",
-					Util.telescope("colorscheme", { enable_preview = true }),
-					desc = "Colorscheme with preview",
-				},
+				-- { "<leader>sw", Util.telescope("grep_string", { word_match = "-w" }), desc = "Word (root dir)" },
+				-- {
+				-- 	"<leader>sW",
+				-- 	Util.telescope("grep_string", { cwd = false, word_match = "-w" }),
+				-- 	desc = "Word (cwd)",
+				-- },
+				-- -- { "<leader>sw", Util.telescope("grep_string"), mode = "v", desc = "Selection (root dir)" },
+				-- { "<leader>sW", Util.telescope("grep_string", { cwd = false }), mode = "v", desc = "Selection (cwd)" },
+				-- {
+				-- 	"<leader>uC",
+				-- 	Util.telescope("colorscheme", { enable_preview = true }),
+				-- 	desc = "Colorscheme with preview",
+				-- },
 				{
 					"<leader>ss",
 					function()
@@ -79,27 +65,6 @@ return {
 					end,
 					desc = "Goto Symbol (Workspace)",
 				},
-				-- {
-				-- 	"-",
-				-- 	function()
-				-- 		local telescope = require("telescope")
-				-- 		local function telescope_buffer_dir()
-				-- 			return vim.fn.expand("%:p:h")
-				-- 		end
-				--
-				-- 		telescope.extensions.file_browser.file_browser({
-				-- 			path = "%:p:h",
-				-- 			cwd = telescope_buffer_dir(),
-				-- 			respect_gitignore = true,
-				-- 			hidden = true,
-				-- 			grouped = true,
-				-- 			previewer = false,
-				-- 			initial_mode = "normal",
-				-- 			layout_config = { height = 40 },
-				-- 		})
-				-- 	end,
-				-- 	desc = "File Browser",
-				-- },
 			}
 		end,
 		opts = function()
