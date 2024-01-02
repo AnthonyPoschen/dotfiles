@@ -55,7 +55,11 @@ return {
 			end
 
 			local complete = function(fallback)
-				cmp.confirm({ select = true })
+				if cmp.visible() then
+					cmp.confirm({ select = true })
+					return
+				end
+				cmp.complete()
 			end
 			opts.mapping = vim.tbl_extend("force", opts.mapping, {
 				-- ["<cr>"] = cmp.mapping.confirm({ select = true }),
@@ -77,6 +81,18 @@ return {
 				["<C-Space>"] = cmp.mapping(complete, { "i", "s" }),
 				["<c-t>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
 				["<c-y>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+				-- show popup when no popup or complete / close the menu if nothing selected
+				-- ["<C-Space>"] = cmp.mapping(function()
+				-- 	if cmp.visible() then
+				-- 		if cmp.get_selected_entry() then
+				-- 			cmp.complete()
+				-- 		else
+				-- 			cmp.abort()
+				-- 		end
+				-- 	else
+				-- 		cmp.complete()
+				-- 	end
+				-- end, { "i", "s" }),
 			})
 		end,
 	},
