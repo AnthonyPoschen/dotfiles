@@ -9,6 +9,7 @@ opt.ttimeoutlen = 80
 opt.ts = 4
 opt.sw = 4
 opt.sts = 4
+opt.colorcolumn = "80"
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "css", "html", "javascript", "vue", "yaml", "yml", "typescript", "typescriptreact", "json" },
 	command = "setlocal ts=2 sw=2 sts=2",
@@ -60,8 +61,6 @@ opt.lazyredraw = true
 
 -- For command mode auto complete
 opt.wildmenu = true
-opt.wildmode = "longest:full,list:full"
-
 -- override
 opt.completeopt = "menu,menuone,preview,noinsert,noselect"
 -- add's - to keywords so autocomplete is awesome in css
