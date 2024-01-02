@@ -27,10 +27,4 @@ return {
 			end,
 		},
 	},
-	-- opts = function(_, opts)
-	-- 	tailwindcss = opts.servers["tailwindcss"]
-	-- 	vim.tbl_extend("force", tailwindcss.filetypes, { "templ" })
-	-- 	opts.servers["tailwindcss"] = tailwindcss
-	-- 	return opts
-	-- end,
 }
