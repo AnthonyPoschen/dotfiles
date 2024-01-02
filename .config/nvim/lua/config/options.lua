@@ -14,6 +14,12 @@ vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "css", "html", "javascript", "vue", "yaml", "yml", "typescript", "typescriptreact", "json" },
 	command = "setlocal ts=2 sw=2 sts=2",
 })
+-- additional filetypes
+vim.filetype.add({
+	extension = {
+		templ = "templ",
+	},
+})
 -- opt.listchars = {  eol="↲",tab="-",trail="-",extends=">",precedes="<",nbsp="␣" }
 opt.list = true
 
