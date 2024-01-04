@@ -100,7 +100,6 @@ utils.create_augroup({
 
 -- TODO: Fix go debugger not working
 -- TODO: Fix keymaps for golang
--- TODO: these leader-l keys overlap now with harpoon
 -- Golang file keymaps
 utils.create_augroup({
 	{ "FileType", "go", "nnoremap", "<Leader>le", ":GoIfErr<CR>" },

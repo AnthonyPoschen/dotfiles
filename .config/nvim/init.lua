@@ -1,10 +1,12 @@
 -- TODO: make a bar show up with details when having multiple tabs
 -- allowing easier management when having multiple spaces
--- TODO: <leader>l has a lot of sub commands on it mosrtly go file specific
--- so that is causing input delay when using that harpoon jump
 -- TODO: C-; for harpoon is also bound to line searching need to fix
---
--- laz:LazyExtrasy package manager
+
+-- TODO: Setup proper diagnostic keys, all should be quickfix windows then
+-- use common next and prev keys, thus allowing filtering to say just todo's
+-- or just to errors
+
+-- lazy: package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   -- bootstrap lazy.nvim
@@ -58,20 +60,10 @@ require("lazy").setup({
 		},
 	},
 })
--- require("lazy").setup("lazyvim.plugins")
--- vim.opt.rtp:prepend(lazypath)
--- lazyvim
--- require('lazyvim').setup()
--- vim options and autocmds
--- require("vim_options")
--- need to remove any that are for plugins into its after file
 --" learning materials for lua
 --" https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/
 
 -- copilot setup
--- vim.g.copilot_no_tab_map = true
--- vim.g.copilot_assume_mapped = true
--- vim.g.copilot_tab_fallback = ""
 vim.g.copilot_proxy = vim.env.HTTPS_PROXY
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
