@@ -86,7 +86,7 @@ map("n", "<Leader>gb", ":DiffviewFileHistory %%<CR>", opt_noremap)
 map("n", "<C-c>", ":noh<CR>", opt_noremap_silent)
 
 -- Copilot
-map("i", "<C-Space>", 'copilot#Accept("<CR>")', { silent = true, expr = true, script = true })
+-- map("i", "<C-Space>", 'copilot#Accept("<CR>")', { silent = true, expr = true, script = true })
 
 -- Telescope
 map("n", "<Leader>f", ":Telescope find_files<CR>", opt_noremap)

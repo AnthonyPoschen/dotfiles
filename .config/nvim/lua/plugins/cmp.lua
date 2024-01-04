@@ -101,8 +101,6 @@ return {
 					-- this way you will only jump inside the snippet region
 				elseif luasnip.expand_or_jumpable() then
 					luasnip.expand_or_jump()
-				elseif has_words_before() then
-					cmp.complete()
 				else
 					fallback()
 				end
@@ -143,9 +141,6 @@ return {
 				["<Tab>"] = cmp.mapping(tab, { "i", "s" }),
 				["<S-Tab>"] = cmp.mapping(stab, { "i", "s" }),
 				["<C-Space>"] = cmp.mapping(complete, { "i", "s" }),
-				["<c-t>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-				["<c-y>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-				-- show popup when no popup or complete / close the menu if nothing selected
 			})
 		end,
 	},
