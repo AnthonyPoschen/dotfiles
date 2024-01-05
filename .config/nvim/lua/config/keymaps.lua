@@ -21,9 +21,6 @@ map("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "LazyVim Panel" })
 map("n", "<leader>P", function()
 	LazyUtil.news.changelog()
 end, { desc = "LazyVim Changelog" })
-map("n", "<C-z>", function()
-	require("zen-mode").toggle()
-end, { desc = "zen mode" })
 -- tab management
 map("n", "{", "<cmd>tabprevious<cr>", opt_noremap)
 map("n", "}", "<cmd>tabnext<cr>", opt_noremap)
@@ -38,7 +35,7 @@ map("v", ">", ">gv", opt_noremap)
 map("t", "<Leader><Esc>", "<C-\\><C-n>", opt_noremap)
 
 -- Close pane's when in normal mode, saving effort
-map("n", "<Leader>q", "<cmd>q<CR>", opt_noremap)
+-- map("n", "<Leader>q", "<cmd>q<CR>", opt_noremap)
 -- terminal window below
 map("n", "<Leader>o", "<cmd>below 10sp term://$SHELL<CR>i", opt_noremap)
 
@@ -83,7 +80,14 @@ map("n", "<Leader>gb", ":DiffviewFileHistory %%<CR>", opt_noremap)
 -- map('n', '<Leader>c', ':TComment<CR>', opt_noremap)
 
 -- clear search
-map("n", "<C-c>", ":noh<CR>", opt_noremap_silent)
+-- map("n", "<C-c>", ":noh<CR>", opt_noremap_silent)
+
+map(
+	"n",
+	"<C-c>",
+	"<Cmd>noh<CR><Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
+	{ desc = "Redraw / clear hlsearch / diff update" }
+)
 
 -- Copilot
 -- map("i", "<C-Space>", 'copilot#Accept("<CR>")', { silent = true, expr = true, script = true })
