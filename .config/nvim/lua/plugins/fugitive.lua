@@ -1,4 +1,8 @@
--- TODO: keymap for git status built into the plugin install with description
---
---map("n", "<Leader>gs", "<cmd>Git<CR>", opt_noremap)
-return { "tpope/vim-fugitive" }
+-- nnoremap <Leader>gb :Git blame --date=short<cr> -- Old config using fugitive
+return {
+	"tpope/vim-fugitive",
+	keys = {
+		{ "cc", ":Telescope conventional_commits<CR>", "n", "fugitive" },
+		{ "cu", ":!Git reset --soft HEAD~1<CR>", "n", "fugitive" },
+	},
+}

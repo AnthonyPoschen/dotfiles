@@ -1,5 +1,4 @@
 return {
-
 	-- snippets
 	{
 		"L3MON4D3/LuaSnip",
@@ -17,17 +16,17 @@ return {
 			delete_check_events = "TextChanged",
 		},
     -- stylua: ignore
-    keys = {
-      {
-        "<tab>",
-        function()
-          return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-        end,
-        expr = true, silent = true, mode = "i",
-      },
-      { "<tab>", function() require("luasnip").jump(1) end, mode = "s" },
-      { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
-    },
+        keys = {
+        {
+            "<tab>",
+            function()
+            return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
+            end,
+            expr = true, silent = true, mode = "i",
+        },
+            { "<tab>", function() require("luasnip").jump(1) end, mode = "s" },
+            { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
+        },
 	},
 
 	-- auto completion
@@ -109,21 +108,6 @@ return {
 		"echasnovski/mini.pairs",
 		event = "VeryLazy",
 		opts = {},
-		keys = {
-			{
-				"<leader>up",
-				function()
-					local Util = require("lazy.core.util")
-					vim.g.minipairs_disable = not vim.g.minipairs_disable
-					if vim.g.minipairs_disable then
-						Util.warn("Disabled auto pairs", { title = "Option" })
-					else
-						Util.info("Enabled auto pairs", { title = "Option" })
-					end
-				end,
-				desc = "Toggle auto pairs",
-			},
-		},
 	},
 
 	-- Fast and feature-rich surround actions. For text that includes

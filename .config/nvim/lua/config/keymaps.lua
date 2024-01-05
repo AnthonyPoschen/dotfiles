@@ -3,7 +3,6 @@
 -- Add any additional keymaps here
 -- extra doco https://www.lazyvim.org/configuration/general
 local utils = require("utils")
-local LazyUtil = require("lazyvim.util")
 local map = vim.keymap.set
 local g = vim.g
 local opt_noremap = { noremap = true }
@@ -18,9 +17,8 @@ map("n", "n", "nzz")
 map("n", "N", "Nzz")
 
 map("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "LazyVim Panel" })
-map("n", "<leader>P", function()
-	LazyUtil.news.changelog()
-end, { desc = "LazyVim Changelog" })
+
+-- TODO: consider tab management keys to reclaim { and } keys
 -- tab management
 map("n", "{", "<cmd>tabprevious<cr>", opt_noremap)
 map("n", "}", "<cmd>tabnext<cr>", opt_noremap)
@@ -31,21 +29,11 @@ map("n", "_", "<cmd>tabclose<cr>", opt_noremap)
 map("v", "<", "<gv", opt_noremap)
 map("v", ">", ">gv", opt_noremap)
 
--- terminal escape
-map("t", "<Leader><Esc>", "<C-\\><C-n>", opt_noremap)
-
--- Close pane's when in normal mode, saving effort
--- map("n", "<Leader>q", "<cmd>q<CR>", opt_noremap)
--- terminal window below
-map("n", "<Leader>o", "<cmd>below 10sp term://$SHELL<CR>i", opt_noremap)
-
 -- Add extra pagination keys to make navigating up, down and between windows easier
 map("n", "<C-d>", "<C-d>zz", opt_noremap)
 map("n", "<C-u>", "<C-u>zz", opt_noremap)
 map("n", "<C-l>", "<C-w>w", opt_noremap)
 map("n", "<C-h>", "<C-w>W", opt_noremap)
--- map("n", "<C-l>", "<C-w>w", opt_noremap)
--- map("n", "<C-h>", "<C-w>W", opt_noremap)
 
 -- allow scrolling previous console commands, invert direction to feel more natural
 -- map('c', '<C-j>', '<Up>', opt_noremap)
@@ -60,19 +48,13 @@ map("i", "∆", "<esc><cmd>m .+1<cr>==gi", { desc = "Move line down", noremap = 
 map("i", "˚", "<esc><cmd>m .-2<cr>==gi", { desc = "Move line up", noremap = true, silent = true })
 
 -- define the same but for windows pcs
--- map("n", "<A-j>", "<cmd>m +1<CR>", opt_noremap_silent)
--- map("n", "<A-k>", "<cmd>m -2<CR>", opt_noremap_silent)
--- map("v", "<A-j>", "<cmd>m '>+1<CR>gv=gv", opt_noremap_silent)
--- map("v", "<A-k>", "<cmd>m '<-2<CR>gv=gv", opt_noremap_silent)
-
--- GIT Keys --
--- fugitive for git integration
-map("n", "<Leader>gs", "<cmd>Git<CR>", opt_noremap)
--- map leader gr to something to review all staged changes
+map("n", "<A-j>", "<cmd>m +1<CR>", opt_noremap_silent)
+map("n", "<A-k>", "<cmd>m -2<CR>", opt_noremap_silent)
+map("v", "<A-j>", "<cmd>m '>+1<CR>gv=gv", opt_noremap_silent)
+map("v", "<A-k>", "<cmd>m '<-2<CR>gv=gv", opt_noremap_silent)
 
 -- git blame in file
 map("n", "<Leader>gb", ":DiffviewFileHistory %%<CR>", opt_noremap)
--- nnoremap <Leader>gb :Git blame --date=short<cr> -- Old config using fugitive
 -- End Git Keys --
 
 -- -- TComment
@@ -125,11 +107,6 @@ utils.create_augroup({
 }, "goKeys")
 
 utils.create_augroup({
-	{ "FileType", "fugitive", "nnoremap", "<buffer>", "cc", ":Telescope conventional_commits<CR>" },
-	{ "FileType", "fugitive", "nnoremap", "<buffer>", "cu", ":!Git reset --soft HEAD~1<CR>" },
-}, "fugitive_custom")
-
-utils.create_augroup({
 	{ "FileType", "harpoon", "nnoremap", "<buffer>", "<C-j>", "<cmd>m +1<CR>" },
 	{ "FileType", "harpoon", "nnoremap", "<buffer>", "<C-k>", "<cmd>m -2<CR>" },
 }, "harpoon_custom")
@@ -137,3 +114,52 @@ utils.create_augroup({
 -- map('n', '<Space>e', vim.diagnostic.open_float, opt_noremap_silent)
 -- map('n', '[d', vim.diagnostic.goto_prev, opt_noremap_silent)
 -- map('n', ']d', vim.diagnostic.goto_next, opt_noremap_silent)
+
+-- better up/down
+map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+
+-- Resize window using <ctrl> arrow keys
+map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
+map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
+map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
+map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
+
+-- Clear search with <esc>
+map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+
+-- Clear search, diff update and redraw
+-- taken from runtime/lua/_editor.lua
+map(
+	"n",
+	"<leader>ur",
+	"<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
+	{ desc = "Redraw / clear hlsearch / diff update" }
+)
+
+-- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
+map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next search result" })
+map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev search result" })
+map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+
+-- Add undo break-points
+map("i", ",", ",<c-g>u")
+map("i", ".", ".<c-g>u")
+map("i", ";", ";<c-g>u")
+
+-- lazy
+map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
+
+-- new file
+map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
+
+-- formatting
+map({ "n", "v" }, "<leader>cf", function()
+	Util.format({ force = true })
+end, { desc = "Format" })
+
+-- highlights under cursor
+map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
