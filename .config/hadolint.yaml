@@ -1,0 +1,10 @@
+ignored:
+  # using latest docker image, preference is for regular builds
+  # to automatically pickup security patches
+  - DL3007
+  # pinning apk packages to specific versions, ideally rather just pickup
+  # most secure latest version every build
+  - DL3018
+  # Multiple run's could be merged:
+  #   i know what im doing leave me alone
+  - DL3059

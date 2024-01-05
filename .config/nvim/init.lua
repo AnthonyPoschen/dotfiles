@@ -4,7 +4,10 @@
 
 -- TODO: Setup proper diagnostic keys, all should be quickfix windows then
 -- use common next and prev keys, thus allowing filtering to say just todo's
--- or just to errors
+-- or just to errors, the previous and next keys need to open the trouble
+-- diagnostics window and they need to jump the cursor to the error without
+-- forcing me to be in the quickfix menu
+-- if it can accept motion number along with it that would be amazing
 
 -- lazy: package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
