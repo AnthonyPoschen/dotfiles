@@ -9,20 +9,19 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 require("lazy").setup({
 	spec = {
 		-- add LazyVim and import its plugins
-		{ import = "lazyvim.plugins" },
+		{ import = "lazy-plugins" },
 		-- import any extras modules here
-		{ import = "lazyvim.plugins.extras.linting.eslint" },
-		{ import = "lazyvim.plugins.extras.ui.alpha" },
-		{ import = "lazyvim.plugins.extras.lang.typescript" },
-		{ import = "lazyvim.plugins.extras.lang.tailwind" },
-		{ import = "lazyvim.plugins.extras.lang.json" },
-		{ import = "lazyvim.plugins.extras.lang.go" },
-		{ import = "lazyvim.plugins.extras.lang.markdown" },
-		{ import = "lazyvim.plugins.extras.lang.yaml" },
-		{ import = "lazyvim.plugins.extras.formatting.prettier" },
-		{ import = "lazyvim.plugins.extras.coding.copilot" },
-		-- { import = "lazyvim.plugins.extras.ui.mini-animate" },
-		-- import/override with your plugins
+		{ import = "lazy-plugins.extras.linting.eslint" },
+		{ import = "lazy-plugins.extras.ui.alpha" },
+		{ import = "lazy-plugins.extras.lang.typescript" },
+		{ import = "lazy-plugins.extras.lang.tailwind" },
+		{ import = "lazy-plugins.extras.lang.json" },
+		{ import = "lazy-plugins.extras.lang.go" },
+		{ import = "lazy-plugins.extras.lang.markdown" },
+		{ import = "lazy-plugins.extras.lang.yaml" },
+		{ import = "lazy-plugins.extras.formatting.prettier" },
+		{ import = "lazy-plugins.extras.coding.copilot" },
+		-- { import = "lazy-plugins.extras.ui.mini-animate" },
 		{ import = "plugins" },
 	},
 	defaults = {

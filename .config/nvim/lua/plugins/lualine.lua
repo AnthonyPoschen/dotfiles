@@ -12,7 +12,7 @@ return {
 		end
 	end,
 	opts = function()
-		local Util = require("lazyvim.util")
+		local Util = require("util")
 		-- PERF: we don't need this lualine require madness 🤷
 		local lualine_require = require("lualine_require")
 		lualine_require.require = require

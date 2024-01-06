@@ -149,15 +149,14 @@ opt.fillchars = {
 	diff = "╱",
 	eob = " ",
 }
-opt.smoothscroll = true
 opt.foldlevel = 99
 --TODO: make these includes use non lazyvim file path
-opt.foldtext = "v:lua.require'lazyvim.util'.ui.foldtext()"
-opt.statuscolumn = [[%!v:lua.require'lazyvim.util'.ui.statuscolumn()]]
+opt.foldtext = "v:lua.require'util'.ui.foldtext()"
+opt.statuscolumn = [[%!v:lua.require'util'.ui.statuscolumn()]]
 opt.foldmethod = "expr"
-opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
+opt.foldexpr = "v:lua.require'util'.ui.foldexpr()"
 
-vim.o.formatexpr = "v:lua.require'lazyvim.util'.format.formatexpr()"
+vim.o.formatexpr = "v:lua.require'util'.format.formatexpr()"
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
