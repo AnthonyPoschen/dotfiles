@@ -1,3 +1,4 @@
+-- TODO: move this out of after
 
 -- let g:rg_derive_root = 1
 -- let g:rg_highlight = 1

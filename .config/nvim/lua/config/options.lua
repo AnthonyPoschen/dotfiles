@@ -150,12 +150,11 @@ opt.fillchars = {
 	eob = " ",
 }
 opt.foldlevel = 99
---TODO: make these includes use non lazyvim file path
+
 opt.foldtext = "v:lua.require'util'.ui.foldtext()"
 opt.statuscolumn = [[%!v:lua.require'util'.ui.statuscolumn()]]
-opt.foldmethod = "expr"
-opt.foldexpr = "v:lua.require'util'.ui.foldexpr()"
-
+-- opt.foldmethod = "expr"
+-- opt.foldexpr = "v:lua.require'util'.ui.foldexpr()" -- this line causes :e to freeze
 vim.o.formatexpr = "v:lua.require'util'.format.formatexpr()"
 
 -- Fix markdown indentation settings

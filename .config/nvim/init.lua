@@ -21,6 +21,7 @@ require("lazy").setup({
 		{ import = "lazy-plugins.extras.lang.yaml" },
 		{ import = "lazy-plugins.extras.formatting.prettier" },
 		{ import = "lazy-plugins.extras.coding.copilot" },
+    -- NOTE: this animates the cursor up and down if it is on, maybe good for streaming
 		-- { import = "lazy-plugins.extras.ui.mini-animate" },
 		{ import = "plugins" },
 	},
@@ -53,6 +54,10 @@ require("lazy").setup({
 })
 --" learning materials for lua
 --" https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/
+
+-- require("config.keymaps")
+-- require("config.options")
+-- require("config.autocmds")
 
 -- copilot setup
 vim.g.copilot_proxy = vim.env.HTTPS_PROXY

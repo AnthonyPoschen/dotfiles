@@ -1,3 +1,4 @@
+-- TODO: move this out of after
 require("catppuccin").setup({
 	flavour = "mocha", -- latte, frappe, macchiato, mocha
 	background = { -- :h background
