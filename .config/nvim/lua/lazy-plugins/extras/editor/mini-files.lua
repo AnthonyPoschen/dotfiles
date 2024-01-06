@@ -1,3 +1,4 @@
+-- TODO: evaluate if this replaces netrw or ranger
 return {
   "echasnovski/mini.files",
   opts = {

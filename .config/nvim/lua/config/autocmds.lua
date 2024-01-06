@@ -8,6 +8,15 @@ local function augroup(name)
 	return vim.api.nvim_create_augroup("local" .. name, { clear = true })
 end
 
+-- TODO: remove this once conform is fixed to not need formatting crap
+-- from lazyvim
+-- Autoformat autocmd
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = vim.api.nvim_create_augroup("LazyFormat", {}),
+	callback = function(event)
+		require("conform").format({ bufnr = event.buf })
+	end,
+})
 vim.api.nvim_create_autocmd({ "VimLeave", "VimLeavePre" }, {
 	callback = function(ev, opts)
 		os.execute("kitty @ --to $KITTY_LISTEN_ON set-font-size '0'")

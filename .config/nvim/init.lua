@@ -21,7 +21,9 @@ require("lazy").setup({
 		{ import = "lazy-plugins.extras.lang.yaml" },
 		{ import = "lazy-plugins.extras.formatting.prettier" },
 		{ import = "lazy-plugins.extras.coding.copilot" },
-    -- NOTE: this animates the cursor up and down if it is on, maybe good for streaming
+		{ import = "lazy-plugins.extras.editor.leap" },
+		{ import = "lazy-plugins.extras.test.core" },
+		-- NOTE: this animates the cursor up and down if it is on, maybe good for streaming
 		-- { import = "lazy-plugins.extras.ui.mini-animate" },
 		{ import = "plugins" },
 	},
@@ -31,12 +33,12 @@ require("lazy").setup({
 		lazy = false,
 		version = "*", -- always use the latest git commit
 	},
-  change_detection = {
-    -- automatically check for config file changes and reload the ui
-    enabled = true,
-    notify = false, -- get a notification when changes are found
-  },
-	install = { colorscheme = { "catppuccin","tokyonight", "habamax" } },
+	change_detection = {
+		-- automatically check for config file changes and reload the ui
+		enabled = true,
+		notify = false, -- get a notification when changes are found
+	},
+	install = { colorscheme = { "catppuccin", "tokyonight", "habamax" } },
 	checker = { enabled = true }, -- automatically check for plugin updates
 	performance = {
 		rtp = {
@@ -53,19 +55,18 @@ require("lazy").setup({
 			},
 		},
 	},
-  custom_keys = {
-      -- disable default keys
-      ["<localleader>l"] = false,
-      ["<localleader>t"] = false,
-    },
+	custom_keys = {
+		-- disable default keys
+		["<localleader>l"] = false,
+		["<localleader>t"] = false,
+	},
 })
 --" learning materials for lua
 --" https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/
-vim.cmd.colorscheme "catppuccin"
-require("config.keymaps")
+vim.cmd.colorscheme("catppuccin")
 require("config.options")
+require("config.keymaps")
 require("config.autocmds")
-
 -- copilot setup
 -- TODO: See if the below is needed, if not delete
 -- vim.g.copilot_proxy = vim.env.HTTPS_PROXY

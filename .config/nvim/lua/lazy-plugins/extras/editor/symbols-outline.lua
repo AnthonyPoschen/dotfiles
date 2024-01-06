@@ -1,3 +1,4 @@
+-- TODO: Evaluate if this is how i navigate symbols
 local Util = require("util")
 
 return {
@@ -6,7 +7,7 @@ return {
     keys = { { "<leader>cs", "<cmd>SymbolsOutline<cr>", desc = "Symbols Outline" } },
     cmd = "SymbolsOutline",
     opts = function()
-      local Config = require("lazyvim.config")
+      local Config = require("config")
       local defaults = require("symbols-outline.config").defaults
       local opts = {
         symbols = {},

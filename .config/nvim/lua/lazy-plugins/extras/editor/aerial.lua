@@ -1,5 +1,5 @@
 -- TODO: determine if i want this side panel for symbol navigation or not
-local Config = require("lazyvim.config")
+local Config = require("config")
 local Util = require("util")
 
 return {

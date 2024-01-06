@@ -1,4 +1,4 @@
-local Config = require("lazyvim.config")
+local Config = require("config")
 
 -- Some extras need to be loaded before others
 local prios = {

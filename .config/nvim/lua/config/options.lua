@@ -69,7 +69,7 @@ opt.foldenable = false -- dont fold by default
 -- set foldlevel=1       -- this is just what i use
 
 -- will buffer screens instead of updating
-opt.lazyredraw = true
+opt.lazyredraw = false -- consider turning on when Noice doesn't complain
 
 -- To make nvim faster, not exactly sure though.
 -- set noshowcmd noruler
@@ -153,9 +153,14 @@ opt.foldlevel = 99
 
 opt.foldtext = "v:lua.require'util'.ui.foldtext()"
 opt.statuscolumn = [[%!v:lua.require'util'.ui.statuscolumn()]]
--- opt.foldmethod = "expr"
--- opt.foldexpr = "v:lua.require'util'.ui.foldexpr()" -- this line causes :e to freeze
-vim.o.formatexpr = "v:lua.require'util'.format.formatexpr()"
+-- HACK: causes freezes on <= 0.9, so only enable on >= 0.10 for now
+if vim.fn.has("nvim-0.10") == 1 then
+  vim.opt.foldmethod = "expr"
+  vim.opt.foldexpr = "v:lua.require'util'.ui.foldexpr()" -- this line causes :e to freeze
+else
+  vim.opt.foldmethod = "indent"
+end
+vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0

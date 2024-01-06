@@ -1,21 +1,21 @@
 local Util = require("util")
 
----@class LazyVimConfig: LazyVimOptions
+---@class Config: Options
 local M = {}
 
 M.version = "10.8.2" -- x-release-please-version
 
----@class LazyVimOptions
+---@class Options
 local defaults = {
 	-- colorscheme can be a string like `catppuccin` or a function that will load the colorscheme
 	---@type string|fun()
 	colorscheme = function()
-		require("tokyonight").load()
+		require("catppuccin").load()
 	end,
 	-- load the default settings
 	defaults = {
-		autocmds = true, -- lazyvim.config.autocmds
-		keymaps = true, -- lazyvim.config.keymaps
+		autocmds = true, -- config.autocmds
+		keymaps = true, -- config.keymaps
 	},
   -- icons used by other plugins
   -- stylua: ignore
@@ -145,10 +145,10 @@ function M.json.load()
 	end
 end
 
----@type LazyVimOptions
+---@type Options
 local options
 
----@param opts? LazyVimOptions
+---@param opts? Options
 function M.setup(opts)
 	options = vim.tbl_deep_extend("force", defaults, opts or {}) or {}
 
@@ -227,7 +227,7 @@ function M.load(name)
 		-- HACK: LazyVim may have overwritten options of the Lazy ui, so reset this here
 		vim.cmd([[do VimResized]])
 	end
-	local pattern = "LazyVim" .. name:sub(1, 1):upper() .. name:sub(2)
+	local pattern = "" .. name:sub(1, 1):upper() .. name:sub(2)
 	vim.api.nvim_exec_autocmds("User", { pattern = pattern, modeline = false })
 end
 
@@ -246,7 +246,7 @@ setmetatable(M, {
 		if options == nil then
 			return vim.deepcopy(defaults)[key]
 		end
-		---@cast options LazyVimConfig
+		---@cast options Config
 		return options[key]
 	end,
 })
