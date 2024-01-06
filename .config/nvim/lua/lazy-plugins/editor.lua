@@ -486,10 +486,13 @@ return {
 					if trouble.is_open() then
 						trouble.previous({ skip_groups = true, jump = true })
 					else
-						local ok, err = pcall(vim.cmd.cprev)
-						if not ok then
-							trouble.open()
-						end
+						local ok = pcall(vim.cmd.cprev)
+            if not ok then
+              ok = pcall(vim.cmd.clast)
+              if not ok then
+                trouble.open()
+              end
+            end
 					end
 				end,
 				desc = "Previous trouble/quickfix item",
@@ -501,10 +504,13 @@ return {
 					if trouble.is_open() then
 						trouble.next({ skip_groups = true, jump = true })
 					else
-						local ok, err = pcall(vim.cmd.cnext)
-						if not ok then
-							trouble.open()
-						end
+						local ok = pcall(vim.cmd.cnext)
+            if not ok then
+              ok = pcall(vim.cmd.cfirst)
+              if not ok then
+                trouble.open()
+              end
+            end
 					end
 				end,
 				desc = "Next trouble/quickfix item",

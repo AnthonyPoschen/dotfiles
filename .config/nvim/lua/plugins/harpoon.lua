@@ -1,9 +1,10 @@
 -- https://github.com/ThePrimeagen/harpoon/tree/harpoon2
 return {
 	"ThePrimeagen/harpoon",
+  name = "harpoon",
 	event = "VeryLazy",
 	branch = "harpoon2",
-	dependencies = { "nvim-lua/plenary.nvim" },
+	dependencies = { "nvim-lua/plenary.nvim","notify" },
 	config = function(_, opts)
 		require("harpoon"):setup(opts)
 	end,

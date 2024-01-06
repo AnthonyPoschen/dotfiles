@@ -29,12 +29,14 @@ require("lazy").setup({
 		-- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
 		-- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
 		lazy = false,
-		-- It's recommended to leave version=false for now, since a lot the plugin that support versioning,
-		-- have outdated releases, which may break your Neovim install.
-		version = false, -- always use the latest git commit
-		-- version = "*", -- try installing the latest stable version for plugins that support semver
+		version = "*", -- always use the latest git commit
 	},
-	install = { colorscheme = { "tokyonight", "habamax" } },
+  change_detection = {
+    -- automatically check for config file changes and reload the ui
+    enabled = true,
+    notify = false, -- get a notification when changes are found
+  },
+	install = { colorscheme = { "catppuccin","tokyonight", "habamax" } },
 	checker = { enabled = true }, -- automatically check for plugin updates
 	performance = {
 		rtp = {
@@ -51,16 +53,22 @@ require("lazy").setup({
 			},
 		},
 	},
+  custom_keys = {
+      -- disable default keys
+      ["<localleader>l"] = false,
+      ["<localleader>t"] = false,
+    },
 })
 --" learning materials for lua
 --" https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/
-
--- require("config.keymaps")
--- require("config.options")
--- require("config.autocmds")
+vim.cmd.colorscheme "catppuccin"
+require("config.keymaps")
+require("config.options")
+require("config.autocmds")
 
 -- copilot setup
-vim.g.copilot_proxy = vim.env.HTTPS_PROXY
-vim.g.copilot_no_tab_map = true
-vim.g.copilot_assume_mapped = true
-vim.g.copilot_tab_fallback = ""
+-- TODO: See if the below is needed, if not delete
+-- vim.g.copilot_proxy = vim.env.HTTPS_PROXY
+-- vim.g.copilot_no_tab_map = true
+-- vim.g.copilot_assume_mapped = true
+-- vim.g.copilot_tab_fallback = ""

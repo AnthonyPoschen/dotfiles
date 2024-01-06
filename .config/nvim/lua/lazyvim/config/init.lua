@@ -237,24 +237,6 @@ function M.init()
 		return
 	end
 	M.did_init = true
-	local plugin = require("lazy.core.config").spec.plugins.LazyVim
-	if plugin then
-		vim.opt.rtp:append(plugin.dir)
-	end
-
-	package.preload["lazy-plugins.lsp.format"] = function()
-		Util.deprecate([[require("lazy-plugins.lsp.format")]], [[require("util").format]])
-		return Util.format
-	end
-
-	-- delay notifications till vim.notify was replaced or after 500ms
-	require("util").lazy_notify()
-
-	-- load options here, before lazy init while sourcing plugin modules
-	-- this is needed to make sure options will be correctly applied
-	-- after installing missing plugins
-	M.load("options")
-
 	Util.plugin.setup()
 	M.json.load()
 end

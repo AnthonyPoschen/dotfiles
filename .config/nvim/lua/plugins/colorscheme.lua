@@ -1,18 +1,16 @@
 return {
-
-  -- tokyonight
-  {
-    "folke/tokyonight.nvim",
-    lazy = true,
-    opts = { style = "moon" },
-  },
-
   -- catppuccin
   {
     "catppuccin/nvim",
     lazy = true,
     name = "catppuccin",
+    priority = 1000,
     opts = {
+      dim_inactive = {
+        enabled = true,
+        shade = "dark",
+        percentage = 0.25,
+      },
       integrations = {
         aerial = true,
         alpha = true,
