@@ -22,7 +22,7 @@ require("lazy").setup({
 		{ import = "lazy-plugins.extras.lang.markdown" },
 		{ import = "lazy-plugins.extras.lang.yaml" },
 		{ import = "lazy-plugins.extras.formatting.prettier" },
-		{ import = "lazy-plugins.extras.coding.copilot" },
+		-- { import = "lazy-plugins.extras.coding.copilot" },
 		{ import = "lazy-plugins.extras.editor.leap" },
 		{ import = "lazy-plugins.extras.test.core" },
 		-- NOTE: this animates the cursor up and down if it is on, maybe good for streaming
