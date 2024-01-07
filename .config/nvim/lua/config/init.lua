@@ -168,7 +168,6 @@ function M.setup(opts)
 			end
 			M.load("keymaps")
 
-			Util.format.setup()
 			Util.root.setup()
 
 			vim.api.nvim_create_user_command("LazyExtras", function()

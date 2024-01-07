@@ -15,6 +15,8 @@ require("lazy").setup({
 		{ import = "lazy-plugins.extras.ui.alpha" },
 		{ import = "lazy-plugins.extras.lang.typescript" },
 		{ import = "lazy-plugins.extras.lang.tailwind" },
+		{ import = "lazy-plugins.extras.lang.docker" },
+		{ import = "lazy-plugins.extras.lang.typescript" },
 		{ import = "lazy-plugins.extras.lang.json" },
 		{ import = "lazy-plugins.extras.lang.go" },
 		{ import = "lazy-plugins.extras.lang.markdown" },
@@ -41,6 +43,9 @@ require("lazy").setup({
 	install = { colorscheme = { "catppuccin", "tokyonight", "habamax" } },
 	checker = { enabled = true }, -- automatically check for plugin updates
 	performance = {
+		cache = {
+			enabled = true,
+		},
 		rtp = {
 			-- disable some rtp plugins
 			disabled_plugins = {

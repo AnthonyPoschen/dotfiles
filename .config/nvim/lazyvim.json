@@ -1,17 +1,7 @@
 {
-  "extras": [
-    "lazy-plugins.extras.coding.copilot",
-    "lazy-plugins.extras.lang.docker",
-    "lazy-plugins.extras.lang.go",
-    "lazy-plugins.extras.lang.json",
-    "lazy-plugins.extras.lang.markdown",
-    "lazy-plugins.extras.lang.tailwind",
-    "lazy-plugins.extras.lang.typescript",
-    "lazy-plugins.extras.lang.yaml"
-  ],
+  "extras": [],
   "news": {
     "NEWS.md": "2123"
   },
   "version": 2
 }
-
