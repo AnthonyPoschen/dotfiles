@@ -42,6 +42,14 @@ return {
 			-- LSP Server Settings
 			---@type lspconfig.options
 			servers = {
+				-- gopls = {
+				-- 	-- TODO: get this working, gopls bool check off
+				-- 	analyses = {
+				-- 		-- unreachable = false,
+				-- 		bools = false,
+				-- 		-- S1002 = false,
+				-- 	},
+				-- },
 				lua_ls = {
 					-- mason = false, -- set to false if you don't want this server to be installed with mason
 					-- Use this to add any additional keymaps

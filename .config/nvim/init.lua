@@ -21,8 +21,8 @@ require("lazy").setup({
 		{ import = "plugins.lang.go" },
 		{ import = "plugins.lang.markdown" },
 		{ import = "plugins.lang.yaml" },
-		{ import = "lazy-plugins.extras.editor.leap" },
-		{ import = "lazy-plugins.extras.test.core" },
+		-- { import = "lazy-plugins.extras.editor.leap" },
+		-- { import = "lazy-plugins.extras.test.core" },
 		-- NOTE: this animates the cursor up and down if it is on, maybe good for streaming
 		-- { import = "lazy-plugins.extras.ui.mini-animate" },
 	},
