@@ -119,12 +119,6 @@ return {
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Hover", silent = true })
 					vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help", silent = true })
 					vim.keymap.set(
-						"i",
-						"<leader>k",
-						vim.lsp.buf.signature_help,
-						{ desc = "Signature Help", silent = true }
-					)
-					vim.keymap.set(
 						{ "n", "v" },
 						"<leader>ca",
 						vim.lsp.buf.code_action,

@@ -10,24 +10,21 @@ require("lazy").setup({
 	spec = {
 		-- add LazyVim and import its plugins
 		{ import = "lazy-plugins" },
+		{ import = "plugins" },
 		-- import any extras modules here
-		{ import = "lazy-plugins.extras.linting.eslint" },
-		{ import = "lazy-plugins.extras.ui.alpha" },
-		{ import = "lazy-plugins.extras.lang.typescript" },
-		{ import = "lazy-plugins.extras.lang.tailwind" },
-		{ import = "lazy-plugins.extras.lang.docker" },
-		{ import = "lazy-plugins.extras.lang.typescript" },
-		{ import = "lazy-plugins.extras.lang.json" },
-		{ import = "lazy-plugins.extras.lang.go" },
-		{ import = "lazy-plugins.extras.lang.markdown" },
-		{ import = "lazy-plugins.extras.lang.yaml" },
-		{ import = "lazy-plugins.extras.formatting.prettier" },
-		-- { import = "lazy-plugins.extras.coding.copilot" },
+		-- { import = "lazy-plugins.extras.ui.alpha" },
+		{ import = "plugins.lang.typescript" },
+		{ import = "plugins.lang.tailwind" },
+		{ import = "plugins.lang.docker" },
+		{ import = "plugins.lang.typescript" },
+		{ import = "plugins.lang.json" },
+		{ import = "plugins.lang.go" },
+		{ import = "plugins.lang.markdown" },
+		{ import = "plugins.lang.yaml" },
 		{ import = "lazy-plugins.extras.editor.leap" },
 		{ import = "lazy-plugins.extras.test.core" },
 		-- NOTE: this animates the cursor up and down if it is on, maybe good for streaming
 		-- { import = "lazy-plugins.extras.ui.mini-animate" },
-		{ import = "plugins" },
 	},
 	defaults = {
 		-- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.

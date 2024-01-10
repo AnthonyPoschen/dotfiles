@@ -4,8 +4,8 @@ return {
 	-- Better `vim.notify()`
 	{
 		"rcarriga/nvim-notify",
-    dependencies = { "catppuccin" },
-    name = "notify",
+		dependencies = { "catppuccin" },
+		name = "notify",
 		keys = {
 			{
 				"<leader>un",
@@ -15,10 +15,10 @@ return {
 				desc = "Dismiss all Notifications",
 			},
 		},
-    config = function(_,opts)
-      opts = vim.tbl_deep_extend("force",{background_colour = "#282A36"},opts)
-      require("notify").setup(opts)
-    end,
+		config = function(_, opts)
+			opts = vim.tbl_deep_extend("force", { background_colour = "#282A36" }, opts)
+			require("notify").setup(opts)
+		end,
 		opts = {
 			timeout = 3000,
 			max_height = function()
@@ -62,6 +62,9 @@ return {
 	-- statusline
 	{
 		"nvim-lualine/lualine.nvim",
+		dependencies = {
+			"folke/noice.nvim",
+		},
 		event = "VeryLazy",
 		init = function()
 			vim.g.lualine_laststatus = vim.o.laststatus
@@ -230,11 +233,12 @@ return {
 	-- Displays a popup with possible key bindings of the command you started typing
 	{
 		"folke/which-key.nvim",
-		opts = function(_, opts)
-			if require("util").has("noice.nvim") then
-				opts.defaults["<leader>sn"] = { name = "+noice" }
-			end
-		end,
+		dependencies = {
+			"folke/noice.nvim",
+		},
+		opts = {
+			defaults = { ["<leader>sn"] = { name = "+noice" } },
+		},
 	},
 
 	-- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
@@ -287,82 +291,82 @@ return {
 	-- ui components
 	{ "MunifTanjim/nui.nvim", lazy = true },
 
-	{
-		"goolord/alpha-nvim",
-		optional = true,
-		enabled = function()
-			require("util").warn({
-				"`dashboard.nvim` is now the default LazyVim starter plugin.",
-				"",
-				"To keep using `alpha.nvim`, please enable the `lazy-plugins.extras.ui.alpha` extra.",
-				"Or to hide this message, remove the alpha spec from your config.",
-			})
-			return false
-		end,
-	},
-	{
-		"nvimdev/dashboard-nvim",
-		event = "VimEnter",
-		opts = function()
-			local logo = [[
-           ██╗      █████╗ ███████╗██╗   ██╗██╗   ██╗██╗███╗   ███╗          Z
-           ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██║   ██║██║████╗ ████║      Z    
-           ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║██╔████╔██║   z       
-           ██║     ██╔══██║ ███╔╝    ╚██╔╝  ╚██╗ ██╔╝██║██║╚██╔╝██║ z         
-           ███████╗██║  ██║███████╗   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║           
-           ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝           
-      ]]
-
-			logo = string.rep("\n", 8) .. logo .. "\n\n"
-
-			local opts = {
-				theme = "doom",
-				hide = {
-					-- this is taken care of by lualine
-					-- enabling this messes up the actual laststatus setting after loading a file
-					statusline = false,
-				},
-				config = {
-					header = vim.split(logo, "\n"),
-          -- stylua: ignore
-          center = {
-            { action = "Telescope find_files",                                     desc = " Find file",       icon = " ", key = "f" },
-            { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
-            { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
-            { action = "Telescope live_grep",                                      desc = " Find text",       icon = " ", key = "g" },
-            { action = [[lua require("util").telescope.config_files()()]], desc = " Config",          icon = " ", key = "c" },
-            { action = 'lua require("persistence").load()',                        desc = " Restore Session", icon = " ", key = "s" },
-            { action = "LazyExtras",                                               desc = " Lazy Extras",     icon = " ", key = "x" },
-            { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
-            { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
-          },
-					footer = function()
-						local stats = require("lazy").stats()
-						local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-						return {
-							"⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
-						}
-					end,
-				},
-			}
-
-			for _, button in ipairs(opts.config.center) do
-				button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
-				button.key_format = "  %s"
-			end
-
-			-- close Lazy and re-open when the dashboard is ready
-			if vim.o.filetype == "lazy" then
-				vim.cmd.close()
-				vim.api.nvim_create_autocmd("User", {
-					pattern = "DashboardLoaded",
-					callback = function()
-						require("lazy").show()
-					end,
-				})
-			end
-
-			return opts
-		end,
-	},
+	-- {
+	-- 	"goolord/alpha-nvim",
+	-- 	optional = true,
+	-- 	enabled = function()
+	-- 		require("util").warn({
+	-- 			"`dashboard.nvim` is now the default LazyVim starter plugin.",
+	-- 			"",
+	-- 			"To keep using `alpha.nvim`, please enable the `lazy-plugins.extras.ui.alpha` extra.",
+	-- 			"Or to hide this message, remove the alpha spec from your config.",
+	-- 		})
+	-- 		return false
+	-- 	end,
+	-- },
+	-- {
+	-- 	"nvimdev/dashboard-nvim",
+	-- 	event = "VimEnter",
+	-- 	opts = function()
+	-- 		local logo = [[
+	--           ██╗      █████╗ ███████╗██╗   ██╗██╗   ██╗██╗███╗   ███╗          Z
+	--           ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██║   ██║██║████╗ ████║      Z
+	--           ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║██╔████╔██║   z
+	--           ██║     ██╔══██║ ███╔╝    ╚██╔╝  ╚██╗ ██╔╝██║██║╚██╔╝██║ z
+	--           ███████╗██║  ██║███████╗   ██║    ╚████╔╝ ██║██║ ╚═╝ ██║
+	--           ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝     ╚═══╝  ╚═╝╚═╝     ╚═╝
+	--      ]]
+	--
+	-- 		logo = string.rep("\n", 8) .. logo .. "\n\n"
+	--
+	-- 		local opts = {
+	-- 			theme = "doom",
+	-- 			hide = {
+	-- 				-- this is taken care of by lualine
+	-- 				-- enabling this messes up the actual laststatus setting after loading a file
+	-- 				statusline = false,
+	-- 			},
+	-- 			config = {
+	-- 				header = vim.split(logo, "\n"),
+	--          -- stylua: ignore
+	--          center = {
+	--            { action = "Telescope find_files",                                     desc = " Find file",       icon = " ", key = "f" },
+	--            { action = "ene | startinsert",                                        desc = " New file",        icon = " ", key = "n" },
+	--            { action = "Telescope oldfiles",                                       desc = " Recent files",    icon = " ", key = "r" },
+	--            { action = "Telescope live_grep",                                      desc = " Find text",       icon = " ", key = "g" },
+	--            { action = [[lua require("util").telescope.config_files()()]], desc = " Config",          icon = " ", key = "c" },
+	--            { action = 'lua require("persistence").load()',                        desc = " Restore Session", icon = " ", key = "s" },
+	--            { action = "LazyExtras",                                               desc = " Lazy Extras",     icon = " ", key = "x" },
+	--            { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
+	--            { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
+	--          },
+	-- 				footer = function()
+	-- 					local stats = require("lazy").stats()
+	-- 					local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+	-- 					return {
+	-- 						"⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
+	-- 					}
+	-- 				end,
+	-- 			},
+	-- 		}
+	--
+	-- 		for _, button in ipairs(opts.config.center) do
+	-- 			button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
+	-- 			button.key_format = "  %s"
+	-- 		end
+	--
+	-- 		-- close Lazy and re-open when the dashboard is ready
+	-- 		if vim.o.filetype == "lazy" then
+	-- 			vim.cmd.close()
+	-- 			vim.api.nvim_create_autocmd("User", {
+	-- 				pattern = "DashboardLoaded",
+	-- 				callback = function()
+	-- 					require("lazy").show()
+	-- 				end,
+	-- 			})
+	-- 		end
+	--
+	-- 		return opts
+	-- 	end,
+	-- },
 }

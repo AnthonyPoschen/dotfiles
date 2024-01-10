@@ -174,8 +174,8 @@ return {
 							-- ["<a-h>"] = find_files_with_hidden,
 							["<C-Down>"] = actions.cycle_history_next,
 							["<C-Up>"] = actions.cycle_history_prev,
-							["<C-f>"] = actions.preview_scrolling_down,
-							["<C-b>"] = actions.preview_scrolling_up,
+							-- ["<C-f>"] = actions.preview_scrolling_down,
+							-- ["<C-b>"] = actions.preview_scrolling_up,
 							["<c-j>"] = actions.move_selection_next,
 							["<c-k>"] = actions.move_selection_previous,
 							["<c-d>"] = function(bufnr)

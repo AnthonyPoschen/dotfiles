@@ -17,6 +17,15 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 		require("conform").format({ bufnr = event.buf })
 	end,
 })
+-- search for files on startup
+vim.api.nvim_create_autocmd({ "VimEnter" }, {
+	callback = function(ev, opts)
+		if vim.fn.expand("%") == "" then
+			vim.cmd("Telescope find_files")
+		end
+	end,
+})
+-- fix kitty on shutdown
 vim.api.nvim_create_autocmd({ "VimLeave", "VimLeavePre" }, {
 	callback = function(ev, opts)
 		os.execute("kitty @ --to $KITTY_LISTEN_ON set-font-size '0'")

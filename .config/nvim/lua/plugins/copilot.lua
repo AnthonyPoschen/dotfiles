@@ -27,6 +27,9 @@ return {
 				["Warning"] = Util.ui.fg("DiagnosticError"),
 				["InProgress"] = Util.ui.fg("DiagnosticWarn"),
 			}
+			opts = opts or {}
+			opts.sections = opts.sections or {}
+			opts.sections.lualine_x = opts.sections.lualine_x or {}
 			table.insert(opts.sections.lualine_x, 2, {
 				function()
 					local icon = require("config").icons.kinds.Copilot
