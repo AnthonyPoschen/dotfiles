@@ -3,7 +3,6 @@
 -- Add any additional keymaps here
 -- extra doco https://www.lazyvim.org/configuration/general
 local utils = require("utils")
-local Util = require("util")
 local map = vim.keymap.set
 local g = vim.g
 local opt_noremap = { noremap = true }
