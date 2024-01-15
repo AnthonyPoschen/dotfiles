@@ -36,7 +36,7 @@
 [difftool]
 	prompt = false
 [mergetool "fugitive"]
-    cmd = nvim -f -c \"b:coc_enabled=0\" -c\"Gvdiffsplit!\" \"$MERGED\"
+    cmd = nvim -f -c\"Gvdiffsplit!\" \"$MERGED\"
 [credential]
     helper = store
 
