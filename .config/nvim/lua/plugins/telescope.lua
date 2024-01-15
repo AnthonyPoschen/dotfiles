@@ -27,7 +27,7 @@ return {
 				{ "<leader>/", Util.telescope("live_grep"), desc = "Grep (root dir)" },
 				-- { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
 				-- { "<leader><space>", Util.telescope("files"), desc = "Find Files (root dir)" },
-				{ "<leader>f", Util.telescope("files"), desc = "Find files" },
+				{ "<space><space>", Util.telescope("files"), desc = "Find files" },
 				-- { "<leader>r", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
 				-- git
 				-- { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
@@ -147,6 +147,7 @@ return {
 				},
 				pickers = {
 					find_files = config_result_prompt,
+					help_tags = config_result_prompt,
 					oldfiles = config_result_prompt,
 					command_history = config_result_prompt,
 					commands = config_result_prompt,
