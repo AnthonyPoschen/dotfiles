@@ -150,7 +150,7 @@ return {
 					},
 					lualine_z = {
 						function()
-							return " " .. os.date("%R")
+							return vim.bo.filetype .. "  " .. os.date("%R")
 						end,
 					},
 				},
