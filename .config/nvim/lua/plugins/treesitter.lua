@@ -51,8 +51,12 @@ return {
 		---@type TSConfig
 		---@diagnostic disable-next-line: missing-fields
 		opts = {
-			highlight = { enable = true },
+			highlight = {
+				enable = true,
+				additional_vim_regex_highlighting = false,
+			},
 			indent = { enable = true },
+			autotag = { enable = true },
 			ensure_installed = {
 				"bash",
 				"c",
@@ -76,6 +80,7 @@ return {
 				"vim",
 				"vimdoc",
 				"yaml",
+				"templ",
 			},
 			incremental_selection = {
 				enable = true,
@@ -121,10 +126,10 @@ return {
 		opts = { mode = "cursor", max_lines = 3 },
 	},
 
-	-- Automatically add closing tags for HTML and JSX
-	{
-		"windwp/nvim-ts-autotag",
-		event = "LazyFile",
-		opts = {},
-	},
+	-- -- Automatically add closing tags for HTML and JSX
+	-- {
+	-- 	"windwp/nvim-ts-autotag",
+	-- 	event = "LazyFile",
+	-- 	opts = {},
+	-- },
 }

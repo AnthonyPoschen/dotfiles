@@ -1,3 +1,6 @@
+-- TODO: evaluate if i should use https://github.com/prichrd/netrw.nvim to make netrw great again
+-- TODO: maybe have discord presence of neovim? https://github.com/andweeb/presence.nvim
+--
 -- lazy: package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then

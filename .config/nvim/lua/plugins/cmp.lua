@@ -38,8 +38,12 @@ return {
 			},
 		},
 	},
+	-- auto tag completion for html
 	{
-		"windwp/nvim-ts-autotag",
+		-- dir = "/Users/ap/git/github.com/anthonyposchen/nvim-ts-autotag/",
+		"anthonyposchen/nvim-ts-autotag",
+		branch = "templ",
+		-- "windwp/nvim-ts-autotag",
 		opts = {
 			filetypes = {
 				"html",
