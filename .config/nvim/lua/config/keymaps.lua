@@ -74,13 +74,6 @@ map(
 -- Copilot
 -- map("i", "<C-Space>", 'copilot#Accept("<CR>")', { silent = true, expr = true, script = true })
 
--- Telescope
-map(
-	"n",
-	"<Leader>f",
-	"<CMD>Telescope find_files<CR>",
-	{ noremap = true, silent = true, desc = "Find file in path telescope" }
-)
 -- map('n', '<Leader>g', ':Telescope live_grep<CR>', opt_noremap)
 map("n", "<Leader>b", ":Telescope buffers<CR>", opt_noremap)
 

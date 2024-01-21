@@ -147,6 +147,7 @@ return {
 				},
 				pickers = {
 					find_files = config_result_prompt,
+					git_files = config_result_prompt,
 					help_tags = config_result_prompt,
 					oldfiles = config_result_prompt,
 					command_history = config_result_prompt,

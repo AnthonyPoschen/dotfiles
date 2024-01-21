@@ -1,6 +1,8 @@
 -- TODO: evaluate if i should use https://github.com/prichrd/netrw.nvim to make netrw great again
 -- TODO: maybe have discord presence of neovim? https://github.com/andweeb/presence.nvim
 --
+require("config.options")
+require("config.keymaps")
 -- lazy: package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -11,27 +13,9 @@ end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 require("lazy").setup({
 	spec = {
-		-- add LazyVim and import its plugins
-		-- { import = "lazy-plugins" },
 		{ import = "plugins" },
-		-- import any extras modules here
-		-- { import = "lazy-plugins.extras.ui.alpha" },
-		{ import = "plugins.lang.typescript" },
-		{ import = "plugins.lang.tailwind" },
-		{ import = "plugins.lang.docker" },
-		{ import = "plugins.lang.typescript" },
-		{ import = "plugins.lang.json" },
-		{ import = "plugins.lang.go" },
-		{ import = "plugins.lang.markdown" },
-		{ import = "plugins.lang.yaml" },
-		-- { import = "lazy-plugins.extras.editor.leap" },
-		-- { import = "lazy-plugins.extras.test.core" },
-		-- NOTE: this animates the cursor up and down if it is on, maybe good for streaming
-		-- { import = "lazy-plugins.extras.ui.mini-animate" },
 	},
 	defaults = {
-		-- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
-		-- If you know what you're doing, you can set this to `true` to have all your custom plugins lazy-loaded by default.
 		lazy = false,
 		version = "*", -- always use the latest git commit
 	},
@@ -69,8 +53,6 @@ require("lazy").setup({
 --" learning materials for lua
 --" https://vonheikemen.github.io/devlog/tools/configuring-neovim-using-lua/
 vim.cmd.colorscheme("catppuccin")
-require("config.options")
-require("config.keymaps")
 require("config.autocmds")
 -- copilot setup
 -- TODO: See if the below is needed, if not delete
