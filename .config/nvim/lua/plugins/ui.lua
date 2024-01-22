@@ -37,6 +37,13 @@ return {
 	{
 		"stevearc/dressing.nvim",
 		lazy = true,
+		opts = {
+			input = {
+				-- 'editor' and 'win' will default to being centered
+				-- 'cursor' will be centered on cursor location
+				relative = "win",
+			},
+		},
 		init = function()
 			---@diagnostic disable-next-line: duplicate-set-field
 			vim.ui.select = function(...)

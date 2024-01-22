@@ -24,7 +24,7 @@ opt.sw = 4
 opt.sts = 4
 opt.colorcolumn = "80"
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "css", "html", "javascript", "vue", "yaml", "yml", "typescript", "typescriptreact", "json" },
+	pattern = { "css", "html", "javascript", "vue", "yaml", "yml", "typescript", "typescriptreact", "json", "templ" },
 	command = "setlocal ts=2 sw=2 sts=2",
 })
 -- additional filetypes
@@ -155,10 +155,10 @@ opt.foldtext = "v:lua.require'util'.ui.foldtext()"
 opt.statuscolumn = [[%!v:lua.require'util'.ui.statuscolumn()]]
 -- HACK: causes freezes on <= 0.9, so only enable on >= 0.10 for now
 if vim.fn.has("nvim-0.10") == 1 then
-  vim.opt.foldmethod = "expr"
-  vim.opt.foldexpr = "v:lua.require'util'.ui.foldexpr()" -- this line causes :e to freeze
+	vim.opt.foldmethod = "expr"
+	vim.opt.foldexpr = "v:lua.require'util'.ui.foldexpr()" -- this line causes :e to freeze
 else
-  vim.opt.foldmethod = "indent"
+	vim.opt.foldmethod = "indent"
 end
 vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
