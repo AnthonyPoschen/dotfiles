@@ -226,6 +226,7 @@ return {
 			ensure_installed = {
 				"stylua",
 				"shfmt",
+				"yamlfmt",
 				-- "flake8",
 			},
 		},
