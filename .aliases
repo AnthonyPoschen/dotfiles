@@ -11,16 +11,12 @@ alias conf-zsh='nvim ~/.zshrc'
 alias conf-aliases='nvim ~/.aliases'
 alias conf-tmux-paths='nvim ~/.project-paths.sh'
 export DOCKER_BUILDKIT=1
-# shopt -s lastpipe
-# how to record stuff
-# script -r
-# how to play back
-# script -p < typescript
-# if [ $(git rev-parse --show-toplevel) -eq 1 ]; then echo "no"; else echo "yes"; fi
-# n=$(git rev-parse --show-toplevel); if [ $n -eq 1 ]; then echo "no"; else echo "yes"; fi
-# git
+
 alias gpl='git fetch --tags -f && git pull --rebase' # get tags with force to overwrite clobbering tags error
 alias gph='git push'
+alias gwl='git worktree list'
+alias gwa='git worktree add'
+alias gwr='git worktree remove'
 alias gsm='git switch master 2&> /dev/null || git switch main'
 alias gphr='git push && git retag'
 alias gaa='git add .'
