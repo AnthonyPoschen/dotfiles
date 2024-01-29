@@ -1,4 +1,35 @@
 return {
+	-- copilot
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		build = ":Copilot auth",
+		event = "InsertEnter",
+		opts = {
+			suggestion = {
+				enabled = true,
+				auto_trigger = true,
+				debounce = 75,
+				keymap = {
+					accept = "<C-Space>",
+					accept_word = false,
+					accept_line = false,
+					next = false,
+					prev = false,
+					dismiss = false, -- TODO: keymap the dismiss for copilot
+				},
+			},
+			panel = { enabled = false },
+			filetypes = {
+				yaml = true,
+				markdown = true,
+				help = true,
+			},
+		},
+		config = function(_, opts)
+			require("copilot").setup(opts)
+		end,
+	},
 	{
 		"nvim-treesitter/nvim-treesitter",
 		opts = {
@@ -40,9 +71,9 @@ return {
 	},
 	-- auto tag completion for html
 	{
-		-- dir = "/Users/ap/git/github.com/anthonyposchen/nvim-ts-autotag/",
-		"anthonyposchen/nvim-ts-autotag",
-		branch = "templ",
+		dir = "/Users/ap/git/github.com/anthonyposchen/nvim-ts-autotag/",
+		-- "anthonyposchen/nvim-ts-autotag",
+		-- branch = "templ-and-cr-indent",
 		-- "windwp/nvim-ts-autotag",
 		opts = {
 			filetypes = {
@@ -138,6 +169,13 @@ return {
 			local cmp = require("cmp")
 			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 			opts.preselect = cmp.PreselectMode.None
+			-- copilot variables to hide copilot while cmp completion visible
+			-- cmp.event:on("menu_opened", function()
+			-- 	vim.b.copilot_suggestion_hidden = true
+			-- end)
+			-- cmp.event:on("menu_closed", function()
+			-- 	vim.b.copilot_suggestion_hidden = false
+			-- end)
 			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 			local tab = function(fallback)
 				if cmp.visible() then
@@ -188,21 +226,21 @@ return {
 					s = cmp.mapping.confirm({ select = true }),
 					c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
 				}),
-				["<S-CR>"] = cmp.mapping.confirm({
-					behavior = cmp.ConfirmBehavior.Replace,
-					select = true,
-				}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+				-- ["<S-CR>"] = cmp.mapping.confirm({
+				-- 	behavior = cmp.ConfirmBehavior.Replace,
+				-- 	select = true,
+				-- }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				["<C-CR>"] = function(fallback)
 					cmp.abort()
 					fallback()
 				end,
 				["<Tab>"] = cmp.mapping(tab, { "i", "s" }),
 				["<S-Tab>"] = cmp.mapping(stab, { "i", "s" }),
-				["<C-Space>"] = cmp.mapping(complete, { "i", "s" }),
+				-- ["<C-Space>"] = cmp.mapping(complete, { "i", "s" }),
 			}
 
 			opts.completion = {
-				completeopt = "menu,menuone,noinsert",
+				completeopt = "menu,menuone,noselect,noinsert",
 			}
 			opts.snippet = {
 				expand = function(args)
@@ -214,9 +252,9 @@ return {
 			opts.sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
 				{ name = "luasnip" },
-				{ name = "path" },
-			}, {
 				{ name = "buffer" },
+				-- { name = "copilot" },
+				{ name = "path" },
 			})
 			opts.formatting = {
 				expandable_indicator = false,
@@ -229,11 +267,11 @@ return {
 					return item
 				end,
 			}
-			opts.experimental = {
-				ghost_text = {
-					hl_group = "CmpGhostText",
-				},
-			}
+			-- opts.experimental = {
+			-- 	ghost_text = {
+			-- 		hl_group = "CmpGhostText",
+			-- 	},
+			-- }
 		end,
 	},
 	-- Fast and feature-rich surround actions. For text that includes

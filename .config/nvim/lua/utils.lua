@@ -12,6 +12,25 @@ function M.create_augroup(autocmds, name)
 	cmd("augroup END")
 end
 
+-- Create an autgroup for a filetype and pre append the filetype
+-- definitions to all autocmds in the group. example
+--
+-- Example:
+-- create_ft_augroup("go",{"nnoremap","lhs","rhs"},"gocmds")
+---@param ft string
+---@param autocmds table
+---@param name string
+function M.create_ft_augroup(ft, autocmds, name)
+	for k, acmd in ipairs(autocmds) do
+		local nt = { "FileType", ft }
+		for _, v in pairs(acmd) do
+			table.insert(nt, v)
+		end
+		autocmds[k] = nt
+	end
+	M.create_augroup(autocmds, name)
+end
+
 -- Add a apth to the rtp
 function M.add_rtp(path)
 	local rtp = vim.o.rtp

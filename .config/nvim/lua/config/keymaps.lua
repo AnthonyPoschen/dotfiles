@@ -82,26 +82,15 @@ utils.create_augroup({
 	{ "FileType", "dap-rel", [[lua require('dap.ext.autocompl').attach()]] },
 }, "Tab2")
 
--- TODO: Fix go debugger not working
--- TODO: Fix keymaps for golang
--- Golang file keymaps
-utils.create_augroup({
-	{ "FileType", "go", "nnoremap", "<Leader>le", ":GoIfErr<CR>" },
-	{ "FileType", "go", "nnoremap", "<Leader>lwe", ":GoWhicherrs<CR>" },
-	{ "FileType", "go", "nnoremap", "<Leader>lc", ":GoCoverageToggle<CR>" },
-	{ "FileType", "go", "nnoremap", "<Leader>ltt", ":GoTest<CR>" },
-	{ "FileType", "go", "nnoremap", "<Leader>ltf", ":GoTestFunc<CR>" },
-	{ "FileType", "go", "nnoremap", "<Leader>lta", ":GoAlternate<CR>" },
-	{ "FileType", "go", "nnoremap", "<Leader>ls", ":GoFillStruct<CR>" },
-	{ "FileType", "go", "nnoremap", "<Leader>ll", ":GoDeclsDir<CR>" },
-	{ "FileType", "go", "nnoremap", "<Leader>lf", ":GoDecls<CR>" },
-	{ "FileType", "go", "nnoremap", "<buffer>", "<F5>", ":call DebugGo()<CR>" },
-	{ "FileType", "go", "nnoremap", "<buffer>", "<S-F5>", ":call DebugStop()<CR>" },
-	{ "FileType", "go", "nnoremap", "<buffer>", "<F6>", ":GoDebugPrint<CR>" },
-	{ "FileType", "go", "nnoremap", "<buffer>", "<F9>", ":GoDebugBreakpoint<CR>" },
-	{ "FileType", "go", "nnoremap", "<buffer>", "<F10>", ":GoDebugNext<CR>" },
-	{ "FileType", "go", "nnoremap", "<buffer>", "<F10>", ":GoDebugStep<CR>" },
-	{ "FileType", "go", "nnoremap", "<buffer>", "<F10>", ":GoDebugStepOut<CR>" },
+-- TODO: Fix keymaps for golang? < involces getting old plugins back, maybe just
+-- adopt the new school way of doing these things language agnostics
+-- Golang file keymaps, and remove below as they are handled
+utils.create_ft_augroup("go", {
+	-- { "nnoremap", "<Leader>lc", ":GoCoverageToggle<CR>" },
+	-- { "nnoremap", "<Leader>ltt", ":GoTest<CR>" },
+	-- { "nnoremap", "<Leader>ltf", ":GoTestFunc<CR>" },
+	-- { "nnoremap", "<Leader>lta", ":GoAlternate<CR>" },
+	{ "nnoremap", "<leader>ee", "oif err != nil {<CR>}<ESC>Oreturn err<ESC>" },
 }, "goKeys")
 
 utils.create_augroup({

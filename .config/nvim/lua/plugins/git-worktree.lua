@@ -25,12 +25,30 @@ return {
 			desc = "Git Worktree add",
 		},
 		-- TODO: implement worktree fetch
-		-- the idea is it will see all remote branches
-		-- and create it locally if it doesn't exist
-		-- So this list needs to be remote branches minus local worktrees
+		-- function works unless you are root of bare repo
+		-- it has no concept of branches in a bare repository
+		-- unless you are already in a worktree
 		{
 			"<leader>gf",
-			function() end,
+			function()
+				-- fetch all git branches
+				local result = vim.fn.systemlist("git branch -r")
+				---@class branch
+				---@field name string
+				---@field remote string
+				local branches = {}
+				for k, i in ipairs(result) do
+					result[k] = string.gsub(i, " ", "")
+					-- branch = string.gsub(branch, " ", "")
+					-- table.insert(branches, { name = name, remote = branch })
+				end
+				print(vim.inspect(branches))
+				vim.ui.select(result, {}, function(selection)
+					local branch = string.gsub(selection, ".*/", "")
+					local remote = string.gsub(selection, "/.*", "")
+					require("git-worktree").create_worktree("code/" .. branch, branch, remote)
+				end)
+			end,
 		},
 		{
 			"<leader>gc",
