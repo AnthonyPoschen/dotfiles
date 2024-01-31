@@ -15,7 +15,28 @@ export DOCKER_BUILDKIT=1
 alias gpl='git fetch --tags -f && git pull --rebase' # get tags with force to overwrite clobbering tags error
 alias gph='git push'
 alias gwl='git worktree list'
-alias gwa='git worktree add'
+alias gwa='_gwa'
+function _gwa() {
+  branch=$1
+  path=$2
+  if [ -z "$1" ]
+  then
+    echo "No branch specified"
+    return
+  fi
+  if [ -z "$2" ]
+  then
+    path=$1
+  fi
+  git worktree add -B $1 code/$2 $3
+}
+alias gws='_gws'
+function _gws() {
+  # get the primary/master/main/root/emporer/king branch from the remote
+  root=$(git remote show origin | grep "HEAD branch" | sed 's/.*: //')
+  git worktree add -B $master code/master
+  cd ./code/master
+}
 alias gwr='git worktree remove'
 alias gsm='git switch master 2&> /dev/null || git switch main'
 alias gphr='git push && git retag'
