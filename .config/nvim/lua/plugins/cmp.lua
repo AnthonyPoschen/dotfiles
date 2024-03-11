@@ -71,10 +71,10 @@ return {
 	},
 	-- auto tag completion for html
 	{
-		dir = "/Users/ap/git/github.com/anthonyposchen/nvim-ts-autotag/",
+		-- dir = "/Users/ap/git/github.com/anthonyposchen/nvim-ts-autotag/",
 		-- "anthonyposchen/nvim-ts-autotag",
 		-- branch = "templ-and-cr-indent",
-		-- "windwp/nvim-ts-autotag",
+		"windwp/nvim-ts-autotag",
 		opts = {
 			filetypes = {
 				"html",
@@ -106,6 +106,7 @@ return {
 	},
 	{
 		"windwp/nvim-autopairs",
+		-- dir = "/Users/ap/git/github.com/anthonyposchen/nvim-autopairs.git/code/templ",
 		event = "InsertEnter",
 		opts = {}, -- this is equalent to setup({}) function
 	},
@@ -139,7 +140,6 @@ return {
         },
 	},
 	{
-
 		"hrsh7th/nvim-cmp",
 		dependencies = {
 			"hrsh7th/cmp-emoji",
@@ -176,7 +176,9 @@ return {
 			-- cmp.event:on("menu_closed", function()
 			-- 	vim.b.copilot_suggestion_hidden = false
 			-- end)
-			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+			cmp.event:on("confirm_done", function()
+				cmp_autopairs.on_confirm_done()
+			end)
 			local tab = function(fallback)
 				if cmp.visible() then
 					-- You could replace select_next_item() with confirm({ select = true }) to get VS Code autocompletion behavior

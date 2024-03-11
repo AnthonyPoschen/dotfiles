@@ -32,15 +32,21 @@ return {
 			"<leader>gf",
 			function()
 				-- fetch all git branches
-				local result = vim.fn.systemlist("git branch -r")
+        --TODO: just switched to ls-remote need to make it grab the right string
+        --to represent all branches available
+				local result = vim.fn.systemlist("git ls-remote")
 				---@class branch
 				---@field name string
 				---@field remote string
 				local branches = {}
 				for k, i in ipairs(result) do
+          if k == 0 then
+            goto continue
+          end
 					result[k] = string.gsub(i, " ", "")
 					-- branch = string.gsub(branch, " ", "")
 					-- table.insert(branches, { name = name, remote = branch })
+          ::continue::
 				end
 				print(vim.inspect(branches))
 				vim.ui.select(result, {}, function(selection)
