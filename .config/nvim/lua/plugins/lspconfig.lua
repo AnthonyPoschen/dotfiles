@@ -27,9 +27,9 @@ return {
 			-- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
 			-- Be aware that you also will need to properly configure your LSP server to
 			-- provide the inlay hints.
-			inlay_hints = {
-				enabled = false,
-			},
+			-- inlay_hints = {
+			-- 	enabled = true,
+			-- },
 			-- add any global capabilities here
 			capabilities = {},
 			-- options for vim.lsp.buf.format
@@ -100,14 +100,13 @@ return {
 		config = function(_, opts)
 			local Util = require("util")
 			require("neoconf").setup()
-
 			-- Setup LSP keys on the buffer
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					local buffer = args.buf ---@type number
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					if client.supports_method("textDocument/inlayHint") then
-						Util.toggle.inlay_hints(buffer, true)
+					if client.server_capabilities.inlayHintProvider then
+						vim.lsp.inlay_hint.enable(true)
 					end
 					vim.keymap.set(
 						"n",
@@ -236,28 +235,77 @@ return {
 		build = ":MasonUpdate",
 		opts = {
 			ensure_installed = {
-				"stylua",
-				"shfmt",
-				"yamlfmt",
-				"gopls",
-				"goimports",
-				"gofumpt",
-				"iferr",
-				"golines",
-				"gotests",
-				"gomodifytags",
+				-- "stylua",
+				-- "shfmt",
+				-- "yamlfmt",
+				-- "gopls",
+				-- "goimports",
+				-- "gofumpt",
+				-- "iferr",
+				-- "golines",
+				-- "gotests",
+				-- "gomodifytags",
+				-- "dockerfile-language-server",
+				-- "yaml-language-server",
+				-- "tailwindcss-language-server",
+				-- "templ",
+				-- "json-lsp",
+				-- "jq-lsp",
+				-- "prettier",
+				-- "markdownlint",
+				-- "luau-lsp",
+				-- "lua-language-server",
+				-- "helm-ls",
+				-- "prettier",
+
+				"asmfmt",
+				"ast-grep",
+				"bash-language-server",
+				"buf",
+				"css-lsp",
+				"cssmodules-language-server",
+				"delve",
+				"docker-compose-language-service",
 				"dockerfile-language-server",
-				"yaml-language-server",
+				"eslint-lsp",
+				"fixjson",
+				"gitlint",
+				"go-debug-adapter",
+				"gofumpt",
+				"goimports",
+				"goimports-reviser",
+				"golangci-lint-langserver",
+				"golines",
+				"gomodifytags",
+				"gopls",
+				"gotests",
+				"gotestsum",
+				"hadolint",
+				"helm-ls",
+				"html-lsp",
+				"htmx-lsp",
+				"iferr",
+				"jq",
+				"jq-lsp",
+				"json-lsp",
+				"json-to-struct",
+				"lua-language-server",
+				"luau-lsp",
+				"markdownlint",
+				"marksman",
+				"nilaway",
+				"prettier",
+				"python-lsp-server",
+				"shfmt",
+				"stylua",
 				"tailwindcss-language-server",
 				"templ",
-				"json-lsp",
-				"jq-lsp",
-				"prettier",
-				"markdownlint",
-				"luau-lsp",
-				"lua-language-server",
-				"helm-ls",
-				"prettier",
+				"ts-standard",
+				"typescript-language-server",
+				"vim-language-server",
+				"yaml-language-server",
+				"yamlfmt",
+				"yamllint",
 			},
 		},
 		---@param opts MasonSettings | {ensure_installed: string[]}
