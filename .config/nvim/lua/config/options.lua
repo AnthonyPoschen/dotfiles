@@ -84,7 +84,7 @@ opt.iskeyword = opt.iskeyword + "-"
 -- Better copy & paste
 -- When you want to paste large blocks of code into vim, press F4 before you
 -- paste. At the bottom you should see ``-- INSERT (paste) --``.
-opt.pastetoggle = "<F4>"
+-- opt.pastetoggle = "<F4>"
 
 -- wild card ignores
 opt.wildignore = opt.wildignore + "*.pyc,*.swp,.git,**/migrations/**,**/beans/**"

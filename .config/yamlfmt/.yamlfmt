@@ -1,5 +1,6 @@
 formatter:
   type: basic
   include_document_start: true
-  indentless_arrays: true
+  indentless_arrays: false
   drop_merge_tag: true
+  pad_line_comments: 1

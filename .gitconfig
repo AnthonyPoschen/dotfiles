@@ -1,24 +1,25 @@
 [core]
-	editor = nvim
-    abbrev = 8
+  editor = nvim
+  abbrev = 8
+  ignorecase = false
 [user]
-	email = zanven42@gmail.com
-	name = Anthony Poschen
+  email = zanven42@gmail.com
+  name = Anthony Poschen
 [branch]
-	autosetuprebase = always
+  autosetuprebase = always
 [fetch]
-    prune = true
-    pruneTags = true
+  prune = true
+  pruneTags = true
 [pull]
-	rebase = true
-	default = current
+  rebase = true
+  default = current
 [push]
-	followTags = true
-	default = upstream
-	autoSetupRemote = true
-	autoSetupRemote = true
+  followTags = true
+  default = upstream
+  autoSetupRemote = true
+  autoSetupRemote = true
 [clean]
-	requireForce = false
+  requireForce = false
 [remote "origin"]
 #   fetch = +refs/heads/*:refs/remotes/origin/*
 #   fetch = +refs/notes/*:refs/notes/*
@@ -36,13 +37,15 @@
 [difftool]
 	prompt = false
 [mergetool "fugitive"]
-    cmd = nvim -f -c\"Gvdiffsplit!\" \"$MERGED\"
+  cmd = nvim -f -c\"Gvdiffsplit!\" \"$MERGED\"
 [credential]
-    helper = store
+  helper = store
 
 [alias]
     # url gets the origin url to make sharing repositories faster
     url = "!git remote get-url origin"
+    # open git url in borwser on macos
+    urlo = "!sh -c \"open -u $(git url)\""
     # chekcout
     co = checkout
     # merge and squash only if other branch is fast forwarded

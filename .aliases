@@ -44,6 +44,7 @@ alias gaa='git add .'
 alias ga='git add'
 alias gcm='git cam'
 alias gs='git status'
+alias gsb='git checkout $(git status -l | fzf)'
 alias gc='git checkout'
 alias gcb='git checkout -b'
 alias gm='git merge'
@@ -65,6 +66,7 @@ alias kl='kubectl logs'
 alias klt='kubectl logs --tail 20'
 alias kdel='kubectl delete'
 alias kpf='kubectl port-forward'
+alias kgnc="kubectl get nodes -L role | fzf | awk '{print \$1}' | xargs -I{} kubectl get --raw \"/api/v1/nodes/{}/proxy/configz\" | jq"
 ## Merge kube configs
 alias kconfmerge='KUBECONFIG=~/.kube/config-work:~/.kube/config-homelab kubectl config view --merge --flatten > ~/.kube/config'
 # alias j2='jinja2'
@@ -101,6 +103,9 @@ alias recordscreen='ffmpeg -f x11grab -video_size 1920x1080 -framerate 25 -i $DI
 alias playscreen='mplayer ~/tmp/screen.mp4'
 alias webcam='ffplay -f video4linux2 -i /dev/video0 -video_size 320x240'
 
+function listErrorPods {
+  kubectl get pods $@ -o json | jq -r '.items[] | select(.status.containerStatuses != null) | select(any(.status.containerStatuses[]; .state.waiting and (.state.waiting.reason == "ImagePullBackOff" or .state.waiting.reason == "ErrImagePull" or .state.waiting.reason == "CrashLoopBackOff") or .state.terminated and .state.terminated.reason == "Error")) | "Namespace: \(.metadata.namespace), Pod: \(.metadata.name), Phase: \(.status.phase), Restarts: \((.status.containerStatuses | map(.restartCount) | add)), Issues: \([.status.containerStatuses[] | select(.state.waiting.reason != null) | .state.waiting.reason] | join(", ")), \([.status.containerStatuses[] | select(.state.terminated.reason != null) | .state.terminated.reason] | join(", "))"'
+}
 # misc
 # alias weather= 'curl http://wttr.in/Sydney'
 # alias weather()
