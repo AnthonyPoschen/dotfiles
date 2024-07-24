@@ -108,6 +108,12 @@ return {
 					if client.server_capabilities.inlayHintProvider then
 						vim.lsp.inlay_hint.enable(true)
 					end
+					if client.server_capabilities.codeLensProvider then
+						vim.lsp.codelens.refresh()
+						vim.keymap.set("n", "<leader>cr", function()
+							vim.lsp.codelens.run()
+						end, { desc = "Lsp codelens run on line", buffer = buffer, silent = true })
+					end
 					vim.keymap.set(
 						"n",
 						"<leader>cl",

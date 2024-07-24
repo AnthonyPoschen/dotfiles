@@ -126,3 +126,22 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
 	end,
 })
+
+-- Whenever we enter a buffer or save a file lets refresh the codelens
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWrite" }, {
+	group = augroup("codelens_refresh"),
+	callback = function(event)
+		if not vim.lsp then
+			return
+		end
+		if not vim.lsp.client then
+			return
+		end
+		if not vim.lsp.client.server_capabilities then
+			return
+		end
+		if vim.lsp.client.server_capabilities.codeLensProvider then
+			vim.lsp.codelens.refresh()
+		end
+	end,
+})

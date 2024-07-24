@@ -14,6 +14,7 @@ function M.get()
     -- stylua: ignore
     M._keys =  {
       { "<leader>cl", "<cmd>LspInfo<cr>", desc = "Lsp Info" },
+      { "<leader>cr", function() vim.lsp.codelens.run() end, desc = "codelens run on line"},
       { "gd", function() require("telescope.builtin").lsp_definitions({ reuse_win = true }) end, desc = "Goto Definition", has = "definition" },
       { "gr", "<cmd>Telescope lsp_references<cr>", desc = "References" },
       { "gD", vim.lsp.buf.declaration, desc = "Goto Declaration" },
@@ -39,22 +40,22 @@ function M.get()
         has = "codeAction",
       }
     }
-	if require("util").has("inc-rename.nvim") then
-		M._keys[#M._keys + 1] = {
-			"<leader>cr",
-			function()
-				local inc_rename = require("inc_rename")
-				return ":" .. inc_rename.config.cmd_name .. " " .. vim.fn.expand("<cword>")
-			end,
-			expr = true,
-			desc = "Rename",
-			has = "rename",
-		}
-	else
-		M._keys[#M._keys + 1] = { "<leader>cr", vim.lsp.buf.rename, desc = "Rename", has = "rename" }
-	end
-	return M._keys
-end
+-- 	if require("util").has("inc-rename.nvim") then
+-- 		M._keys[#M._keys + 1] = {
+-- 			"<leader>cr",
+-- 			function()
+-- 				local inc_rename = require("inc_rename")
+-- 				return ":" .. inc_rename.config.cmd_name .. " " .. vim.fn.expand("<cword>")
+-- 			end,
+-- 			expr = true,
+-- 			desc = "Rename",
+-- 			has = "rename",
+-- 		}
+-- 	else
+-- 		M._keys[#M._keys + 1] = { "<leader>cr", vim.lsp.buf.rename, desc = "Rename", has = "rename" }
+-- 	end
+-- 	return M._keys
+-- end
 
 ---@param method string
 function M.has(buffer, method)
