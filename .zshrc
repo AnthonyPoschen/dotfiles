@@ -134,7 +134,7 @@ setopt HIST_SAVE_NO_DUPS
 # useful alias
 # alias ls='ls -G --color'
 alias ll='ls -lhG '
-alias ls='ls -G'
+alias ls='ls -alGh'
 alias rg='rg -i'
 alias Rg='rg -i'
 
@@ -156,8 +156,9 @@ export PATH="$PATH:$HOME/.bin"
 export PATH="$PATH:$HOME/.node_modules_global/bin"
 export PATH="$PATH:$HOME/.gem/ruby/2.5.0/bin"
 export PATH="$PATH:$HOME/.krew/bin"
-export PATH="/usr/local/Cellar/openssh/8.3p1/bin:$PATH" # temporary fix till ssh fixes it shit in macos
-export PATH="/usr/local/Cellar/openssh/8.3p1/sbin:$PATH" # temporary fix till ssh fixes it shit in macos
+# TODO: Once know normal ssh working again delete the bellow
+# export PATH="/usr/local/Cellar/openssh/8.3p1/bin:$PATH" # temporary fix till ssh fixes it shit in macos
+# export PATH="/usr/local/Cellar/openssh/8.3p1/sbin:$PATH" # temporary fix till ssh fixes it shit in macos
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/bin:$PATH"
 export PATH="$PATH:/Users/zanven/istio-1.5.1/bin"
