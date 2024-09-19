@@ -4,3 +4,4 @@ formatter:
   indentless_arrays: false
   drop_merge_tag: true
   pad_line_comments: 1
+  retain_line_breaks: true

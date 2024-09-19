@@ -25,6 +25,10 @@ map("n", "}", "<cmd>tabnext<cr>", opt_noremap)
 map("n", "+", "<cmd>tabnew<cr>", opt_noremap)
 map("n", "_", "<cmd>tabclose<cr>", opt_noremap)
 
+-- File management
+map("n", "-", "<cmd>Ranger<cr>", opt_noremap)
+map("n", "=", "<cmd>Ranger tabe<cr>", opt_noremap)
+
 -- easier moving of code blocks
 map("v", "<", "<gv", opt_noremap)
 map("v", ">", ">gv", opt_noremap)

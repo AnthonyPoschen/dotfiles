@@ -7,12 +7,6 @@ return {
 				height = 0.8,
 				position = "cc", -- 'cc' = center, tl = top-left, br = bottom-right, tr = top-right, br = bottom-right
 			},
-			open = {
-				["edit"] = "-",
-				["tabedit"] = "=",
-				["split"] = nil,
-				["vsplit"] = nil,
-			},
 		})
 	end,
 }
