@@ -33,7 +33,7 @@ vim.filetype.add({
 		templ = "templ",
 	},
 })
--- opt.listchars = {  eol="↲",tab="-",trail="-",extends=">",precedes="<",nbsp="␣" }
+opt.listchars = { eol = " ", tab = "  ", trail = "-", extends = ">", precedes = "<", nbsp = "␣" }
 opt.list = true
 
 opt.expandtab = true
