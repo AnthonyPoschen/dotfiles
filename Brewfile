@@ -194,7 +194,6 @@ brew "postgresql@14"
 brew "pre-commit", link: false
 brew "putty"
 brew "pv"
-brew "python-markupsafe"
 brew "python@3.10"
 brew "python@3.11"
 brew "python@3.8"
