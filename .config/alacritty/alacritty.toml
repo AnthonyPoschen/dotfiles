@@ -1,0 +1,17 @@
+shell = "/bin/zsh"
+live_config_reload = true
+
+[window]
+# decorations = "None"
+startup_mode = "Fullscreen"
+# option_as_alt = "Both"
+
+[scrolling]
+history = 100000
+
+[font]
+normal = { family = "Fragment Mono", style = "Regular" }
+# normal = { family = "Fira Code", style = "Regular" }
+size = 14.0
+
+
