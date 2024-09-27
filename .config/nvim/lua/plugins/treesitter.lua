@@ -114,7 +114,9 @@ return {
 					return true
 				end, opts.ensure_installed)
 			end
-			require("nvim-treesitter.configs").setup(opts)
+			require("nvim-ts-autotag").setup()
+			-- NOTE: Referene treesitter commented out setup
+			-- require("nvim-treesitter.configs").setup(opts)
 			require("nvim-treesitter.parsers").get_parser_configs().templ = {
 				install_info = {
 					url = "/Users/ap/git/github.com/anthonyposchen/tree-sitter-templ.git/code/indent-support", -- local path or git repo
