@@ -5,7 +5,8 @@ live_config_reload = true
 # decorations = "None"
 startup_mode = "Fullscreen"
 # option_as_alt = "Both"
-
+# my ultra wide doesn't like letting me see the last couple of pixesl :'(
+padding = { x = 3, y = 0 }
 [scrolling]
 history = 100000
 
