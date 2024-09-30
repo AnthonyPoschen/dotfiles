@@ -18,6 +18,7 @@
 \.config/pip
 \.config/containers
 \.config/configstore
+\.config/nvim/lazy-lock.json
 .DS_Store
 ._.DS_Store
 **/.DS_Store

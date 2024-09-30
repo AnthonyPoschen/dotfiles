@@ -5,6 +5,7 @@ alias brew-update='brew bundle -f --file ~/Brewfile && brew bundle dump -f --fil
 # config file edits
 alias conf-nvim='nvim ~/.config/nvim/init.lua'
 alias conf-kitty='nvim ~/.config/kitty/kitty.conf'
+alias conf-alacritty='nvim ~/.config/alacritty/alacritty.toml'
 alias conf-kube='nvim ~/.kube/config'
 alias conf-tmux='nvim ~/.tmux.conf'
 alias conf-zsh='nvim ~/.zshrc'
@@ -52,6 +53,7 @@ alias gms='git merge --squash'
 alias gla='/usr/bin/git log --date-order --graph --pretty=format:'\''%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'\'' --abbrev-commit --date=relative --all'
 
 # kubernetes
+alias k8s='nvim +"lua require(\"kubectl\").open()"'
 alias wkg='watch -n 5 kubectl get'
 alias wkd='watch -n 5 kubectl describe'
 alias kg='kubectl get'
