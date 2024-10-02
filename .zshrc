@@ -138,12 +138,13 @@ alias ls='ls -alGh'
 alias rg='rg -i'
 alias Rg='rg -i'
 
-# for 256 color support
-if [ -n "$TMUX" ]; then
-    export TERM=screen-256color
-else
-    export TERM=xterm-256color
-fi
+# https://gist.github.com/andersevenrud/015e61af2fd264371032763d4ed965b6
+# # for 256 color support
+# if [ -n "$TMUX" ]; then
+#     export TERM=screen-256color
+# else
+#     export TERM=xterm-256color
+# fi
 
 # make jq use nicer colour printing
 export JQ_COLORS="0;90:0;39:0;39:0;39:0;32:1;39:1;39:1;34"
