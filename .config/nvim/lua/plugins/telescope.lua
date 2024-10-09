@@ -1,4 +1,33 @@
 local Util = require("util")
+local telescope_files = function(builtin, opts)
+	local params = { builtin = builtin, opts = opts }
+	return function()
+		builtin = params.builtin
+		opts = params.opts
+		opts = vim.tbl_deep_extend("force", { cwd = Util.root() }, opts or {}) --[[@as util.telescope.opts]]
+		if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
+			opts.show_untracked = true
+			builtin = "git_files"
+		else
+			builtin = "find_files"
+		end
+		if opts.cwd and opts.cwd ~= vim.loop.cwd() then
+			---@diagnostic disable-next-line: inject-field
+			opts.attach_mappings = function(_, map)
+				map("i", "<a-c>", function()
+					local action_state = require("telescope.actions.state")
+					local line = action_state.get_current_line()
+					M.telescope(
+						params.builtin,
+						vim.tbl_deep_extend("force", {}, params.opts or {}, { cwd = false, default_text = line })
+					)()
+				end)
+				return true
+			end
+		end
+		require("telescope.builtin")[builtin](opts)
+	end
+end
 return {
 	{
 		"nvim-telescope/telescope-file-browser.nvim",
@@ -24,10 +53,10 @@ return {
 		-- replace all Telescope keymaps with only one mapping
 		keys = function()
 			return {
-				{ "<leader>/", Util.telescope("live_grep"), desc = "Grep (root dir)" },
+				{ "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Grep (root dir)" },
 				-- { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
 				-- { "<leader><space>", Util.telescope("files"), desc = "Find Files (root dir)" },
-				{ "<space><space>", Util.telescope("files"), desc = "Find files" },
+				{ "<space><space>", telescope_files("files"), desc = "Find files" },
 				-- { "<leader>r", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
 				-- git
 				-- { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
@@ -93,16 +122,16 @@ return {
 			local open_selected_with_trouble = function(...)
 				return require("trouble.providers.telescope").open_selected_with_trouble(...)
 			end
-			local find_files_no_ignore = function()
-				local action_state = require("telescope.actions.state")
-				local line = action_state.get_current_line()
-				Util.telescope("find_files", { no_ignore = true, default_text = line })()
-			end
-			local find_files_with_hidden = function()
-				local action_state = require("telescope.actions.state")
-				local line = action_state.get_current_line()
-				Util.telescope("find_files", { hidden = true, default_text = line })()
-			end
+			-- local find_files_no_ignore = function()
+			-- 	local action_state = require("telescope.actions.state")
+			-- 	local line = action_state.get_current_line()
+			-- 	Util.telescope("find_files", { no_ignore = true, default_text = line })()
+			-- end
+			-- local find_files_with_hidden = function()
+			-- 	local action_state = require("telescope.actions.state")
+			-- 	local line = action_state.get_current_line()
+			-- 	Util.telescope("find_files", { hidden = true, default_text = line })()
+			-- end
 
 			local config_result_prompt = {
 				-- theme = "dropdown",
@@ -117,6 +146,16 @@ return {
 				},
 				show_line = false,
 				results_title = false,
+				git_command = {
+					"git",
+					"ls-files",
+					"--exclude-standard",
+					"--cached",
+					":!:*.meta", -- unity
+					":!:*.asset", -- unity
+					":!:*.prefab", -- unity
+					":!:*.unity", -- unity
+				},
 				-- preview_title = false,
 			}
 

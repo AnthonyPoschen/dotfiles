@@ -1,190 +1,31 @@
-local Util = require("util")
-
+-- which-key helps you remember key bindings by showing a popup
+-- with the active keybindings of the command you started typing.
 return {
 
-	-- file explorer
-	{
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v3.x",
-		cmd = "Neotree",
-		keys = {
-			{
-				"<leader>fe",
-				function()
-					require("neo-tree.command").execute({ toggle = true, dir = Util.root() })
-				end,
-				desc = "Explorer NeoTree (root dir)",
-			},
-			{
-				"<leader>fE",
-				function()
-					require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
-				end,
-				desc = "Explorer NeoTree (cwd)",
-			},
-			{ "<leader>e", "<leader>fe", desc = "Explorer NeoTree (root dir)", remap = true },
-			{ "<leader>E", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
-			{
-				"<leader>ge",
-				function()
-					require("neo-tree.command").execute({ source = "git_status", toggle = true })
-				end,
-				desc = "Git explorer",
-			},
-			{
-				"<leader>be",
-				function()
-					require("neo-tree.command").execute({ source = "buffers", toggle = true })
-				end,
-				desc = "Buffer explorer",
-			},
-		},
-		deactivate = function()
-			vim.cmd([[Neotree close]])
-		end,
-		init = function()
-			if vim.fn.argc(-1) == 1 then
-				local stat = vim.loop.fs_stat(vim.fn.argv(0))
-				if stat and stat.type == "directory" then
-					require("neo-tree")
-				end
-			end
-		end,
-		opts = {
-			sources = { "filesystem", "buffers", "git_status", "document_symbols" },
-			open_files_do_not_replace_types = { "terminal", "Trouble", "trouble", "qf", "Outline" },
-			filesystem = {
-				bind_to_cwd = false,
-				follow_current_file = { enabled = true },
-				use_libuv_file_watcher = true,
-			},
-			window = {
-				mappings = {
-					["<space>"] = "none",
-				},
-			},
-			default_component_configs = {
-				indent = {
-					with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-					expander_collapsed = "",
-					expander_expanded = "",
-					expander_highlight = "NeoTreeExpander",
-				},
-			},
-		},
-		config = function(_, opts)
-			local function on_move(data)
-				Util.lsp.on_rename(data.source, data.destination)
-			end
-
-			local events = require("neo-tree.events")
-			opts.event_handlers = opts.event_handlers or {}
-			vim.list_extend(opts.event_handlers, {
-				{ event = events.FILE_MOVED, handler = on_move },
-				{ event = events.FILE_RENAMED, handler = on_move },
-			})
-			require("neo-tree").setup(opts)
-			vim.api.nvim_create_autocmd("TermClose", {
-				pattern = "*lazygit",
-				callback = function()
-					if package.loaded["neo-tree.sources.git_status"] then
-						require("neo-tree.sources.git_status").refresh()
-					end
-				end,
-			})
-		end,
-	},
-
-	-- search/replace in multiple files
-	{
-		"nvim-pack/nvim-spectre",
-		build = false,
-		cmd = "Spectre",
-		opts = { open_cmd = "noswapfile vnew" },
-    -- stylua: ignore
-    keys = {
-      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
-    },
-	},
-
-	-- TODO: determine if i want the text grayed out when i search shit still
-	--
-	-- Flash enhances the built-in search functionality by showing labels
-	-- at the end of each match, letting you quickly jump to a specific
-	-- location.
-	{
-		"folke/flash.nvim",
-		event = "VeryLazy",
-		vscode = true,
-		---@type Flash.Config
-		opts = {},
-    -- stylua: ignore
-    keys = {
-      -- TODO: Look into using flash to jump search keys nicely with better hotkeys
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      -- { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-    },
-	},
-
-	-- Flash Telescope config
-	{
-		"nvim-telescope/telescope.nvim",
-		optional = true,
-		opts = function(_, opts)
-			if not Util.has("flash.nvim") then
-				return
-			end
-			local function flash(prompt_bufnr)
-				require("flash").jump({
-					pattern = "^",
-					label = { after = { 0, 0 } },
-					search = {
-						mode = "search",
-						exclude = {
-							function(win)
-								return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "TelescopeResults"
-							end,
-						},
-					},
-					action = function(match)
-						local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
-						picker:set_selection(match.pos[1] - 1)
-					end,
-				})
-			end
-			opts.defaults = vim.tbl_deep_extend("force", opts.defaults or {}, {
-				mappings = { n = { s = flash }, i = { ["<c-s>"] = flash } },
-			})
-		end,
-	},
-
-	-- which-key helps you remember key bindings by showing a popup
-	-- with the active keybindings of the command you started typing.
+	{ "jremmen/vim-ripgrep" },
 	{
 		"folke/which-key.nvim",
-		event = "VeryLazy",
+		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		opts = {
 			plugins = { spelling = true },
 			defaults = {
 				mode = { "n", "v" },
-				["g"] = { name = "+goto" },
-				["gs"] = { name = "+surround" },
-				["]"] = { name = "+next" },
-				["["] = { name = "+prev" },
-				["<leader><tab>"] = { name = "+tabs" },
-				["<leader>b"] = { name = "+buffer" },
-				["<leader>c"] = { name = "+code" },
-				["<leader>f"] = { name = "+file/find" },
-				["<leader>g"] = { name = "+git" },
-				["<leader>gh"] = { name = "+hunks" },
-				["<leader>q"] = { name = "+quit/session" },
-				["<leader>s"] = { name = "+search" },
-				["<leader>u"] = { name = "+ui" },
-				["<leader>w"] = { name = "+windows" },
-				["<leader>x"] = { name = "+diagnostics/quickfix" },
+				{ "<leader><tab>", group = "tabs" },
+				{ "<leader>b", group = "buffer" },
+				{ "<leader>c", group = "code" },
+				{ "<leader>f", group = "file/find" },
+				{ "<leader>g", group = "git" },
+				{ "<leader>gh", group = "hunks" },
+				{ "<leader>q", group = "quit/session" },
+				{ "<leader>s", group = "search" },
+				{ "<leader>t", group = "test" },
+				{ "<leader>u", group = "ui" },
+				{ "<leader>w", group = "windows" },
+				{ "<leader>x", group = "diagnostics/quickfix" },
+				{ "[", group = "prev" },
+				{ "]", group = "next" },
+				{ "g", group = "goto" },
+				{ "gs", group = " surround" },
 			},
 		},
 		config = function(_, opts)
@@ -199,7 +40,7 @@ return {
 	-- hunks in a commit.
 	{
 		"lewis6991/gitsigns.nvim",
-		event = "LazyFile",
+		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		opts = {
 			signs = {
 				add = { text = "▎" },
@@ -238,7 +79,7 @@ return {
 	-- instances.
 	{
 		"RRethy/vim-illuminate",
-		event = "LazyFile",
+		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		opts = {
 			delay = 200,
 			large_file_cutoff = 2000,
@@ -302,6 +143,19 @@ return {
 		},
 	},
 
+	-- better error messages
+	{
+		"folke/noice.nvim",
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
+		},
+	},
+
 	-- better diagnostics list and others
 	{
 		"folke/trouble.nvim",
@@ -328,7 +182,7 @@ return {
 				open_code_href = "c", -- if present, open a URI with more information about the diagnostic error
 				close_folds = { "zM", "zm" }, -- close all folds
 				open_folds = { "zR", "zr" }, -- open all folds
-				toggle_fold = { "zA", "za" }, -- toggle fold of current file
+				toggle_fold = { "zA", "za", "h", ";" }, -- toggle fold of current file
 				previous = "k", -- previous item
 				next = "j", -- next item
 				help = "?", -- help menu
@@ -384,7 +238,7 @@ return {
 	{
 		"folke/todo-comments.nvim",
 		cmd = { "TodoTrouble", "TodoTelescope" },
-		event = "LazyFile",
+		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		config = true,
     -- stylua: ignore
     keys = {
@@ -395,5 +249,47 @@ return {
       { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
       { "<leader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
     },
+	},
+
+	{
+		"sindrets/diffview.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		opts = {
+			keymaps = {
+				view = {
+					["<c-c>"] = "<cmd>tabc<cr>",
+				},
+				file_history_panel = {
+					["<c-c>"] = "<cmd>tabc<cr>",
+				},
+				file_panel = {
+					["<c-c>"] = "<cmd>tabc<cr>",
+				},
+			},
+			view = {
+				-- Available layouts:
+				--  'diff1_plain'
+				--    |'diff2_horizontal'
+				--    |'diff2_vertical'
+				--    |'diff3_horizontal'
+				--    |'diff3_vertical'
+				--    |'diff3_mixed'
+				--    |'diff4_mixed'
+				default = {
+					-- layout = "diff2_horizontal", -- Default
+					layout = "diff2_horizontal",
+				},
+				merge_tool = {
+					-- Config for conflicted files in diff views during a merge or rebase.
+					layout = "diff3_horizontal",
+				},
+				file_history = {
+					-- Config for changed files in file history views.
+					layout = "diff2_horizontal",
+				},
+			},
+		},
 	},
 }

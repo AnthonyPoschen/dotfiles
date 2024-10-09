@@ -1,3 +1,4 @@
+-- Used in telescope definition and maybe git fugitive
 local format_commit_message = require("telescope._extensions.conventional_commits.utils.format_commit_message")
 local actions = {}
 actions.commit = function(t, inputs)

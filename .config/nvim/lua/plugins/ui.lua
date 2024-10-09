@@ -1,7 +1,72 @@
 local Util = require("util")
 
+local icons = {
+	misc = {
+		dots = "󰇘",
+	},
+	dap = {
+		Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
+		Breakpoint = " ",
+		BreakpointCondition = " ",
+		BreakpointRejected = { " ", "DiagnosticError" },
+		LogPoint = ".>",
+	},
+	diagnostics = {
+		Error = " ",
+		Warn = " ",
+		Hint = " ",
+		Info = " ",
+	},
+	git = {
+		added = " ",
+		modified = " ",
+		removed = " ",
+	},
+	kinds = {
+		Array = " ",
+		Boolean = "󰨙 ",
+		Class = " ",
+		Codeium = "󰘦 ",
+		Color = " ",
+		Control = " ",
+		Collapsed = " ",
+		Constant = "󰏿 ",
+		Constructor = " ",
+		Copilot = " ",
+		Enum = " ",
+		EnumMember = " ",
+		Event = " ",
+		Field = " ",
+		File = " ",
+		Folder = " ",
+		Function = "󰊕 ",
+		Interface = " ",
+		Key = " ",
+		Keyword = " ",
+		Method = "󰊕 ",
+		Module = " ",
+		Namespace = "󰦮 ",
+		Null = " ",
+		Number = "󰎠 ",
+		Object = " ",
+		Operator = " ",
+		Package = " ",
+		Property = " ",
+		Reference = " ",
+		Snippet = " ",
+		String = " ",
+		Struct = "󰆼 ",
+		TabNine = "󰏚 ",
+		Text = " ",
+		TypeParameter = " ",
+		Unit = " ",
+		Value = " ",
+		Variable = "󰀫 ",
+	},
+}
 return {
 	-- Better `vim.notify()`
+	-- This handles fancy notify such as proress counters
 	{
 		"rcarriga/nvim-notify",
 		dependencies = { "catppuccin" },
@@ -32,8 +97,8 @@ return {
 			end,
 		},
 	},
-
 	-- better vim.ui
+	-- this does the nice popups for `vim.ui.select()` and `vim.ui.input()`
 	{
 		"stevearc/dressing.nvim",
 		lazy = true,
@@ -57,7 +122,6 @@ return {
 			end
 		end,
 	},
-
 	-- statusline
 	{
 		"nvim-lualine/lualine.nvim",
@@ -80,10 +144,85 @@ return {
 			local lualine_require = require("lualine_require")
 			lualine_require.require = require
 
-			local icons = require("config").icons
+			-- local icons = require("config").icons
 
 			vim.o.laststatus = vim.g.lualine_laststatus
+			---@param opts? {relative: "cwd"|"root", modified_hl: string?}
+			local function pretty_path(opts)
+				opts = vim.tbl_extend("force", {
+					relative = "cwd",
+					modified_hl = "Constant",
+				}, opts or {})
 
+				return function(self)
+					local path = vim.fn.expand("%:p") --[[@as string]]
+
+					if path == "" then
+						return ""
+					end
+					local root = Util.root.get({ normalize = true })
+					local cwd = Util.root.cwd()
+
+					if opts.relative == "cwd" and path:find(cwd, 1, true) == 1 then
+						path = path:sub(#cwd + 2)
+					else
+						path = path:sub(#root + 2)
+					end
+
+					local sep = package.config:sub(1, 1)
+					local parts = vim.split(path, "[\\/]")
+					if #parts > 3 then
+						parts = { parts[1], "…", parts[#parts - 1], parts[#parts] }
+					end
+
+					if opts.modified_hl and vim.bo.modified then
+						parts[#parts] = M.format(self, parts[#parts], opts.modified_hl)
+					end
+
+					return table.concat(parts, sep)
+				end
+			end
+
+			---@param opts? {cwd:false, subdirectory: true, parent: true, other: true, icon?:string}
+			local function root_dir(opts)
+				opts = vim.tbl_extend("force", {
+					cwd = false,
+					subdirectory = true,
+					parent = true,
+					other = true,
+					icon = "󱉭 ",
+					color = Util.ui.fg("Special"),
+				}, opts or {})
+
+				local function get()
+					local cwd = Util.root.cwd()
+					local root = Util.root.get({ normalize = true })
+					local name = vim.fs.basename(root)
+
+					if root == cwd then
+						-- root is cwd
+						return opts.cwd and name
+					elseif root:find(cwd, 1, true) == 1 then
+						-- root is subdirectory of cwd
+						return opts.subdirectory and name
+					elseif cwd:find(root, 1, true) == 1 then
+						-- root is parent directory of cwd
+						return opts.parent and name
+					else
+						-- root and cwd are not related
+						return opts.other and name
+					end
+				end
+				return {
+					function()
+						return (opts.icon and opts.icon .. " ") .. get()
+					end,
+					cond = function()
+						return type(get()) == "string"
+					end,
+					color = opts.color,
+				}
+			end
 			return {
 				options = {
 					theme = "auto",
@@ -95,7 +234,7 @@ return {
 					lualine_b = { "branch" },
 
 					lualine_c = {
-						Util.lualine.root_dir(),
+						root_dir(),
 						{
 							"diagnostics",
 							symbols = {
@@ -106,7 +245,7 @@ return {
 							},
 						},
 						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-						{ Util.lualine.pretty_path() },
+						{ pretty_path() },
 					},
 					lualine_x = {
             -- stylua: ignore
@@ -165,11 +304,10 @@ return {
 			}
 		end,
 	},
-
 	-- indent guides for Neovim
 	{
 		"lukas-reineke/indent-blankline.nvim",
-		event = "LazyFile",
+		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		opts = {
 			indent = {
 				char = "│",
@@ -201,7 +339,7 @@ return {
 	{
 		"echasnovski/mini.indentscope",
 		version = false, -- wait till new 0.7.0 release to put it back on semver
-		event = "LazyFile",
+		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		opts = {
 			-- symbol = "▏",
 			symbol = "│",
@@ -228,18 +366,6 @@ return {
 			})
 		end,
 	},
-
-	-- Displays a popup with possible key bindings of the command you started typing
-	{
-		"folke/which-key.nvim",
-		dependencies = {
-			"folke/noice.nvim",
-		},
-		opts = {
-			defaults = { ["<leader>sn"] = { name = "+noice" } },
-		},
-	},
-
 	-- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
 	{
 		"folke/noice.nvim",
@@ -281,6 +407,10 @@ return {
       { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
       { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} },
       { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}},
+			-- remove scrolling so that we can overwrite vim default scrolling
+			-- harpoon wants these keys
+			-- { "<C-f>", false, mode = { "i", "n", "s" } },
+			-- { "<C-b>", false, mode = { "i", "n", "s" } },
     },
 	},
 
@@ -289,4 +419,178 @@ return {
 
 	-- ui components
 	{ "MunifTanjim/nui.nvim", lazy = true },
+	{
+		-- edgy
+		{
+			"folke/edgy.nvim",
+			event = "VeryLazy",
+			keys = {
+				{
+					"<leader>ue",
+					function()
+						require("edgy").toggle()
+					end,
+					desc = "Edgy Toggle",
+				},
+      -- stylua: ignore
+      { "<leader>uE", function() require("edgy").select() end, desc = "Edgy Select Window" },
+			},
+			opts = function()
+				local opts = {
+					bottom = {
+						{
+							ft = "toggleterm",
+							size = { height = 0.4 },
+							filter = function(buf, win)
+								return vim.api.nvim_win_get_config(win).relative == ""
+							end,
+						},
+						{
+							ft = "noice",
+							size = { height = 0.4 },
+							filter = function(buf, win)
+								return vim.api.nvim_win_get_config(win).relative == ""
+							end,
+						},
+						{
+							ft = "lazyterm",
+							title = "LazyTerm",
+							size = { height = 0.4 },
+							filter = function(buf)
+								return not vim.b[buf].lazyterm_cmd
+							end,
+						},
+						"Trouble",
+						{
+							ft = "trouble",
+							filter = function(buf, win)
+								return vim.api.nvim_win_get_config(win).relative == ""
+							end,
+						},
+						{ ft = "qf", title = "QuickFix" },
+						{
+							ft = "help",
+							size = { height = 20 },
+							-- don't open help files in edgy that we're editing
+							filter = function(buf)
+								return vim.bo[buf].buftype == "help"
+							end,
+						},
+						{ title = "Spectre", ft = "spectre_panel", size = { height = 0.4 } },
+						{ title = "Neotest Output", ft = "neotest-output-panel", size = { height = 15 } },
+					},
+					left = {
+						{
+							title = "Neo-Tree",
+							ft = "neo-tree",
+							filter = function(buf)
+								return vim.b[buf].neo_tree_source == "filesystem"
+							end,
+							pinned = true,
+							open = function()
+								vim.api.nvim_input("<esc><space>e")
+							end,
+							size = { height = 0.5 },
+						},
+						{ title = "Neotest Summary", ft = "neotest-summary" },
+						{
+							title = "Neo-Tree Git",
+							ft = "neo-tree",
+							filter = function(buf)
+								return vim.b[buf].neo_tree_source == "git_status"
+							end,
+							pinned = true,
+							open = "Neotree position=right git_status",
+						},
+						{
+							title = "Neo-Tree Buffers",
+							ft = "neo-tree",
+							filter = function(buf)
+								return vim.b[buf].neo_tree_source == "buffers"
+							end,
+							pinned = true,
+							open = "Neotree position=top buffers",
+						},
+						"neo-tree",
+					},
+					keys = {
+						-- increase width
+						["<c-Right>"] = function(win)
+							win:resize("width", 2)
+						end,
+						-- decrease width
+						["<c-Left>"] = function(win)
+							win:resize("width", -2)
+						end,
+						-- increase height
+						["<c-Up>"] = function(win)
+							win:resize("height", 2)
+						end,
+						-- decrease height
+						["<c-Down>"] = function(win)
+							win:resize("height", -2)
+						end,
+					},
+				}
+				return opts
+			end,
+		},
+
+		-- use edgy's selection window
+		{
+			"nvim-telescope/telescope.nvim",
+			optional = true,
+			opts = {
+				defaults = {
+					get_selection_window = function()
+						require("edgy").goto_main()
+						return 0
+					end,
+				},
+			},
+		},
+
+		-- prevent neo-tree from opening files in edgy windows
+		{
+			"nvim-neo-tree/neo-tree.nvim",
+			optional = true,
+			opts = function(_, opts)
+				opts.open_files_do_not_replace_types = opts.open_files_do_not_replace_types
+					or { "terminal", "Trouble", "qf", "Outline", "trouble" }
+				table.insert(opts.open_files_do_not_replace_types, "edgy")
+			end,
+		},
+
+		-- Fix bufferline offsets when edgy is loaded
+		{
+			"akinsho/bufferline.nvim",
+			optional = true,
+			opts = function()
+				local Offset = require("bufferline.offset")
+				if not Offset.edgy then
+					local get = Offset.get
+					Offset.get = function()
+						if package.loaded.edgy then
+							local layout = require("edgy.config").layout
+							local ret = { left = "", left_size = 0, right = "", right_size = 0 }
+							for _, pos in ipairs({ "left", "right" }) do
+								local sb = layout[pos]
+								if sb and #sb.wins > 0 then
+									local title = " Sidebar" .. string.rep(" ", sb.bounds.width - 8)
+									ret[pos] = "%#EdgyTitle#" .. title .. "%*" .. "%#WinSeparator#│%*"
+									ret[pos .. "_size"] = sb.bounds.width
+								end
+							end
+							ret.total_size = ret.left_size + ret.right_size
+							if ret.total_size > 0 then
+								return ret
+							end
+						end
+						return get()
+					end
+					Offset.edgy = true
+				end
+			end,
+		},
+	},
 }

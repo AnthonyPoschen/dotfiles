@@ -1,7 +1,3 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
--- extra doco https://www.lazyvim.org/configuration/general
 local utils = require("utils")
 local map = vim.keymap.set
 local g = vim.g
@@ -11,6 +7,9 @@ local opt_noremap_silent = { noremap = true, silent = true }
 
 -- map leader
 g.mapleader = " "
+g.maplocalleader = "\\"
+
+--TODO: disable this keymap eventually
 map("i", "jj", "<Esc>", opt_noremap)
 
 map("n", "n", "nzz")
@@ -79,7 +78,8 @@ map(
 -- map("i", "<C-Space>", 'copilot#Accept("<CR>")', { silent = true, expr = true, script = true })
 
 -- map('n', '<Leader>g', ':Telescope live_grep<CR>', opt_noremap)
-map("n", "<Leader>b", ":Telescope buffers<CR>", opt_noremap)
+-- TODO: This is a good keymap, but it's conflicting with the mini.bufremove keymaps
+-- map("n", "<Leader>b", ":Telescope buffers<CR>", opt_noremap)
 
 -- Golang Config
 utils.create_augroup({

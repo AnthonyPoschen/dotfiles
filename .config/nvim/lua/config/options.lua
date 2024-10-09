@@ -24,7 +24,18 @@ opt.sw = 4
 opt.sts = 4
 opt.colorcolumn = "80"
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "css", "html", "javascript", "vue", "yaml", "yml", "typescript", "typescriptreact", "json", "templ" },
+	pattern = {
+		"css",
+		"html",
+		"javascript",
+		"vue",
+		"yaml",
+		"yml",
+		"typescript",
+		"typescriptreact",
+		"json",
+		"templ",
+	},
 	command = "setlocal ts=2 sw=2 sts=2",
 })
 -- additional filetypes
@@ -151,16 +162,17 @@ opt.fillchars = {
 }
 opt.foldlevel = 99
 
-opt.foldtext = "v:lua.require'util'.ui.foldtext()"
-opt.statuscolumn = [[%!v:lua.require'util'.ui.statuscolumn()]]
+--TODO: review if needed once util refactor done
+-- opt.foldtext = "v:lua.require'util'.ui.foldtext()"
+-- opt.statuscolumn = [[%!v:lua.require'util'.ui.statuscolumn()]]
 -- HACK: causes freezes on <= 0.9, so only enable on >= 0.10 for now
-if vim.fn.has("nvim-0.10") == 1 then
-	vim.opt.foldmethod = "expr"
-	vim.opt.foldexpr = "v:lua.require'util'.ui.foldexpr()" -- this line causes :e to freeze
-else
-	vim.opt.foldmethod = "indent"
-end
-vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+-- if vim.fn.has("nvim-0.10") == 1 then
+-- 	vim.opt.foldmethod = "expr"
+-- 	vim.opt.foldexpr = "v:lua.require'util'.ui.foldexpr()" -- this line causes :e to freeze
+-- else
+-- 	vim.opt.foldmethod = "indent"
+-- end
+-- vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0

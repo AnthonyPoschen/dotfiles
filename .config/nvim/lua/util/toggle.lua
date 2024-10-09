@@ -45,10 +45,10 @@ local enabled = true
 function M.diagnostics()
 	enabled = not enabled
 	if enabled then
-		vim.diagnostic.enable()
+		vim.diagnostic.enable(true)
 		Util.info("Enabled diagnostics", { title = "Diagnostics" })
 	else
-		vim.diagnostic.disable()
+		vim.diagnostic.enable(false)
 		Util.warn("Disabled diagnostics", { title = "Diagnostics" })
 	end
 end

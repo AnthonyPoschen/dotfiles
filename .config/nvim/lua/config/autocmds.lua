@@ -1,7 +1,3 @@
--- Autocmds are automatically loaded on the VeryLazy event
--- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
--- Add any additional autocmds here
-
 -- fix kitty terminal font map when leaving vim
 -- vim.cmd("autocmd VimLeave <cmd>lua os.execute(\"kitty @ --to unix:/tmp/kitty ret-font-size '0'\")<CR>")
 local function augroup(name)
@@ -28,6 +24,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- 	end,
 -- })
 
+-- TODO: make alacritty work with this
 -- fix kitty on shutdown
 vim.api.nvim_create_autocmd({ "VimLeave", "VimLeavePre" }, {
 	callback = function(ev, opts)
