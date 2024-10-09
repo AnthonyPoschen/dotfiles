@@ -139,8 +139,44 @@ return {
 
 	-- Automatically add closing tags for HTML and JSX
 	{
+		-- dir = "/Users/ap/git/github.com/anthonyposchen/nvim-ts-autotag/",
+		-- "anthonyposchen/nvim-ts-autotag",
+		-- branch = "templ-and-cr-indent",
 		"windwp/nvim-ts-autotag",
 		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+		opts = {
+			filetypes = {
+				"html",
+				"templ",
+				"javascript",
+				"typescript",
+				"javascriptreact",
+				"typescriptreact",
+				"svelte",
+				"vue",
+				"tsx",
+				"jsx",
+				"rescript",
+				"xml",
+				"php",
+				"markdown",
+				"astro",
+				"glimmer",
+				"handlebars",
+				"hbs",
+			},
+		},
+	},
+	-- auto pairs
+	{
+		"echasnovski/mini.pairs",
+		event = "VeryLazy",
 		opts = {},
+	},
+	{
+		"windwp/nvim-autopairs",
+		-- dir = "/Users/ap/git/github.com/anthonyposchen/nvim-autopairs.git/code/templ",
+		event = "InsertEnter",
+		opts = {}, -- this is equalent to setup({}) function
 	},
 }
