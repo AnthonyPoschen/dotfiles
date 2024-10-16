@@ -5,6 +5,9 @@ local opt_noremap = { noremap = true }
 local opt_noremap_silent = { noremap = true, silent = true }
 -- local opt_silent = { silent = true }
 
+-- delete conflicts
+vim.keymap.del("n", "gcc")
+vim.keymap.del("n", "gc")
 -- map leader
 g.mapleader = " "
 g.maplocalleader = "\\"
