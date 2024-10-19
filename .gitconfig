@@ -18,6 +18,8 @@
   default = upstream
   autoSetupRemote = true
   autoSetupRemote = true
+[rerere]
+	enabled = true
 [clean]
   requireForce = false
 [remote "origin"]
