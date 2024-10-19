@@ -1,6 +1,11 @@
 return {
 	{ "nvim-neotest/nvim-nio" },
-	{ "leoluz/nvim-dap-go", opts = {}, dependencies = { "mfussenegger/nvim-dap" } },
+	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
+	{
+		"leoluz/nvim-dap-go",
+		opts = {},
+		dependencies = { "mfussenegger/nvim-dap" },
+	},
 	{
 		"nvim-neotest/neotest",
 		dependencies = {
@@ -8,37 +13,38 @@ return {
 			"nvim-lua/plenary.nvim",
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
-			{
-				"fredrikaverpil/neotest-golang",
-				version = "*", -- Installation
-				dependencies = {
-					{
-						"leoluz/nvim-dap-go",
-						opts = {},
-					},
-				},
-			},
+			"nvim-neotest/neotest-go",
+			-- {
+			-- 	"fredrikaverpil/neotest-golang",
+			-- 	version = "*", -- Installation
+			-- 	dependencies = {
+			-- 		{
+			-- 			"leoluz/nvim-dap-go",
+			-- 			opts = {},
+			-- 		},
+			-- 	},
+			-- },
 		},
 		opts = {
 			-- Can be a list of adapters like what neotest expects,
 			-- or a list of adapter names,
 			-- or a table of adapter names, mapped to adapter configs.
 			-- The adapter will then be automatically loaded with the config.
-			adapters = {
-				["neotest-golang"] = {
-					go_test_args = {
-						"-v",
-						"-race",
-						"-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
-					},
-				}, -- Registration
-			},
-			-- Example for loading neotest-go with a custom config
 			-- adapters = {
-			--   ["neotest-go"] = {
-			--     args = { "-tags=integration" },
-			--   },
+			-- 	["neotest-golang"] = {
+			-- 		go_test_args = {
+			-- 			"-v",
+			-- 			"-race",
+			-- 			"-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
+			-- 		},
+			-- 	}, -- Registration
 			-- },
+			-- Example for loading neotest-go with a custom config
+			adapters = {
+				["neotest-go"] = {
+					args = { "-tags=integration" },
+				},
+			},
 			status = { virtual_text = true },
 			output = { open_on_run = true },
 			quickfix = {
@@ -120,18 +126,17 @@ return {
 				end
 				opts.adapters = adapters
 			end
-
 			require("neotest").setup(opts)
 		end,
     -- stylua: ignore
     keys = {
-      { "<leader>tt", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File" },
-      { "<leader>tT", function() require("neotest").run.run(vim.loop.cwd()) end, desc = "Run All Test Files" },
-      { "<leader>tr", function() require("neotest").run.run() end, desc = "Run Nearest" },
-      { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Toggle Summary" },
+      { "<leader>tt", function() require("neotest").run.run(vim.fn.expand("%")) end,                      desc = "Run File" },
+      { "<leader>tT", function() require("neotest").run.run(vim.loop.cwd()) end,                          desc = "Run All Test Files" },
+      { "<leader>tr", function() require("neotest").run.run() end,                                        desc = "Run Nearest" },
+      { "<leader>ts", function() require("neotest").summary.toggle() end,                                 desc = "Toggle Summary" },
       { "<leader>to", function() require("neotest").output.open({ enter = true, auto_close = true }) end, desc = "Show Output" },
-      { "<leader>tO", function() require("neotest").output_panel.toggle() end, desc = "Toggle Output Panel" },
-      { "<leader>tS", function() require("neotest").run.stop() end, desc = "Stop" },
+      { "<leader>tO", function() require("neotest").output_panel.toggle() end,                            desc = "Toggle Output Panel" },
+      { "<leader>tS", function() require("neotest").run.stop() end,                                       desc = "Stop" },
     },
 	},
 	{
@@ -139,7 +144,7 @@ return {
 		optional = true,
     -- stylua: ignore
     keys = {
-      { "<leader>td", function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug Nearest" },
+      { "<leader>td", function() require("neotest").run.run({ strategy = "dap" }) end, desc = "Debug Nearest" },
     },
 	},
 }
