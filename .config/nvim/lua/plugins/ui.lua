@@ -230,11 +230,23 @@ return {
 					disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
 				},
 				sections = {
-					lualine_a = { "mode" },
+					lualine_a = {
+						{ "mode" },
+						{
+							"harpoon2",
+							-- icon = "♥",
+							-- indicators = { "a", "s", "q", "w" },
+							-- active_indicators = { "A", "S", "Q", "W" },
+							color_active = { fg = "#00ff00" },
+							-- _separator = " ",
+							-- no_harpoon = "Harpoon not loaded",
+						},
+					},
 					lualine_b = { "branch" },
-
 					lualine_c = {
 						root_dir(),
+						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
+						{ pretty_path() },
 						{
 							"diagnostics",
 							symbols = {
@@ -244,8 +256,6 @@ return {
 								hint = icons.diagnostics.Hint,
 							},
 						},
-						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-						{ pretty_path() },
 					},
 					lualine_x = {
             -- stylua: ignore
@@ -263,7 +273,7 @@ return {
             -- stylua: ignore
             {
               function() return "  " .. require("dap").status() end,
-              cond = function () return package.loaded["dap"] and require("dap").status() ~= "" end,
+              cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
               color = Util.ui.fg("Debug"),
             },
 						{
@@ -400,17 +410,17 @@ return {
 		},
     -- stylua: ignore
     keys = {
-      { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
-      { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
-      { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
-      { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
-      { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
-      { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} },
-      { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}},
-			-- remove scrolling so that we can overwrite vim default scrolling
-			-- harpoon wants these keys
-			-- { "<C-f>", false, mode = { "i", "n", "s" } },
-			-- { "<C-b>", false, mode = { "i", "n", "s" } },
+      { "<S-Enter>",   function() require("noice").redirect(vim.fn.getcmdline()) end,                 mode = "c",                 desc = "Redirect Cmdline" },
+      { "<leader>snl", function() require("noice").cmd("last") end,                                   desc = "Noice Last Message" },
+      { "<leader>snh", function() require("noice").cmd("history") end,                                desc = "Noice History" },
+      { "<leader>sna", function() require("noice").cmd("all") end,                                    desc = "Noice All" },
+      { "<leader>snd", function() require("noice").cmd("dismiss") end,                                desc = "Dismiss All" },
+      { "<c-f>",       function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,  silent = true,              expr = true,              desc = "Scroll forward",  mode = { "i", "n", "s" } },
+      { "<c-b>",       function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,              expr = true,              desc = "Scroll backward", mode = { "i", "n", "s" } },
+      -- remove scrolling so that we can overwrite vim default scrolling
+      -- harpoon wants these keys
+      -- { "<C-f>", false, mode = { "i", "n", "s" } },
+      -- { "<C-b>", false, mode = { "i", "n", "s" } },
     },
 	},
 
@@ -432,8 +442,8 @@ return {
 					end,
 					desc = "Edgy Toggle",
 				},
-      -- stylua: ignore
-      { "<leader>uE", function() require("edgy").select() end, desc = "Edgy Select Window" },
+        -- stylua: ignore
+        { "<leader>uE", function() require("edgy").select() end, desc = "Edgy Select Window" },
 			},
 			opts = function()
 				local opts = {

@@ -19,6 +19,13 @@ return {
 		dependencies = { "nvim-lua/plenary.nvim", "notify" },
 		config = function(_, opts)
 			require("harpoon"):setup(opts)
+			-- require("harpoon-tabline").setup()
+
+			local utils = require("utils")
+			utils.create_augroup({
+				{ "FileType", "harpoon", "nnoremap", "<buffer>", "<C-j>", "<cmd>m +1<CR>" },
+				{ "FileType", "harpoon", "nnoremap", "<buffer>", "<C-k>", "<cmd>m -2<CR>" },
+			}, "harpoon_custom")
 		end,
 		opts = {
 			settings = {
@@ -27,17 +34,7 @@ return {
 		},
 		keys = {
 			{
-				"<C-n>",
-				function()
-					require("harpoon"):list():add()
-					require("notify")("Buffer added", "info", {
-						title = "harpoon",
-					})
-				end,
-				desc = "Add File to Harpoon",
-			},
-			{
-				"<C-b>",
+				"<leader>h",
 				function()
 					local harpoon = require("harpoon")
 					harpoon.ui:toggle_quick_menu(harpoon:list())
@@ -45,32 +42,55 @@ return {
 				{ desc = "Harpoon menu", noremap = true, mode = { "n" } },
 			},
 			{
-				"<C-f>",
+				"<C-h>",
+				function()
+					require("harpoon"):list():add()
+					-- require("notify")("Buffer added", "info", {
+					-- 	title = "harpoon",
+					-- })
+				end,
+				desc = "Add File to Harpoon",
+			},
+			{
+				"<C-j>",
 				function()
 					require("harpoon"):list():select(1)
 				end,
 				{ desc = "Harpoon Select 1", noremap = true, mode = { "n" } },
 			},
 			{
-				"<C-j>",
+				"<C-k>",
 				function()
 					require("harpoon"):list():select(2)
 				end,
 				{ desc = "Harpoon Select 2", noremamp = true, mode = { "n" } },
 			},
 			{
-				"<C-k>",
+				"<C-l>",
 				function()
 					require("harpoon"):list():select(3)
 				end,
 				{ desc = "Harpoon Select 3", noremap = true, mode = { "n" } },
 			},
 			{
-				"<C-e>",
+				"<C-;>",
 				function()
 					require("harpoon"):list():select(4)
 				end,
 				{ desc = "Harpoon Select 4", noremap = true, mode = { "n" } },
+			},
+		},
+	},
+	-- {
+	-- 	"jasonpanosso/harpoon-tabline.nvim",
+	-- 	dependencies = { "ThePrimeagen/harpoon" },
+	-- },
+	{
+		"letieu/harpoon-lualine",
+		dependencies = {
+			{
+				"ThePrimeagen/harpoon",
+				branch = "harpoon2",
 			},
 		},
 	},

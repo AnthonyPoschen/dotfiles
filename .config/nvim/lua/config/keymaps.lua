@@ -38,8 +38,8 @@ map("v", ">", ">gv", opt_noremap)
 -- Add extra pagination keys to make navigating up, down and between windows easier
 map("n", "<C-d>", "<C-d>zz", opt_noremap)
 map("n", "<C-u>", "<C-u>zz", opt_noremap)
-map("n", "<C-l>", "<C-w>w", opt_noremap)
-map("n", "<C-h>", "<C-w>W", opt_noremap)
+-- map("n", "<C-l>", "<C-w>w", opt_noremap) -- NOTE: Disabled window switching here
+-- map("n", "<C-h>", "<C-w>W", opt_noremap) --NOTE: disabled window switching here
 
 -- allow scrolling previous console commands, invert direction to feel more natural
 -- map('c', '<C-j>', '<Up>', opt_noremap)
@@ -100,10 +100,6 @@ utils.create_ft_augroup("go", {
 	{ "nnoremap", "<leader>ee", "oif err != nil {<CR>}<ESC>Oreturn err<ESC>" },
 }, "goKeys")
 
-utils.create_augroup({
-	{ "FileType", "harpoon", "nnoremap", "<buffer>", "<C-j>", "<cmd>m +1<CR>" },
-	{ "FileType", "harpoon", "nnoremap", "<buffer>", "<C-k>", "<cmd>m -2<CR>" },
-}, "harpoon_custom")
 -- CMP / LSP
 -- map('n', '<Space>e', vim.diagnostic.open_float, opt_noremap_silent)
 -- map('n', '[d', vim.diagnostic.goto_prev, opt_noremap_silent)
@@ -143,9 +139,6 @@ map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result
 map("i", ",", ",<c-g>u")
 map("i", ".", ".<c-g>u")
 map("i", ";", ";<c-g>u")
-
--- lazy
-map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 -- new file
 map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })

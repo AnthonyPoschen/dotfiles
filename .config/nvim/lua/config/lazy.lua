@@ -34,7 +34,7 @@ require("lazy").setup({
 		enabled = true,
 		notify = false, -- get a notification when changes are found
 	},
-	install = { colorscheme = { "catppuccin", "tokyonight", "habamax" } },
+	install = { colorscheme = { "tokyonight", "catppuccin", "habamax" } },
 	checker = { enabled = true }, -- automatically check for plugin updates
 	performance = {
 		cache = {
@@ -54,11 +54,13 @@ require("lazy").setup({
 			},
 		},
 	},
-	custom_keys = {
-		-- disable default keys
-		["<localleader>l"] = false,
-		["<localleader>t"] = false,
-		["gc"] = false,
-		["gcc"] = false,
+	ui = {
+		custom_keys = {
+			-- disable default keys
+			["<localleader>l"] = false,
+			["<localleader>t"] = false,
+			["gc"] = false,
+			["gcc"] = false,
+		},
 	},
 })
