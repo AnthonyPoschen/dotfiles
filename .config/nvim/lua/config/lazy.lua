@@ -34,7 +34,7 @@ require("lazy").setup({
 		enabled = true,
 		notify = false, -- get a notification when changes are found
 	},
-	install = { colorscheme = { "tokyonight", "catppuccin", "habamax" } },
+	install = { colorscheme = { "tokyonight", "habamax" } }, -- "catppuccin"
 	checker = { enabled = true }, -- automatically check for plugin updates
 	performance = {
 		cache = {

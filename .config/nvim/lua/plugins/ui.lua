@@ -69,7 +69,7 @@ return {
 	-- This handles fancy notify such as proress counters
 	{
 		"rcarriga/nvim-notify",
-		dependencies = { "catppuccin" },
+		dependencies = { "folke/tokyonight.nvim" },
 		name = "notify",
 		keys = {
 			{
