@@ -110,7 +110,7 @@ return {
 		config = function(_, opts)
 			local configs = require("nvim-treesitter.configs")
 			configs.setup(opts)
-			require("nvim-ts-autotag").setup()
+			-- require("nvim-ts-autotag").setup()
 			-- NOTE: Referene treesitter commented out setup
 			-- require("nvim-treesitter.configs").setup(opts)
 			require("nvim-treesitter.parsers").get_parser_configs().templ = {
@@ -136,6 +136,9 @@ return {
 		-- branch = "templ-and-cr-indent",
 		"windwp/nvim-ts-autotag",
 		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+		config = function(opts)
+			require("nvim-ts-autotag").setup(opts) 
+		end,
 		opts = {
 			filetypes = {
 				"html",
@@ -157,6 +160,14 @@ return {
 				"handlebars",
 				"hbs",
 			},
+			-- Also override individual filetype configs, these take priority.
+			-- Empty by default, useful if one of the "opts" global settings
+			-- doesn't work well in a specific filetype
+			-- per_filetype = {
+			-- 	["html"] = {
+			-- 		enable_close = false,
+			-- 	},
+			-- },
 		},
 	},
 	-- auto pairs
