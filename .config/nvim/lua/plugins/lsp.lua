@@ -219,6 +219,7 @@ return {
 							checkThirdParty = false,
 							library = {
 								"${3rd}/luv/library",
+								"/Users/ap/.local/factorio",
 								unpack(vim.api.nvim_get_runtime_file("", true)),
 							},
 						},

@@ -20,6 +20,10 @@ size = 13.0
 [mouse]
 hide_when_typing = true
 
+[cursor]
+# style = { shape = "Block", blinking = "On" }
+# vi_mode_style = "Beam"
+
 [keyboard]
 bindings = [
   { key = "O", mods = "Command", action = "ToggleFullscreen"},
