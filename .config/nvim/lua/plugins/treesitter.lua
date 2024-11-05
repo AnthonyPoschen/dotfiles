@@ -56,7 +56,7 @@ return {
 				additional_vim_regex_highlighting = false,
 			},
 			indent = { enable = true },
-			autotag = { enable = true },
+			autotag = { enable = false }, -- deprecated feature now
 			ensure_installed = {
 				"bash",
 				"c",
@@ -110,9 +110,6 @@ return {
 		config = function(_, opts)
 			local configs = require("nvim-treesitter.configs")
 			configs.setup(opts)
-			-- require("nvim-ts-autotag").setup()
-			-- NOTE: Referene treesitter commented out setup
-			-- require("nvim-treesitter.configs").setup(opts)
 			require("nvim-treesitter.parsers").get_parser_configs().templ = {
 				install_info = {
 					url = "/Users/ap/git/github.com/anthonyposchen/tree-sitter-templ.git/code/indent-support", -- local path or git repo
@@ -137,7 +134,7 @@ return {
 		"windwp/nvim-ts-autotag",
 		event = { "BufReadPost", "BufWritePost", "BufNewFile" },
 		config = function(opts)
-			require("nvim-ts-autotag").setup(opts) 
+			require("nvim-ts-autotag").setup(opts)
 		end,
 		opts = {
 			filetypes = {
