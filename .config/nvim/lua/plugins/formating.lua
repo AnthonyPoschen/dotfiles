@@ -38,6 +38,9 @@ return {
 				async = false, -- not recommended to change
 				quiet = false, -- not recommended to change
 			},
+			default_format_opts = {
+				lsp_format = "fallback",
+			},
 			formatters_by_ft = {
 				lua = { "stylua" },
 				fish = { "fish_indent" },

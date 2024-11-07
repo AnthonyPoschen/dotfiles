@@ -4,13 +4,11 @@ local function augroup(name)
 	return vim.api.nvim_create_augroup("local" .. name, { clear = true })
 end
 
--- TODO: remove this once conform is fixed to not need formatting crap
--- from lazyvim
--- Autoformat autocmd
+-- conform doc, autocmd to format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
-	group = vim.api.nvim_create_augroup("LazyFormat", {}),
-	callback = function(event)
-		require("conform").format({ bufnr = event.buf })
+	pattern = "*",
+	callback = function(args)
+		require("conform").format({ bufnr = args.buf })
 	end,
 })
 -- TODO: decide if i want to automatically open file search on vim open

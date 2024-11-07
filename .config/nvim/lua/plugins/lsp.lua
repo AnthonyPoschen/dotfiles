@@ -140,7 +140,19 @@ return {
 			sqls = {},
 			pylsp = {},
 			jqls = {},
-			jsonls = {},
+			jsonls = {
+				settings = {
+					json = {
+						schemas = require("schemastore").json.schemas({
+							select = {
+								".eslintrc",
+								"package.json",
+							},
+						}),
+						validate = { enable = true },
+					},
+				},
+			},
 			-- typos_lsp = {},
 			lemminx = {
 				settings = {
@@ -171,42 +183,28 @@ return {
 			},
 			glsl_analyzer = {},
 			yamlls = {
+				capabilities = {
+					textDocument = {
+						foldingRange = {
+							dynamicRegistration = false,
+							lineFoldingOnly = true,
+						},
+					},
+				},
 				settings = {
 					yaml = {
-						customTags = {
-							-- AWS CloudFormation
-							"!Ref",
-							"!If sequence",
-							"!GetAtt",
-							"!GetAZs",
-							"!ImportValue",
-							"!ImportValue mapping",
-							"!Join sequence",
-							"!Sub",
-							"!Sub sequence",
-							"!FindInMap sequence",
-							"!Select sequence",
-							"!Split sequence",
-							"!Not sequence",
-							"!Equals sequence",
-							"!And sequence",
-							"!Or sequence",
-							"!Condition",
-							"!Base64",
-							"!Cidr",
-							"!Ref sequence",
-							"!If mapping",
-							"!Join mapping",
-							"!Select mapping",
-							"!Split mapping",
-							"!Not mapping",
-							"!Equals mapping",
-							"!And mapping",
-							"!Or mapping",
-							-- GitLab
-							"!reference sequence",
+						editor = {
+							formatOnType = false,
 						},
-						schemas = require("schemastore").json.schemas(),
+
+						schemaStore = {
+							-- You must disable built-in schemaStore support if you want to use
+							-- this plugin and its advanced options like `ignore`.
+							enable = false,
+							-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+							url = "",
+						},
+						schemas = require("schemastore").yaml.schemas(),
 						validate = { enable = true },
 					},
 				},
@@ -428,12 +426,6 @@ return {
 		})
 
 		vim.api.nvim_create_autocmd("BufWritePre", {
-			callback = function()
-				vim.lsp.buf.format({})
-				-- vim.lsp.buf.formatting_sync(nil, 1000)
-			end,
-		})
-		vim.api.nvim_create_autocmd("BufWritePre", {
 			pattern = "*.go",
 			callback = function()
 				local params = vim.lsp.util.make_range_params()
@@ -452,17 +444,9 @@ return {
 						end
 					end
 				end
-				vim.lsp.buf.format({ async = false })
+				-- vim.lsp.buf.format({ async = false })
 			end,
 		})
-		-- vim.api.nvim_create_autocmd("BufWritePre", {
-		-- 	callback = function(args)
-		-- 		vim.lsp.buf.format()
-		-- 		vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
-		-- 		vim.lsp.buf.code_action({ context = { only = { "source.fixAll" } }, apply = true })
-		-- 		vim.lsp.buf.format()
-		-- 	end,
-		-- })
 
 		-- Capabilities
 		-- local capabilities = vim.tbl_deep_extend(

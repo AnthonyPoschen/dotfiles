@@ -15,13 +15,13 @@ return {
 		-- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
 		-- see the "default configuration" section below for full documentation on how to define
 		-- your own keymap.
-		keymap = { preset = "super-tab" },
+		keymap = { preset = "enter" },
 
 		highlight = {
 			-- sets the fallback highlight groups to nvim-cmp's highlight groups
 			-- useful for when your theme doesn't support blink.cmp
 			-- will be removed in a future release, assuming themes add support
-			use_nvim_cmp_as_default = true,
+			-- use_nvim_cmp_as_default = true,
 		},
 		-- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 		-- adjusts spacing to ensure icons are aligned
@@ -35,7 +35,7 @@ return {
 		windows = {
 			documentation = {
 				auto_show = true, -- default false
-				auto_show_delay_ms = 200, -- default 500
+				auto_show_delay_ms = 500, -- default 500
 			},
 		},
 	},
