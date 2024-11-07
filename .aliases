@@ -81,6 +81,11 @@ function kubectlgetall {
     kubectl get -n ${1}  --ignore-not-found=true ${i}
   done
 }
+# Decode a JWT into json form for debugging
+alias jwtd='_jwtd'
+function _jwtd {
+  jq -R 'split(".") | .[0],.[1] | @base64d | fromjson' $@
+}
 # interactive jq filtering of json with fzf
 alias fzfj='jsonexplorer'
 function jsonexplorer {
