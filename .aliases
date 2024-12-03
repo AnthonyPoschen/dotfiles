@@ -86,6 +86,11 @@ alias jwtd='_jwtd'
 function _jwtd {
   jq -R 'split(".") | .[0],.[1] | @base64d | fromjson' $@
 }
+# list the status of a cfn stack
+alias cfn-stack-status='_cfn-stack-status'
+function _cfn-stack-status {
+  aws cloudformation list-stacks | jq '[.[]| .[] | select(.StackName=="$1")] | .[0]'
+}
 # interactive jq filtering of json with fzf
 alias fzfj='jsonexplorer'
 function jsonexplorer {
