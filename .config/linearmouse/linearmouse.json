@@ -2,27 +2,61 @@
   "$schema" : "https:\/\/schema.linearmouse.app\/0.9.5",
   "schemes" : [
     {
+      "if" : {
+        "device" : {
+          "productID" : "0x1722",
+          "category" : "mouse",
+          "vendorID" : "0x1038",
+          "productName" : "SteelSeries Sensei 310 eSports Mouse"
+        }
+      },
       "pointer" : {
         "disableAcceleration" : true
       },
-      "if" : {
-        "device" : {
-          "productName" : "SteelSeries Sensei 310 eSports Mouse",
-          "productID" : "0x1722",
-          "category" : "mouse",
-          "vendorID" : "0x1038"
-        }
-      },
       "scrolling" : {
-        "acceleration" : {
-          "vertical" : 1
-        },
         "distance" : {
           "vertical" : "auto"
+        },
+        "acceleration" : {
+          "vertical" : 1
         },
         "speed" : {
           "vertical" : 0
         }
+      }
+    },
+    {
+      "if" : {
+        "device" : {
+          "productName" : "USB Receiver",
+          "productID" : "0xc539",
+          "category" : "mouse",
+          "vendorID" : "0x46d"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 6.966,
+        "speed" : 0.0252
+      },
+      "buttons" : {
+        "mappings" : [
+          {
+            "button" : 3,
+            "option" : false,
+            "shift" : false,
+            "control" : false,
+            "command" : false,
+            "action" : "missionControl.spaceLeft"
+          },
+          {
+            "control" : false,
+            "action" : "missionControl.spaceRight",
+            "button" : 4,
+            "command" : false,
+            "shift" : false,
+            "option" : false
+          }
+        ]
       }
     }
   ]

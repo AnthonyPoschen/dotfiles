@@ -83,3 +83,7 @@ Configure golang packages that aren't managed elsewhere
 
 configuring fonts:
 [fragment mono: https://fonts.google.com/specimen/Fragment+Mono]
+
+Configuring macos editing:
+tinkertool for disabling animations and annoying shit: https://www.bresink.com/osx/0TinkerTool/download.php
+LinearMouse: https://linearmouse.app
