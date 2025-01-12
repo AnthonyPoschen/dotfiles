@@ -1,40 +1,36 @@
 {
   "schemes" : [
     {
-      "if" : {
-        "device" : {
-          "category" : "mouse",
-          "productID" : "0x1722",
-          "productName" : "SteelSeries Sensei 310 eSports Mouse",
-          "vendorID" : "0x1038"
-        }
-      },
       "pointer" : {
         "disableAcceleration" : true
+      },
+      "if" : {
+        "device" : {
+          "vendorID" : "0x1038",
+          "category" : "mouse",
+          "productID" : "0x1722",
+          "productName" : "SteelSeries Sensei 310 eSports Mouse"
+        }
       },
       "scrolling" : {
         "distance" : {
           "vertical" : "auto"
         },
-        "acceleration" : {
-          "vertical" : 1
-        },
         "speed" : {
           "vertical" : 0
+        },
+        "acceleration" : {
+          "vertical" : 1
         }
       }
     },
     {
-      "pointer" : {
-        "acceleration" : 6,
-        "speed" : 0.0233
-      },
       "if" : {
         "device" : {
+          "productName" : "USB Receiver",
           "category" : "mouse",
           "vendorID" : "0x46d",
-          "productID" : "0xc539",
-          "productName" : "USB Receiver"
+          "productID" : "0xc539"
         }
       },
       "scrolling" : {
@@ -46,21 +42,25 @@
         "mappings" : [
           {
             "command" : false,
-            "shift" : false,
-            "option" : false,
-            "control" : false,
+            "button" : 3,
             "action" : "missionControl.spaceLeft",
-            "button" : 3
+            "option" : false,
+            "shift" : false,
+            "control" : false
           },
           {
             "button" : 4,
             "control" : false,
+            "shift" : false,
             "option" : false,
-            "command" : false,
             "action" : "missionControl.spaceRight",
-            "shift" : false
+            "command" : false
           }
         ]
+      },
+      "pointer" : {
+        "speed" : 0.0404,
+        "acceleration" : 5
       }
     }
   ],

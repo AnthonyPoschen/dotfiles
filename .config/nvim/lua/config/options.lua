@@ -13,16 +13,13 @@ vim.g.autoformat = true
 -- * a pattern or array of patterns like `.git` or `lua`.
 -- * a function with signature `function(buf) -> string|string[]`
 vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
-
 opt.autowrite = true -- Enable auto write
-opt.autochdir = false
-opt.ttyfast = true
-opt.timeout = true
 opt.timeoutlen = 300
 opt.ts = 4
 opt.sw = 4
 opt.sts = 4
 opt.colorcolumn = "80"
+-- for specific files change the tabbing to 2
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = {
 		"css",
@@ -47,21 +44,17 @@ vim.filetype.add({
 opt.listchars = { eol = " ", tab = "  ", trail = "-", extends = ">", precedes = "<", nbsp = "␣" }
 opt.list = true
 
-opt.expandtab = true
-opt.hidden = true
-opt.backspace = "indent,eol,start"
-opt.confirm = true
-opt.ruler = true
+opt.confirm = true -- confirm if you want to close unsaved files
 opt.wrap = false
-opt.vb = true -- turn off beep sound = true
+-- opt.vb = true -- turn off beep sound = true
 opt.number = true
 opt.relativenumber = true
 opt.inccommand = "split" -- preview incremental substitute
 opt.guicursor = ""
 
-opt.backup = false
-opt.writebackup = false
-opt.swapfile = false
+-- opt.backup = false
+-- opt.writebackup = false
+-- opt.swapfile = false
 
 -- Always show at least one line above/below the cursor.
 opt.scrolloff = 4
@@ -75,20 +68,11 @@ opt.incsearch = true
 
 -- folding settings
 opt.foldmethod = "syntax" -- fold based on indent
-opt.foldnestmax = 10 -- deepest fold is 10 levels
-opt.foldenable = false -- dont fold by default
+-- opt.foldenable = false -- dont fold by default
 -- set foldlevel=1       -- this is just what i use
 
--- will buffer screens instead of updating
-opt.lazyredraw = false -- consider turning on when Noice doesn't complain
-
--- To make nvim faster, not exactly sure though.
--- set noshowcmd noruler
-
--- For command mode auto complete
-opt.wildmenu = true
 -- override
-opt.completeopt = "menu,menuone,preview,noinsert,noselect"
+-- opt.completeopt = "menu,menuone,preview,noinsert,noselect"
 -- add's - to keywords so autocomplete is awesome in css
 opt.iskeyword = opt.iskeyword + "-"
 
@@ -100,13 +84,10 @@ opt.iskeyword = opt.iskeyword + "-"
 -- wild card ignores
 opt.wildignore = opt.wildignore + "*.pyc,*.swp,.git,**/migrations/**,**/beans/**"
 
--- COC.vim SETUP
--- Better display for messages
-opt.cmdheight = 1
 -- Smaller updatetime for CursorHold & CursorHoldI
 opt.updatetime = 200
 -- don't give |ins-completion-menu| messages.
-opt.shortmess = opt.shortmess + "c"
+-- opt.shortmess = opt.shortmess + "c"
 -- always show signcolumns
 opt.signcolumn = "yes"
 opt.fillchars = opt.fillchars + "diff:╱"
@@ -122,7 +103,7 @@ opt.syntax = "enable"
 opt.conceallevel = 3 -- Hide * markup for bold and italic
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
 opt.cursorline = true -- Enable highlighting of the current line
-opt.expandtab = true -- Use spaces instead of tabs
+-- opt.expandtab = true -- Use spaces instead of tabs
 -- opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
@@ -175,4 +156,4 @@ opt.foldlevel = 99
 -- vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 -- Fix markdown indentation settings
-vim.g.markdown_recommended_style = 0
+-- vim.g.markdown_recommended_style = 0

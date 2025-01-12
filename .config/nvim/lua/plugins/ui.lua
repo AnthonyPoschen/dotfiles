@@ -1,4 +1,80 @@
-local Util = require("util")
+-- local Util = require("util")
+local function realpath(path)
+	if path == "" or path == nil then
+		return nil
+	end
+	path = vim.loop.fs_realpath(path) or path
+
+	local LazyUtil = require("lazy.core.util")
+	return LazyUtil.norm(path)
+end
+local cache = {}
+local detectors = {}
+function detectors.cwd()
+	return { vim.loop.cwd() }
+end
+function detectors.pattern(buf, patterns)
+	patterns = type(patterns) == "string" and { patterns } or patterns
+	local path = realpath(vim.api.nvim_buf_get_name(assert(buf))) or vim.loop.cwd()
+	local pattern = vim.fs.find(patterns, { path = path, upward = true })[1]
+	return pattern and { vim.fs.dirname(pattern) } or {}
+end
+
+local function detect()
+	function resolve(spec)
+		if detectors[spec] then
+			return detectors[spec]
+		elseif type(spec) == "function" then
+			return spec
+		end
+		return function(buf)
+			return detectors.pattern(buf, spec)
+		end
+	end
+	opts = opts or {}
+	opts.spec = opts.spec or type(vim.g.root_spec) == "table" and vim.g.root_spec or M.spec
+	opts.buf = (opts.buf == nil or opts.buf == 0) and vim.api.nvim_get_current_buf() or opts.buf
+
+	local ret = {} ---@type LazyRoot[]
+	for _, spec in ipairs(opts.spec) do
+		local paths = resolve(spec)(opts.buf)
+		paths = paths or {}
+		paths = type(paths) == "table" and paths or { paths }
+		local roots = {} ---@type string[]
+		for _, p in ipairs(paths) do
+			local pp = realpath(p)
+			if pp and not vim.tbl_contains(roots, pp) then
+				roots[#roots + 1] = pp
+			end
+		end
+		table.sort(roots, function(a, b)
+			return #a > #b
+		end)
+		if #roots > 0 then
+			ret[#ret + 1] = { spec = spec, paths = roots }
+			if opts.all == false then
+				break
+			end
+		end
+	end
+	return ret
+end
+local function getroot(opts)
+	local buf = vim.api.nvim_get_current_buf()
+	local ret = cache[buf]
+	if not ret then
+		local roots = detect({ all = false })
+		ret = roots[1] and roots[1].paths[1] or vim.loop.cwd()
+		cache[buf] = ret
+	end
+	if opts and opts.normalize then
+		return ret
+	end
+	return ret
+end
+local function cwdf()
+	return realpath(vim.loop.cwd()) or ""
+end
 
 local icons = {
 	misc = {
@@ -125,9 +201,7 @@ return {
 	-- statusline
 	{
 		"nvim-lualine/lualine.nvim",
-		dependencies = {
-			"folke/noice.nvim",
-		},
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 		event = "VeryLazy",
 		init = function()
 			vim.g.lualine_laststatus = vim.o.laststatus
@@ -140,50 +214,16 @@ return {
 			end
 		end,
 		opts = function()
-			-- PERF: we don't need this lualine require madness 🤷
-			local lualine_require = require("lualine_require")
-			lualine_require.require = require
-
-			-- local icons = require("config").icons
-
-			vim.o.laststatus = vim.g.lualine_laststatus
-			---@param opts? {relative: "cwd"|"root", modified_hl: string?}
-			local function pretty_path(opts)
-				opts = vim.tbl_extend("force", {
-					relative = "cwd",
-					modified_hl = "Constant",
-				}, opts or {})
-
-				return function(self)
-					local path = vim.fn.expand("%:p") --[[@as string]]
-
-					if path == "" then
-						return ""
-					end
-					local root = Util.root.get({ normalize = true })
-					local cwd = Util.root.cwd()
-
-					if opts.relative == "cwd" and path:find(cwd, 1, true) == 1 then
-						path = path:sub(#cwd + 2)
-					else
-						path = path:sub(#root + 2)
-					end
-
-					local sep = package.config:sub(1, 1)
-					local parts = vim.split(path, "[\\/]")
-					if #parts > 3 then
-						parts = { parts[1], "…", parts[#parts - 1], parts[#parts] }
-					end
-
-					if opts.modified_hl and vim.bo.modified then
-						parts[#parts] = M.format(self, parts[#parts], opts.modified_hl)
-					end
-
-					return table.concat(parts, sep)
-				end
+			local function fg(name)
+				---@type {foreground?:number}?
+				---@diagnostic disable-next-line: deprecated
+				local hl = vim.api.nvim_get_hl and vim.api.nvim_get_hl(0, { name = name })
+					or vim.api.nvim_get_hl_by_name(name, true)
+				---@diagnostic disable-next-line: undefined-field
+				local fg = hl and (hl.fg or hl.foreground)
+				return fg and { fg = string.format("#%06x", fg) } or nil
 			end
 
-			---@param opts? {cwd:false, subdirectory: true, parent: true, other: true, icon?:string}
 			local function root_dir(opts)
 				opts = vim.tbl_extend("force", {
 					cwd = false,
@@ -191,12 +231,13 @@ return {
 					parent = true,
 					other = true,
 					icon = "󱉭 ",
-					color = Util.ui.fg("Special"),
+					color = fg("Special"),
 				}, opts or {})
 
 				local function get()
-					local cwd = Util.root.cwd()
-					local root = Util.root.get({ normalize = true })
+					local cwd = cwdf()
+					local root = getroot()
+					-- local root = Util.root.get({ normalize = true })
 					local name = vim.fs.basename(root)
 
 					if root == cwd then
@@ -223,6 +264,40 @@ return {
 					color = opts.color,
 				}
 			end
+			local function pretty_path(opts)
+				opts = vim.tbl_extend("force", {
+					relative = "cwd",
+					modified_hl = "Constant",
+				}, opts or {})
+
+				return function(self)
+					local path = vim.fn.expand("%:p") --[[@as string]]
+
+					if path == "" then
+						return ""
+					end
+					local root = getroot({ normalize = true })
+					local cwd = cwdf()
+
+					if opts.relative == "cwd" and path:find(cwd, 1, true) == 1 then
+						path = path:sub(#cwd + 2)
+					else
+						path = path:sub(#root + 2)
+					end
+
+					local sep = package.config:sub(1, 1)
+					local parts = vim.split(path, "[\\/]")
+					if #parts > 3 then
+						parts = { parts[1], "…", parts[#parts - 1], parts[#parts] }
+					end
+
+					if opts.modified_hl and vim.bo.modified then
+						parts[#parts] = M.format(self, parts[#parts], opts.modified_hl)
+					end
+
+					return table.concat(parts, sep)
+				end
+			end
 			return {
 				options = {
 					theme = "auto",
@@ -247,6 +322,7 @@ return {
 						root_dir(),
 						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
 						{ pretty_path() },
+						{},
 						{
 							"diagnostics",
 							symbols = {
@@ -258,28 +334,28 @@ return {
 						},
 					},
 					lualine_x = {
-            -- stylua: ignore
-            {
-              function() return require("noice").api.status.command.get() end,
-              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-              color = Util.ui.fg("Statement"),
-            },
-            -- stylua: ignore
-            {
-              function() return require("noice").api.status.mode.get() end,
-              cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-              color = Util.ui.fg("Constant"),
-            },
-            -- stylua: ignore
-            {
-              function() return "  " .. require("dap").status() end,
-              cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
-              color = Util.ui.fg("Debug"),
-            },
+	           -- stylua: ignore
+	           {
+	             function() return require("noice").api.status.command.get() end,
+	             cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+	             color = fg("Statement"),
+	           },
+	           -- stylua: ignore
+	           {
+	             function() return require("noice").api.status.mode.get() end,
+	             cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
+	             color = fg("Constant"),
+	           },
+	           -- stylua: ignore
+	           {
+	             function() return "  " .. require("dap").status() end,
+	             cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
+	             color = fg("Debug"),
+	           },
 						{
 							require("lazy.status").updates,
 							cond = require("lazy.status").has_updates,
-							color = Util.ui.fg("Special"),
+							color = fg("Special"),
 						},
 						{
 							"diff",
@@ -375,53 +451,6 @@ return {
 				end,
 			})
 		end,
-	},
-	-- Highly experimental plugin that completely replaces the UI for messages, cmdline and the popupmenu.
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = {
-			lsp = {
-				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true,
-				},
-			},
-			routes = {
-				{
-					filter = {
-						event = "msg_show",
-						any = {
-							{ find = "%d+L, %d+B" },
-							{ find = "; after #%d+" },
-							{ find = "; before #%d+" },
-						},
-					},
-					view = "mini",
-				},
-			},
-			presets = {
-				bottom_search = true,
-				command_palette = true,
-				long_message_to_split = true,
-				inc_rename = true,
-			},
-		},
-    -- stylua: ignore
-    keys = {
-      { "<S-Enter>",   function() require("noice").redirect(vim.fn.getcmdline()) end,                 mode = "c",                 desc = "Redirect Cmdline" },
-      { "<leader>snl", function() require("noice").cmd("last") end,                                   desc = "Noice Last Message" },
-      { "<leader>snh", function() require("noice").cmd("history") end,                                desc = "Noice History" },
-      { "<leader>sna", function() require("noice").cmd("all") end,                                    desc = "Noice All" },
-      { "<leader>snd", function() require("noice").cmd("dismiss") end,                                desc = "Dismiss All" },
-      { "<c-f>",       function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,  silent = true,              expr = true,              desc = "Scroll forward",  mode = { "i", "n", "s" } },
-      { "<c-b>",       function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,              expr = true,              desc = "Scroll backward", mode = { "i", "n", "s" } },
-      -- remove scrolling so that we can overwrite vim default scrolling
-      -- harpoon wants these keys
-      -- { "<C-f>", false, mode = { "i", "n", "s" } },
-      -- { "<C-b>", false, mode = { "i", "n", "s" } },
-    },
 	},
 
 	-- icons

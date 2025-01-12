@@ -175,7 +175,6 @@ return {
 	},
 	{
 		"windwp/nvim-autopairs",
-		-- dir = "/Users/ap/git/github.com/anthonyposchen/nvim-autopairs.git/code/templ",
 		event = "InsertEnter",
 		opts = {}, -- this is equalent to setup({}) function
 	},

@@ -150,3 +150,30 @@ end, { desc = "Format" })
 
 -- highlights under cursor
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
+map("n", "<space><space>", function()
+	require("telescope").extensions.smart_open.smart_open({
+		filename_first = true,
+		cwd_only = true,
+		previewer = false,
+		hidden = true,
+		layout_strategy = "vertical",
+		sorting_strategy = "descending",
+		layout_config = {
+			prompt_position = "bottom",
+			width = 130,
+			height = 0.75,
+		},
+		show_line = false,
+		results_title = false,
+		git_command = {
+			"git",
+			"ls-files",
+			"--exclude-standard",
+			"--cached",
+			":!:*.meta", -- unity
+			":!:*.asset", -- unity
+			":!:*.prefab", -- unity
+			":!:*.unity", -- unity
+		},
+	})
+end, { desc = "Find files" })

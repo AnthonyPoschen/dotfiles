@@ -1,4 +1,4 @@
-local Util = require("util")
+-- local Util = require("util")
 local telescope_files = function(builtin, opts)
 	local params = { builtin = builtin, opts = opts }
 	return function()
@@ -30,6 +30,17 @@ local telescope_files = function(builtin, opts)
 end
 return {
 	{
+		"danielfalk/smart-open.nvim",
+		branch = "0.2.x",
+		dependencies = {
+			"kkharji/sqlite.lua",
+			-- Only required if using match_algorithm fzf
+			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+			-- Optional.  If installed, native fzy will be used when match_algorithm is fzy
+			{ "nvim-telescope/telescope-fzy-native.nvim" },
+		},
+	},
+	{
 		"nvim-telescope/telescope-file-browser.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
 	},
@@ -39,14 +50,33 @@ return {
 		cmd = "Telescope",
 		version = false, -- telescope did only one release, so use HEAD for now
 		dependencies = {
+			{ "danielfalk/smart-open.nvim" },
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = "make",
 				enabled = vim.fn.executable("make") == 1,
 				config = function()
-					Util.on_load("telescope.nvim", function()
+					--Util.on_load("telescope.nvim", function()
+					--	require("telescope").load_extension("fzf")
+					--	require("telescope").load_extension("smart_open")
+					--end)
+					local name = "telescope.nvim"
+					local Config = require("lazy.core.config")
+					if Config.plugins[name] and Config.plugins[name]._.loaded then
 						require("telescope").load_extension("fzf")
-					end)
+						require("telescope").load_extension("smart_open")
+					else
+						vim.api.nvim_create_autocmd("User", {
+							pattern = "LazyLoad",
+							callback = function(event)
+								if event.data == name then
+									require("telescope").load_extension("fzf")
+									require("telescope").load_extension("smart_open")
+									return true
+								end
+							end,
+						})
+					end
 				end,
 			},
 		},
@@ -56,7 +86,12 @@ return {
 				{ "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Grep (root dir)" },
 				-- { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
 				-- { "<leader><space>", Util.telescope("files"), desc = "Find Files (root dir)" },
-				{ "<space><space>", telescope_files("files"), desc = "Find files" },
+				-- { "<space><space>", telescope_files("files"), desc = "Find files" },
+				-- {
+				-- 	"<space><space>",
+				-- 	require("telescope").extensions.smart_open.smart_open({ cwd_only = true, previewer = false }),
+				-- 	desc = "Find files",
+				-- },
 				-- { "<leader>r", Util.telescope("oldfiles", { cwd = vim.loop.cwd() }), desc = "Recent (cwd)" },
 				-- git
 				-- { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
@@ -268,6 +303,10 @@ return {
 				local fb_actions = require("telescope").extensions.file_browser.actions
 				local cc = require("conventional_commits")
 				opts.extensions = {
+					smart_open = {
+						filename_first = false,
+						cwd_only = true,
+					},
 					fzf = {
 						fuzzy = true, -- false will only do exact matching
 						override_generic_sorter = false, -- override the generic sorter
