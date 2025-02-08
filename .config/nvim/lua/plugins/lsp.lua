@@ -104,6 +104,7 @@ return {
 
 			-- These can have more fields like cmd, settings and filetypes
 			local servers = {
+				marksman = {},
 				arduino_language_server = {},
 				volar = {},
 				zls = {},

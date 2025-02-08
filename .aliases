@@ -107,6 +107,7 @@ alias watch="\watch " # allows alias expansion before execution to watch other a
 alias sshw='ssh -o ProxyCommand="corkscrew 127.0.0.1 3128 %h %p"'
 alias ywd='pwd | pbcopy'
 alias sed='gsed'
+alias pmap='lsof -i -P | grep LISTEN | grep :$PORT'
 
 [[ -f ~/.aliases-work ]] && source ~/.aliases-work
 
