@@ -224,7 +224,7 @@ return {
 					},
 				},
 				taplo = {},
-				sqls = {},
+				-- sqls = {},
 				pylsp = {},
 				jqls = {},
 				jsonls = {
