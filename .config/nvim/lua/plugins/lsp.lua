@@ -580,10 +580,12 @@ return {
 								end
 
 								-- Set up mappings
-								map("gd", require("telescope.builtin").lsp_definitions, "Telescope Definition", bufnr)
-								vim.keymap.set("n", "gd", function()
-									require("telescope.builtin").lsp_definitions({ reuse_win = true })
-								end, { desc = "Goto Definition", silent = true })
+								map("gd", require("telescope.builtin").lsp_definitions, "Telescope Definition", bufnr) -- TODO: Debug why this doesn't work for built in functions
+								-- map("gd", vim.lsp.buf.definition, "LSP Definition", bufnr)
+								--
+								-- vim.keymap.set("n", "gd", function()
+								-- 	require("telescope.builtin").lsp_definitions({ reuse_win = true })
+								-- end, { desc = "Goto Definition", silent = true })
 								map(
 									"gy",
 									require("telescope.builtin").lsp_type_definitions,
@@ -602,13 +604,17 @@ return {
 								-- map("<leader>f", function()
 								-- 	vim.lsp.buf.format({ async = true })
 								-- end, "Format", bufnr)
-								map("gD", vim.lsp.buf.declaration, "Goto Declaration", bufnr)
-								map(
-									"gs",
-									require("telescope.builtin").lsp_document_symbols,
-									"Telescope Document Symbols",
-									bufnr
-								)
+								-- map("gD", vim.lsp.buf.declaration, "Goto Declaration", bufnr)
+
+								map("gs", function()
+									local lsp_symbols = vim.tbl_map(string.lower, vim.lsp.protocol.SymbolKind)
+									-- define a filter function to excl. undesired symbols
+									local symbols = vim.tbl_filter(function(symbol)
+										return symbol ~= "field"
+									end, lsp_symbols)
+									require("telescope.builtin").lsp_document_symbols({ symbols = symbols })
+									-- require("telescope.builtin").lsp_document_symbols,
+								end, "Telescope Document Symbols", bufnr)
 								map(
 									"<leader>ws",
 									require("telescope.builtin").lsp_dynamic_workspace_symbols,
