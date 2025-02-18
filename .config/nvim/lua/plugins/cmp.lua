@@ -18,14 +18,22 @@ return {
 		-- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
 		-- see the "default configuration" section below for full documentation on how to define
 		-- your own keymap.
-		keymap = {
-			preset = "enter",
-			["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
-			["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
-			cmdline = {
+		cmdline = {
+			-- preset = "super-tab",
+			keymap = {
 				preset = "super-tab",
+				["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
 			},
 		},
+		-- keymap = {
+		-- 	preset = "enter",
+		-- 	["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+		-- 	["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+		-- 	cmdline = {
+		-- 		preset = "super-tab",
+		-- 	},
+		-- },
 		-- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
 		-- adjusts spacing to ensure icons are aligned
 		appearance = {
