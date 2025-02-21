@@ -38,8 +38,9 @@ function _gws() {
   git worktree add -B $master code/master
   cd ./code/master
 }
+alias v='nvim'
 alias gwr='git worktree remove'
-alias gsm='git switch master 2&> /dev/null || git switch main'
+alias gsm='gi switch master 2&> /dev/null || git switch main'
 alias gphr='git push && git retag'
 alias gaa='git add .'
 alias ga='git add'
