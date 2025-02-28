@@ -206,11 +206,13 @@ return {
 		dependencies = {
 			"nvim-telescope/telescope-fzf-native.nvim",
 			"nvim-telescope/telescope-file-browser.nvim",
+			"nvim-telescope/telescope-ui-select.nvim",
 			-- "ThePrimeagen/git-worktree.nvim",
 			build = "make",
 			config = function(_, opts)
 				require("telescope").load_extension("fzf")
 				require("telescope").load_extension("conventional_commits")
+				require("telescope").load_extension("ui-select")
 				-- require("telescope").load_extension("git_worktree")
 				-- require("telescope").load_extension("file_browser")
 				-- local actions = require("telescope.actions")
@@ -242,6 +244,9 @@ return {
 								["g"] = false,
 							},
 						},
+					},
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown({}),
 					},
 				}
 			end,

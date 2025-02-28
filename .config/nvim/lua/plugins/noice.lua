@@ -1,9 +1,6 @@
 -- better error messages
 return {
 	"folke/noice.nvim",
-	-- TODO: Remove this once noice moves past 4.9.0 as this is the next commit
-	--       which picks up a patch for blink.cmp
-	commit = "eaed6cc9c06aa2013b5255349e4f26a6b17ab70f",
 	dependencies = {
 		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
 		"MunifTanjim/nui.nvim",

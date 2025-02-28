@@ -73,6 +73,7 @@ opt.foldmethod = "syntax" -- fold based on indent
 
 -- override
 -- opt.completeopt = "menu,menuone,preview,noinsert,noselect"
+opt.completeopt = "menu,menuone,noinsert,popup"
 -- add's - to keywords so autocomplete is awesome in css
 opt.iskeyword = opt.iskeyword + "-"
 

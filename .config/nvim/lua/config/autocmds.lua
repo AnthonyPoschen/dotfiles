@@ -12,12 +12,11 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 -- TODO: decide if i want to automatically open file search on vim open
--- search for files on startup
-
+-- -- search for files on startup
 -- vim.api.nvim_create_autocmd({ "VimEnter" }, {
 -- 	callback = function(ev, opts)
 -- 		if vim.fn.expand("%") == "" then
--- 			vim.cmd("Telescope find_files")
+-- 			vim.cmd("FileSearch")
 -- 		end
 -- 	end,
 -- })

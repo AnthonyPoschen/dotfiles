@@ -150,7 +150,7 @@ end, { desc = "Format" })
 
 -- highlights under cursor
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
-map("n", "<space><space>", function()
+local file_search = function()
 	require("telescope").extensions.smart_open.smart_open({
 		filename_first = true,
 		cwd_only = true,
@@ -176,4 +176,6 @@ map("n", "<space><space>", function()
 			":!:*.unity", -- unity
 		},
 	})
-end, { desc = "Find files" })
+end
+vim.api.nvim_create_user_command("FileSearch", file_search, { desc = "Find Files" })
+map("n", "<space><space>", file_search, { desc = "Find files" })

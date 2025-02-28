@@ -580,7 +580,7 @@ return {
 								end
 
 								-- Set up mappings
-								map("gd", require("telescope.builtin").lsp_definitions, "Telescope Definition", bufnr) -- TODO: Debug why this doesn't work for built in functions
+								map("gd", require("telescope.builtin").lsp_definitions, "Telescope Definition", bufnr)
 								-- map("gd", vim.lsp.buf.definition, "LSP Definition", bufnr)
 								--
 								-- vim.keymap.set("n", "gd", function()
