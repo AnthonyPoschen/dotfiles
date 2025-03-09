@@ -28,8 +28,12 @@ map("n", "+", "<cmd>tabnew<cr>", opt_noremap)
 map("n", "_", "<cmd>tabclose<cr>", opt_noremap)
 
 -- File management
-map("n", "-", "<cmd>Ranger<cr>", opt_noremap)
-map("n", "=", "<cmd>Ranger tabe<cr>", opt_noremap)
+-- map("n", "-", "<cmd>Ranger<cr>", opt_noremap)
+-- map("n", "=", "<cmd>Ranger tabe<cr>", opt_noremap)
+-- map("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+map("n", "-", function()
+	require("oil").open_float()
+end, { desc = "Open parent directory" })
 
 -- easier moving of code blocks
 map("v", "<", "<gv", opt_noremap)

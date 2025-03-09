@@ -46,6 +46,7 @@ return {
 				"python-lsp-server",
 				"shfmt",
 				"stylua",
+				"sql-formatter",
 				"tailwindcss-language-server",
 				"templ",
 				"ts-standard",
@@ -223,7 +224,17 @@ return {
 						},
 					},
 				},
-				taplo = {},
+				taplo = {
+					settings = {
+						evenBetterToml = {
+							schema = {
+								associations = {
+									[".air.toml"] = "file://~/.config/nvim/schemas/air_schema.json",
+								},
+							},
+						},
+					},
+				},
 				-- sqls = {},
 				pylsp = {},
 				jqls = {},

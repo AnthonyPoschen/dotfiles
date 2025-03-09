@@ -9,6 +9,41 @@ return {
 			},
 		})
 	end,
+	{
+		"kylechui/nvim-surround",
+		event = "VeryLazy",
+		opts = {
+			keymaps = {
+				normal = "s",
+				normal_cur = "ss",
+				visual = "s",
+				delete = "ds",
+				change = "cs",
+			},
+		},
+	},
+	{
+		"ggandor/leap.nvim",
+		event = "VeryLazy",
+		config = function()
+			local leap = require("leap")
+			leap.setup({
+				-- safe_labels = { "s", "f", "n", "j", "k" },
+				labels = { "s", "f", "n", "j", "k", "l", "h" },
+				-- highlight_unlabeled_phase_one_targets = true,
+				equivalence_classes = { " \t\r\n" },
+			})
+			vim.keymap.set({ "n", "v" }, "<leader>l", function()
+				leap.leap({ target_windows = { vim.fn.win_getid() }, opts = { patterns = { "\\<\\k\\+\\>" } } })
+			end, { desc = "Leap forward to word" })
+			vim.keymap.set({ "n", "v" }, "<leader>L", function()
+				leap.leap({
+					target_windows = { vim.fn.win_getid() },
+					opts = { patterns = { "\\<\\k\\+\\>" }, backward = true },
+				})
+			end, { desc = "Leap backward to word" })
+		end,
+	},
 
 	{
 		-- https://github.com/ThePrimeagen/harpoon/tree/harpoon2

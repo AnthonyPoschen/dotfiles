@@ -86,6 +86,8 @@ return {
 				"gowork",
 				"gosum",
 				"gotmpl",
+				"comment",
+				"dockerfile",
 			},
 			incremental_selection = {
 				enable = true,
