@@ -33,10 +33,10 @@ return {
 				-- highlight_unlabeled_phase_one_targets = true,
 				equivalence_classes = { " \t\r\n" },
 			})
-			vim.keymap.set({ "n", "v" }, "<leader>l", function()
+			vim.keymap.set({ "n", "v" }, "<leader>f", function()
 				leap.leap({ target_windows = { vim.fn.win_getid() }, opts = { patterns = { "\\<\\k\\+\\>" } } })
 			end, { desc = "Leap forward to word" })
-			vim.keymap.set({ "n", "v" }, "<leader>L", function()
+			vim.keymap.set({ "n", "v" }, "<leader>F", function()
 				leap.leap({
 					target_windows = { vim.fn.win_getid() },
 					opts = { patterns = { "\\<\\k\\+\\>" }, backward = true },
@@ -77,7 +77,7 @@ return {
 				{ desc = "Harpoon menu", noremap = true, mode = { "n" } },
 			},
 			{
-				"<C-h>",
+				"<leader>a",
 				function()
 					require("harpoon"):list():add()
 					-- require("notify")("Buffer added", "info", {
@@ -87,28 +87,28 @@ return {
 				desc = "Add File to Harpoon",
 			},
 			{
-				"<C-j>",
+				"<leader>j",
 				function()
 					require("harpoon"):list():select(1)
 				end,
 				{ desc = "Harpoon Select 1", noremap = true, mode = { "n" } },
 			},
 			{
-				"<C-k>",
+				"<leader>k",
 				function()
 					require("harpoon"):list():select(2)
 				end,
 				{ desc = "Harpoon Select 2", noremamp = true, mode = { "n" } },
 			},
 			{
-				"<C-l>",
+				"<leader>l",
 				function()
 					require("harpoon"):list():select(3)
 				end,
 				{ desc = "Harpoon Select 3", noremap = true, mode = { "n" } },
 			},
 			{
-				"<C-/>",
+				"<leader>;",
 				function()
 					require("harpoon"):list():select(4)
 				end,

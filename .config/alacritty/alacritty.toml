@@ -4,7 +4,7 @@ TERM = "xterm-256color"
 
 [window]
 # decorations = "None"
-startup_mode = "Fullscreen"
+# startup_mode = "Fullscreen"
 # option_as_alt = "Both"
 # my ultra wide doesn't like letting me see the last couple of pixesl :'(
 padding = { x = 3, y = 0 }
@@ -26,32 +26,32 @@ hide_when_typing = true
 
 [keyboard]
 bindings = [
-  { key = "O", mods = "Command", action = "ToggleFullscreen"},
-  # Unbind keys
-  { key = "H", mods = "Command|Shift", action = "ReceiveChar" },
-  { key = "K", mods = "Command", mode = "~Vi|~Search", action = "ReceiveChar" },
-  { key = "K", mods = "Command", mode = "~Vi", action = "ReceiveChar" },
-  { key = "K", mods = "Command", mode = "~Vi", action = "ReceiveChar" },
-  { key = "N", mods = "Command", action = "ReceiveChar" },
-  { key = "T", mods = "Command", action = "ReceiveChar" },
-  { key = "F", mods = "Command|Control", action = "ReceiveChar" },
-  { key = "F", mods = "Command", mode = "Search", action = "ReceiveChar" },
-  { key = "B", mods = "Command", mode = "Search", action = "ReceiveChar" },
-  { key = "Tab", mods = "Command", action = "ReceiveChar" },
-  { key = "Tab", mods = "Command|Shift", action = "ReceiveChar" },
-  { key = "[", mods = "Command|Shift", action = "ReceiveChar" },
-  { key = "[", mods = "Command", action = "ReceiveChar" },
-  { key = "]", mods = "Command|Shift", action = "ReceiveChar" },
-  { key = "]", mods = "Command", action = "ReceiveChar" },
-  { key = "1", mods = "Command", action = "ReceiveChar" },
-  { key = "2", mods = "Command", action = "ReceiveChar" },
-  { key = "3", mods = "Command", action = "ReceiveChar" },
-  { key = "4", mods = "Command", action = "ReceiveChar" },
-  { key = "5", mods = "Command", action = "ReceiveChar" },
-  { key = "6", mods = "Command", action = "ReceiveChar" },
-  { key = "7", mods = "Command", action = "ReceiveChar" },
-  { key = "8", mods = "Command", action = "ReceiveChar" },
-  { key = "9", mods = "Command", action = "ReceiveChar" },
+	{ key = "O", mods = "Command", action = "ToggleFullscreen" },
+	# Unbind keys
+	{ key = "H", mods = "Command|Shift", action = "ReceiveChar" },
+	{ key = "K", mods = "Command", mode = "~Vi|~Search", action = "ReceiveChar" },
+	{ key = "K", mods = "Command", mode = "~Vi", action = "ReceiveChar" },
+	{ key = "K", mods = "Command", mode = "~Vi", action = "ReceiveChar" },
+	{ key = "N", mods = "Command", action = "ReceiveChar" },
+	{ key = "T", mods = "Command", action = "ReceiveChar" },
+	{ key = "F", mods = "Command|Control", action = "ReceiveChar" },
+	{ key = "F", mods = "Command", mode = "Search", action = "ReceiveChar" },
+	{ key = "B", mods = "Command", mode = "Search", action = "ReceiveChar" },
+	{ key = "Tab", mods = "Command", action = "ReceiveChar" },
+	{ key = "Tab", mods = "Command|Shift", action = "ReceiveChar" },
+	{ key = "[", mods = "Command|Shift", action = "ReceiveChar" },
+	{ key = "[", mods = "Command", action = "ReceiveChar" },
+	{ key = "]", mods = "Command|Shift", action = "ReceiveChar" },
+	{ key = "]", mods = "Command", action = "ReceiveChar" },
+	{ key = "1", mods = "Command", action = "ReceiveChar" },
+	{ key = "2", mods = "Command", action = "ReceiveChar" },
+	{ key = "3", mods = "Command", action = "ReceiveChar" },
+	{ key = "4", mods = "Command", action = "ReceiveChar" },
+	{ key = "5", mods = "Command", action = "ReceiveChar" },
+	{ key = "6", mods = "Command", action = "ReceiveChar" },
+	{ key = "7", mods = "Command", action = "ReceiveChar" },
+	{ key = "8", mods = "Command", action = "ReceiveChar" },
+	{ key = "9", mods = "Command", action = "ReceiveChar" },
 ]
 
 [general]
