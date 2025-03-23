@@ -35,6 +35,8 @@ map("n", "-", function()
 	require("oil").open_float()
 end, { desc = "Open parent directory" })
 
+map("n", "<C-s>", ":wall<CR>", { desc = "save all buffers", silent = true, noremap = true })
+
 -- easier moving of code blocks
 map("v", "<", "<gv", opt_noremap)
 map("v", ">", ">gv", opt_noremap)

@@ -321,8 +321,7 @@ return {
 					lualine_c = {
 						root_dir(),
 						{ "filetype", icon_only = true, separator = "", padding = { left = 1, right = 0 } },
-						{ pretty_path() },
-						{},
+						{ "filename", file_status = true, path = 1 }, -- Shows + for unsaved
 						{
 							"diagnostics",
 							symbols = {
