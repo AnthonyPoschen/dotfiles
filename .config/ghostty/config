@@ -1,0 +1,5 @@
+font-family = "Fragment Mono"
+font-size = 20
+font-thicken = true
+
+confirm-close-surface = false
