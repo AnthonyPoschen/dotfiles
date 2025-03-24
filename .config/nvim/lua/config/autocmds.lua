@@ -21,16 +21,6 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- 	end,
 -- })
 
--- TODO: make alacritty work with this
--- fix kitty on shutdown
-vim.api.nvim_create_autocmd({ "VimLeave", "VimLeavePre" }, {
-	callback = function(ev, opts)
-		os.execute("kitty @ --to $KITTY_LISTEN_ON set-font-size '0'")
-		os.execute("tmux set status 2")
-		os.execute("tmux list-panes -F '\\#F' | grep -q Z && tmux resize-pane -Z")
-	end,
-})
-
 -- Check if we need to reload the file when it changed
 vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 	group = augroup("checktime"),
