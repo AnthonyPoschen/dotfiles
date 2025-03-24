@@ -69,7 +69,7 @@ return {
 		},
 		keys = {
 			{
-				"<leader>h",
+				"<C-h>",
 				function()
 					local harpoon = require("harpoon")
 					harpoon.ui:toggle_quick_menu(harpoon:list())
@@ -77,38 +77,38 @@ return {
 				{ desc = "Harpoon menu", noremap = true, mode = { "n" } },
 			},
 			{
-				"<leader>a",
+				"<C-n>",
 				function()
 					require("harpoon"):list():add()
-					-- require("notify")("Buffer added", "info", {
-					-- 	title = "harpoon",
-					-- })
+					require("notify")("Buffer added", "info", {
+						title = "harpoon",
+					})
 				end,
-				desc = "Add File to Harpoon",
+				{ desc = "Add to harpoon", noremap = true, mode = { "n" } },
 			},
 			{
-				"<leader>j",
+				"<C-j>",
 				function()
 					require("harpoon"):list():select(1)
 				end,
 				{ desc = "Harpoon Select 1", noremap = true, mode = { "n" } },
 			},
 			{
-				"<leader>k",
+				"<C-k>",
 				function()
 					require("harpoon"):list():select(2)
 				end,
 				{ desc = "Harpoon Select 2", noremamp = true, mode = { "n" } },
 			},
 			{
-				"<leader>l",
+				"<C-l>",
 				function()
 					require("harpoon"):list():select(3)
 				end,
 				{ desc = "Harpoon Select 3", noremap = true, mode = { "n" } },
 			},
 			{
-				"<leader>;",
+				"<C-i>",
 				function()
 					require("harpoon"):list():select(4)
 				end,

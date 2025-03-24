@@ -48,66 +48,86 @@ return {
 			{ "<c-space>", desc = "Increment selection" },
 			{ "<bs>", desc = "Decrement selection", mode = "x" },
 		},
-		---@type TSConfig
-		---@diagnostic disable-next-line: missing-fields
-		opts = {
-			highlight = {
-				enable = true,
-				additional_vim_regex_highlighting = false,
-			},
-			indent = { enable = true },
-			autotag = { enable = false }, -- deprecated feature now
-			ensure_installed = {
-				"bash",
-				"c",
-				"diff",
-				"html",
-				"javascript",
-				"jsdoc",
-				"json",
-				"jsonc",
-				"lua",
-				"luadoc",
-				"luap",
-				"markdown",
-				"markdown_inline",
-				"python",
-				"query",
-				"regex",
-				"toml",
-				"tsx",
-				"typescript",
-				"vim",
-				"vimdoc",
-				"yaml",
-				"templ",
-				"go",
-				"gomod",
-				"gowork",
-				"gosum",
-				"gotmpl",
-				"comment",
-				"dockerfile",
-			},
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<C-space>",
-					node_incremental = "<C-space>",
-					scope_incremental = false,
-					node_decremental = "<bs>",
-				},
-			},
-			textobjects = {
-				move = {
+
+		opts = function()
+			return {
+				highlight = {
 					enable = true,
-					goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
-					goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
-					goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
-					goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
+					additional_vim_regex_highlighting = false,
 				},
-			},
-		},
+				indent = { enable = true },
+				autotag = { enable = false }, -- deprecated feature now
+				ensure_installed = {
+					"bash",
+					"c",
+					"diff",
+					"html",
+					"javascript",
+					"jsdoc",
+					"json",
+					"jsonc",
+					"lua",
+					"luadoc",
+					"luap",
+					"markdown",
+					"markdown_inline",
+					"python",
+					"query",
+					"regex",
+					"toml",
+					"tsx",
+					"typescript",
+					"vim",
+					"vimdoc",
+					"yaml",
+					"templ",
+					"go",
+					"gomod",
+					"gowork",
+					"gosum",
+					"gotmpl",
+					"comment",
+					"dockerfile",
+				},
+				incremental_selection = {
+					enable = true,
+					keymaps = {
+						init_selection = "<C-space>",
+						node_incremental = "<C-space>",
+						scope_incremental = false,
+						node_decremental = "<bs>",
+					},
+				},
+				textobjects = {
+					select = {
+						enable = true,
+						lookahead = true,
+						keymaps = {
+							["af"] = "@function.outer",
+							["if"] = "@function.inner",
+							["ac"] = "@class.outer",
+							["ic"] = "@class.inner",
+							["ab"] = "@block.outer",
+							["ib"] = "@block.inner",
+						},
+					},
+					move = {
+						enable = true,
+						set_jumps = true,
+						goto_next_start = {
+							["]f"] = "@function.outer",
+							["]c"] = "@class.outer",
+							["]b"] = "@block.outer",
+						},
+						goto_previous_start = {
+							["[f"] = "@function.outer",
+							["[c"] = "@class.outer",
+							["[b"] = "@block.outer",
+						},
+					},
+				},
+			}
+		end,
 		---@param opts TSConfig
 		config = function(_, opts)
 			local configs = require("nvim-treesitter.configs")

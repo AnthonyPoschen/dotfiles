@@ -651,8 +651,9 @@ return {
 								-- map("<C-k>", vim.lsp.buf.signature_help, "Signature documentation", bufnr)
 
 								-- Navigation
-								map("<C-p>", "<C-t>", "Navigate Previous", bufnr)
-								map("<C-n>", "<CMD>tag<CR>", "Navigate Next", bufnr)
+								-- TODO: Evaluate if this is needed, recently commented out 24-03-2025
+								-- map("<C-p>", "<C-t>", "Navigate Previous", bufnr)
+								-- map("<C-n>", "<CMD>tag<CR>", "Navigate Next", bufnr)
 
 								-- -- Set up signature help overloads
 								-- if client.server_capabilities.signatureHelpProvider then
