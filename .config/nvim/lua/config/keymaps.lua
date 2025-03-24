@@ -46,6 +46,9 @@ map("n", "<C-d>", "<C-d>zz", opt_noremap)
 map("n", "<C-u>", "<C-u>zz", opt_noremap)
 -- map("n", "<C-l>", "<C-w>w", opt_noremap) -- NOTE: Disabled window switching here
 -- map("n", "<C-h>", "<C-w>W", opt_noremap) --NOTE: disabled window switching here
+-- Remap Ctrl-w w and Ctrl-w Ctrl-w to use the custom function
+map("n", "<C-w>w", utils.cycle_windows, { desc = "Cycle to next window (skip Noice)" })
+map("n", "<C-w><C-w>", utils.cycle_windows, { desc = "Cycle to next window (skip Noice)" })
 
 -- allow scrolling previous console commands, invert direction to feel more natural
 -- map('c', '<C-j>', '<Up>', opt_noremap)

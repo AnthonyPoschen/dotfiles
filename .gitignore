@@ -14,6 +14,8 @@
 !\.local/scripts
 !\.local/scripts/*
 
+\.config/tmux/plugins/*
+\.config/tmux/plugins
 \.config/github-copilot
 \.config/pip
 \.config/containers
