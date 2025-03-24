@@ -599,38 +599,25 @@ return {
 							-- certain features of an LSP (for example, turning off formatting for tsserver)
 							capabilities = capabilities,
 							on_attach = function(client, bufnr)
-								if client.server_capabilities.inlayHintProvider then
-									map("<leader>ih", function()
-										vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-									end, "Inlay Hints", bufnr)
-								end
-
 								-- Set up mappings
+								map("K", vim.lsp.buf.hover, "Hover Documentation", bufnr)
+								map("<C-k>", vim.lsp.buf.signature_help, "Signature help", bufnr)
 								map("gd", require("telescope.builtin").lsp_definitions, "Telescope Definition", bufnr)
-								-- map("gd", vim.lsp.buf.definition, "LSP Definition", bufnr)
-								--
-								-- vim.keymap.set("n", "gd", function()
-								-- 	require("telescope.builtin").lsp_definitions({ reuse_win = true })
-								-- end, { desc = "Goto Definition", silent = true })
+								map("gr", require("telescope.builtin").lsp_references, "Telescope References", bufnr)
+								map("ga", vim.lsp.buf.code_action, "Code Action", bufnr)
 								map(
 									"gy",
 									require("telescope.builtin").lsp_type_definitions,
 									"Telescope Type Definition",
 									bufnr
 								)
-								map("gr", require("telescope.builtin").lsp_references, "Telescope References", bufnr)
 								map(
 									"gi",
 									require("telescope.builtin").lsp_implementations,
 									"Telescope Implementation",
 									bufnr
 								)
-
-								-- Common mappings
-								-- map("<leader>f", function()
-								-- 	vim.lsp.buf.format({ async = true })
-								-- end, "Format", bufnr)
-								-- map("gD", vim.lsp.buf.declaration, "Goto Declaration", bufnr)
+								map("<leader>r", vim.lsp.buf.rename, "Rename symbol", bufnr)
 
 								map("gs", function()
 									local lsp_symbols = vim.tbl_map(string.lower, vim.lsp.protocol.SymbolKind)
@@ -642,23 +629,11 @@ return {
 									-- require("telescope.builtin").lsp_document_symbols,
 								end, "Telescope Document Symbols", bufnr)
 								map(
-									"<leader>ws",
+									"gws",
 									require("telescope.builtin").lsp_dynamic_workspace_symbols,
 									"Telescope Workspace Symbols",
 									bufnr
 								)
-								map("K", vim.lsp.buf.hover, "Hover Documentation", bufnr)
-								-- map("<C-k>", vim.lsp.buf.signature_help, "Signature documentation", bufnr)
-
-								-- Navigation
-								-- TODO: Evaluate if this is needed, recently commented out 24-03-2025
-								-- map("<C-p>", "<C-t>", "Navigate Previous", bufnr)
-								-- map("<C-n>", "<CMD>tag<CR>", "Navigate Next", bufnr)
-
-								-- -- Set up signature help overloads
-								-- if client.server_capabilities.signatureHelpProvider then
-								-- 	require("lsp-overloads").setup(client, {})
-								-- end
 
 								-- Call the server's on_attach, if it exists
 								if server.on_attach then

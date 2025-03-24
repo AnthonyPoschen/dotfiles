@@ -29,12 +29,31 @@ return {
 			next = "j", -- next item
 			help = "?", -- help menu
 		},
+		keys = {
+			m = { -- example of a custom action that toggles the active view filter
+				action = function(view)
+					view:filter({ buf = 0 }, { toggle = true })
+				end,
+				desc = "Toggle Current Buffer Filter",
+			},
+			s = { -- example of a custom action that toggles the severity
+				action = function(view)
+					local f = view:get_filter("severity")
+					local severity = ((f and f.filter.severity or 0) + 1) % 5
+					view:filter({ severity = severity }, {
+						id = "severity",
+						template = "{hl:Title}Filter:{hl} {severity}",
+						-- del = severity == 0,
+					})
+				end,
+				desc = "Toggle Severity Filter",
+			},
+		},
 	},
 	keys = {
-		{ "<leader>xx", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
-		{ "<leader>xX", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
-		{ "<leader>xL", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
-		{ "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
+		{ "ge", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
+		{ "gl", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
+		{ "gq", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
 		{
 			"[q",
 			function()
