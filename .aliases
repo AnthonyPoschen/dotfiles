@@ -146,7 +146,69 @@ alias docker-clean='docker rmi $(docker images --filter "dangling=true" -q --no-
 alias diff='nvim -c \"b:coc_enabled=0\" -d $@'
 
 # Cant be fucked to remember the aws syntax
-alias ssm="aws ssm start-session --target"
+alias ssm="_ssm"
+_ssm() {
+  local input="$1"
+  if [ -z "$1" ]; then
+    # Capture the full selected line from fzf
+    selected=$(AWS_PAGER='' aws ec2 describe-instances \
+      --filters "Name=instance-state-name,Values=pending,running" \
+      --query "Reservations[*].Instances[*].[join(\`|\`, [Tags[?Key==\`Name\`]|[0].Value, InstanceId, PrivateIpAddress, State.Name, LaunchTime])]" \
+      --output text | sort -t'|' -k5 -r | while IFS='|' read -r name instance_id ip state launch_time; do
+        # Convert +00:00 to +0000 for macOS date compatibility
+        launch_time_fixed=$(echo "$launch_time" | sed 's/+00:00/+0000/')
+
+        # Convert LaunchTime to seconds since epoch (macOS)
+        launch_seconds=$(date -j -f "%Y-%m-%dT%H:%M:%S%z" "$launch_time_fixed" +%s 2>/dev/null)
+        now=$(date +%s)
+
+        # Check if launch_seconds is valid
+        if [ -z "$launch_seconds" ] || ! [[ "$launch_seconds" =~ ^[0-9]+$ ]]; then
+          rel="Invalid LaunchTime: $launch_time"
+        else
+          diff=$((now - launch_seconds))
+          if [ "$diff" -lt 0 ]; then diff=0; fi
+
+          if [ "$diff" -lt 60 ]; then
+            rel="moments ago"
+          elif [ "$diff" -lt 3600 ]; then
+            minutes=$((diff / 60))
+            if [ "$minutes" -eq 1 ]; then rel="$minutes minute ago"; else rel="$minutes minutes ago"; fi
+          elif [ "$diff" -lt 86400 ]; then
+            hours=$((diff / 3600))
+            if [ "$hours" -eq 1 ]; then rel="$hours hour ago"; else rel="$hours hours ago"; fi
+          else
+            days=$((diff / 86400))
+            if [ "$days" -eq 1 ]; then rel="$days day ago"; else rel="$days days ago"; fi
+          fi
+        fi
+
+        printf "%s|%s|%s|%s|%s\n" "$name" "$instance_id" "$ip" "$state" "$rel"
+      done | column -s '|' -t | fzf)
+
+    # If nothing selected (fzf cancelled), exit
+    if [ -z "$selected" ]; then
+      echo "No instance selected."
+      return 1
+    fi
+
+    # Extract details from the selected line
+    name=$(echo "$selected" | awk -F'  +' '{print $1}')
+    input=$(echo "$selected" | awk -F'  +' '{print $2}')  # InstanceId
+    ip=$(echo "$selected" | awk -F'  +' '{print $3}')
+    state=$(echo "$selected" | awk -F'  +' '{print $4}')
+    rel=$(echo "$selected" | awk -F'  +' '{ $1=$2=$3=$4=""; print substr($0, 5) }' | sed 's/^ *//')
+
+    # Echo the details before connecting
+    echo "Connecting to:"
+    echo "  Name:        $name"
+    echo "  Instance ID: $input"
+    echo "  Launched:    $rel"
+  fi
+
+  # Start SSM session
+  aws ssm start-session --target "$input"
+}
 
 alias aws-account-id="aws sts get-caller-identity | jq -r '.Account'"
 

@@ -11,6 +11,7 @@ export ZSH_CUSTOM="$HOME/.oh-my-zsh-custom"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 # Zsh autosuggest
 bindkey -M viins '^y' autosuggest-accept
+bindkey -M viins '^ ' autosuggest-accept
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#8D8D8D,bold"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"
