@@ -166,7 +166,15 @@ _ec2-terminate() {
 alias ec2-list="_ec2-list"
 _ec2-list() {
     # AWS_PAGER='' aws ec2 describe-instances --filters "Name=tag:Name,Values=*$1*" --query "Reservations[*].Instances[*].{ID:InstanceId,IP:PrivateIpAddress,Name:Tags[?Key==\`Name\`]|[0].Value,Status: State.Name != \`terminated\`} | sort_by([], &to_string(Name))" --output table
-    AWS_PAGER='' aws ec2 describe-instances --filters Name=tag:Name,Values=\*$1\* Name=instance-state-name,Values=pending,running --query "Reservations[*].Instances[*].{ID:InstanceId,IP:PrivateIpAddress,Name:Tags[?Key==\`Name\`]|[0].Value,Status: State.Name,Launch_Time: LaunchTime} | sort_by([], &to_string(Name))" --output table
+    # AWS_PAGER='' aws ec2 describe-instances --filters Name=tag:Name,Values=\*$1\* Name=instance-state-name,Values=pending,running --query "Reservations[*].Instances[*].{ID:InstanceId,IP:PrivateIpAddress,Name:Tags[?Key==\`Name\`]|[0].Value,Status: State.Name,Launch_Time: LaunchTime} | sort_by([], &to_string(Name))" --output table
+		input="$1"
+		lower=$(echo "$input" | tr '[:upper:]' '[:lower:]')
+		upper=$(echo "$input" | tr '[:lower:]' '[:upper:]')
+		title=$(echo "$input" | awk '{print toupper(substr($0,1,1))tolower(substr($0,2))}')
+		AWS_PAGER='' aws ec2 describe-instances \
+			--filters "Name=tag:Name,Values=*$lower*,*$upper*,*$title*" "Name=instance-state-name,Values=pending,running" \
+			--query "Reservations[*].Instances[*].{ID:InstanceId,IP:PrivateIpAddress,Name:Tags[?Key==\`Name\`]|[0].Value,Status:State.Name,Launch_Time:LaunchTime} | sort_by([], &to_string(Name))" \
+			--output table
 }
 
 longest-line() {
