@@ -328,62 +328,57 @@ return {
 							runtime = { version = "LuaJIT" },
 							workspace = {
 								checkThirdParty = false,
-								-- Dynamically determine appropriate libraries based on project type
-								library = function()
-									local path = vim.fn.expand("%:p")
-									local libraries = {}
+								library = (function()
+									local library_paths = {}
+									local cwd = vim.fn.getcwd()
 
-									-- Add Neovim runtime for Neovim config files
-									if path:match("/.config/nvim/") then
-										libraries[#libraries + 1] = vim.env.VIMRUNTIME
+									-- Add Neovim runtime files if in Neovim config
+									if cwd:match(vim.fn.stdpath("config")) then
+										vim.list_extend(library_paths, vim.api.nvim_get_runtime_file("", true))
 									end
 
-									-- Add Factorio libraries for Factorio mod projects
-									if
-										path:match("/factorio/")
-										or vim.fn.filereadable(vim.fn.getcwd() .. "/info.json") == 1
-									then
-										libraries[#libraries + 1] = vim.fn.expand("~/.local/factorio/script-docs")
+									-- Add Factorio Lua objects if in a Factorio repo
+									local factorio_paths = {
+										"/factorio",
+									}
+									for _, path in ipairs(factorio_paths) do
+										if cwd:match(path) then
+											vim.list_extend(library_paths, { path })
+											break
+										end
 									end
 
-									return libraries
-								end,
+									return library_paths
+								end)(),
 							},
 							completion = {
 								callSnippet = "Replace",
 							},
-							-- Conditionally set diagnostics based on project type
 							diagnostics = {
-								globals = function()
-									local path = vim.fn.expand("%:p")
-									local globals = {}
+								globals = (function()
+									local globals = { "vim" }
+									local cwd = vim.fn.getcwd()
 
-									-- Add Neovim globals for Neovim config files
-									if path:match("/.config/nvim/") then
-										globals = { "vim" }
-									end
-
-									-- Add Factorio globals for Factorio mod projects
-									if
-										path:match("/factorio/")
-										or vim.fn.filereadable(vim.fn.getcwd() .. "/info.json") == 1
-									then
-										table.insert(globals, "game")
-										table.insert(globals, "script")
-										table.insert(globals, "remote")
-										table.insert(globals, "commands")
-										table.insert(globals, "settings")
-										table.insert(globals, "data")
-										table.insert(globals, "mods")
-										-- Add more Factorio globals as needed
+									-- Add Factorio globals if in a Factorio repo
+									local factorio_paths = {
+										"/factorio",
+									}
+									for _, path in ipairs(factorio_paths) do
+										if cwd:match(path) then
+											vim.list_extend(
+												globals,
+												{ "game", "script", "remote", "commands", "settings", "data", "mods" }
+											)
+											break
+										end
 									end
 
 									return globals
-								end,
+								end)(),
 							},
 						},
 					},
-					-- Custom root_dir function to support different project types
+					-- Keep the root_dir function as it's used during setup, not sent to server
 					root_dir = function(fname)
 						local nvim_config = vim.fn.stdpath("config")
 						local in_nvim_config = fname:match(nvim_config)
@@ -399,12 +394,14 @@ return {
 							return vim.fn.getcwd()
 						else
 							-- Default root dir logic from lspconfig
-							return require("lspconfig.util").find_git_ancestor(fname)
-								or require("lspconfig.util").find_node_modules_ancestor(fname)
-								or require("lspconfig.util").find_package_json_ancestor(fname)
-								or require("lspconfig.util").find_patterns(
-									fname,
-									{ ".luarc.json", ".luacheckrc", ".stylua.toml" }
+							return vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
+								or vim.fs.dirname(vim.fs.find("node_modules", { path = fname, upward = true })[1])
+								or vim.fs.dirname(vim.fs.find("package.json", { path = fname, upward = true })[1])
+								or vim.fs.dirname(
+									vim.fs.find(
+										{ ".luarc.json", ".luacheckrc", ".stylua.toml" },
+										{ path = fname, upward = true }
+									)[1]
 								)
 								or vim.fn.getcwd()
 						end
@@ -426,90 +423,20 @@ return {
 								enableInlayHintsForTypes = true,
 							},
 							debug = {
-								-- console = "internalConsole",
-								-- enableStepFiltering = true,
-								expressionEvaluationOptions = {
-									-- allowFastEvaluate = true,
-									-- allowImplicitFuncEval = true,
-									-- allowToString = true,
-									-- showRawValues = false,
-								},
-								-- justMyCode = true,
-								logging = {
-									-- browserStdOut = true,
-									-- consoleUsageMessage = true,
-									diagnosticsLog = {
-										-- debugEngineAPITracing = "none",
-										-- debugRuntimeEventTracing = false,
-										-- dispatcherMessages = "none",
-										-- expressionEvaluationTracing = false,
-										-- protocolMessages = false,
-										-- startDebuggingTracing = false,
-									},
-									-- elapsedTiming = false,
-									-- engineLogging = false,
-									-- exceptions = true,
-									-- moduleLoad = true,
-									-- processExit = true,
-									-- programOutput = true,
-									-- threadExit = false,
-								},
-								-- requireExactSource = true,
-								-- sourceFileMap = {},
-								-- stopAtEntry = false,
-								-- suppressJITOptimizations = false,
 								symbolOptions = {
-									-- cachePath = "",
-									moduleFilter = {
-										-- excludedModules = {},
-										-- includeSymbolsNextToModules = true,
-										-- includeSymbolsOnDemand = true,
-										-- includedModules = {},
-										-- mode = "loadAllButExcluded",
-									},
 									searchMicrosoftSymbolServer = true,
 									searchNuGetOrgSymbolServer = true,
-									-- searchPaths = {},
 								},
 							},
 							format = {
-								-- enable = true,
+								enable = true,
 							},
 							-- maxProjectFileCountForDiagnosticAnalysis = 1000,
 							referencesCodeLens = {
 								-- filteredSymbols = {},
 							},
-							-- semanticHighlighting.enabled = true,
-							-- showOmnisharpLogOnError = true,
-							-- suppressBuildAssetsNotification = false,
-							-- suppressDotnetInstallWarning = false,
-							-- suppressDotnetRestoreNotification = false,
-							-- suppressHiddenDiagnostics = true,
-							-- suppressProjectJsonWarning = false,
 						},
 						dotnet = {
-							-- defaultSolution = "",
-							backgroundAnalysis = {
-								-- analyzerDiagnosticsScope = "openFiles",
-								-- compilerDiagnosticsScope = "openFiles",
-							},
-							codeLens = {
-								-- enableReferencesCodeLens = true,
-								-- enableTestsCodeLens = true,
-							},
-							completion = {
-								-- provideRegexCompletions = "true",
-								-- showCompletionItemsFromUnimportedNamespaces = true,
-								-- showNameCompletionSuggestions = "true",
-							},
-							highlighting = {
-								-- highlightRelatedJsonComponents = "true",
-								-- highlightRelatedRegexComponents = "true",
-							},
-							implementType = {
-								-- insertionBehavior = "withOtherMembersOfTheSameKind",
-								-- propertyGenerationBehavior = "preferThrowingProperties",
-							},
 							inlayHints = {
 								enableInlayHintsForIndexerParameters = true,
 								enableInlayHintsForLiteralParameters = true,
@@ -520,55 +447,14 @@ return {
 								suppressInlayHintsForParametersThatMatchArgumentName = true,
 								suppressInlayHintsForParametersThatMatchMethodIntent = true,
 							},
-							-- navigation.navigateToDecompiledSources = "true",
-							-- quickInfo.showRemarksInQuickInfo = "true",
-							-- symbolSearch.searchReferenceAssemblies = true,
-							-- unitTestDebuggingOptions = {},
-							-- unitTests.runSettingsPath = "",
-							-- dotnetPath = "",
-							-- enableXamlTools = true,
-							-- preferCSharpExtension = false,
-							-- projects.binaryLogPath = "",
-							-- projects.enableAutomaticRestore = true,
-							-- server.componentPaths = {},
-							-- server.crashDumpPath = "",
-							-- server.extensionPaths = {},
-							-- server.path = "",
-							-- server.startTimeout = 30000,
-							-- server.suppressLspErrorToasts = false,
-							-- server.trace = "Information",
-							-- server.waitForDebugger = false,
 						},
 						omnisharp = {
 							enableAsyncCompletion = true,
 							enableDecompilationSupport = true,
 							-- enableEditorConfigSupport = true,
 							enableLspDriver = true,
-							-- enableMsBuildLoadProjectsOnDemand = false,
-							-- loggingLevel = "information",
-							-- maxFindSymbolsItems = 1000,
-							-- maxProjectResults = 250,
-							-- minFindSymbolsFilterLength = 0,
-							-- monoPath = "",
 							organizeImportsOnFormat = true,
-							-- projectFilesExcludePattern = "**/node_modules/**,**/.git/**,**/bower_components/**",
-							-- projectLoadTimeout = 60,
 							sdkIncludePrereleases = true,
-							-- sdkPath = "",
-							-- sdkVersion = "",
-							-- useEditorFormattingSettings = true,
-							-- useModernNet = true,
-						},
-						razor = {
-							-- languageServer.debug = false,
-							-- languageServer.directory = "",
-							-- languageServer.forceRuntimeCodeGeneration = false,
-							-- server.trace = "Information",
-							-- completion.commitElementsWithSpace = "false",
-							-- devmode = false,
-							-- format.codeBlockBraceOnNextLine = false,
-							-- format.enable = true,
-							-- plugin.path = "",
 						},
 					},
 					on_attach = function(client, bufnr)
@@ -590,9 +476,9 @@ return {
 				},
 			}
 
-			require("mason").setup({
-				max_concurrent_installers = 10,
-			})
+			-- require("mason").setup({
+			-- 	max_concurrent_installers = 10,
+			-- })
 
 			require("mason-lspconfig").setup_handlers({
 				-- The first entry (without a key) will be the default handler
@@ -628,12 +514,6 @@ return {
 				end,
 			})
 
-			-- Capabilities
-			-- local capabilities = vim.tbl_deep_extend(
-			-- 	"force",
-			-- 	vim.lsp.protocol.make_client_capabilities(),
-			-- 	require("blink.cmp").default_capabilities()
-			-- )
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 			-- UFO (Folding)

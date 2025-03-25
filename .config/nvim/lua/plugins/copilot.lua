@@ -1,3 +1,4 @@
+-- multi line comment explaining all the plugins
 return {
 	{
 		"zbirenbaum/copilot.lua",
@@ -6,12 +7,24 @@ return {
 		config = function()
 			require("copilot").setup({
 				suggestion = {
+					enabled = true,
+					debounce = 50,
 					auto_trigger = true,
 					keymap = {
-						-- Accept the suggestion
-						accept = "<C-y>",
+						-- -- Accept the suggestion
+						-- accept = "<C-y>",
+						-- accept_word = false,
+						-- accept_line = false,
+						accept = false,
 					},
 				},
+			})
+			vim.keymap.set("i", "<C-y>", function()
+				require("copilot.suggestion").accept()
+				require("copilot.suggestion").next()
+			end, {
+				desc = "[copilot] accept suggestion",
+				silent = true,
 			})
 		end,
 	},
