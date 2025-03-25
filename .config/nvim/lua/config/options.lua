@@ -52,9 +52,9 @@ opt.relativenumber = true
 opt.inccommand = "split" -- preview incremental substitute
 opt.guicursor = ""
 
--- opt.backup = false
--- opt.writebackup = false
--- opt.swapfile = false
+opt.backup = false
+opt.writebackup = false
+opt.swapfile = false
 
 -- Always show at least one line above/below the cursor.
 opt.scrolloff = 4

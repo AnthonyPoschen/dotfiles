@@ -328,21 +328,88 @@ return {
 							runtime = { version = "LuaJIT" },
 							workspace = {
 								checkThirdParty = false,
-								-- library = {
-								-- 	"${3rd}/luv/library",
-								-- 	"/Users/ap/.local/factorio",
-								-- 	unpack(vim.api.nvim_get_runtime_file("", true)),
-								-- },
+								-- Dynamically determine appropriate libraries based on project type
+								library = function()
+									local path = vim.fn.expand("%:p")
+									local libraries = {}
+
+									-- Add Neovim runtime for Neovim config files
+									if path:match("/.config/nvim/") then
+										libraries[#libraries + 1] = vim.env.VIMRUNTIME
+									end
+
+									-- Add Factorio libraries for Factorio mod projects
+									if
+										path:match("/factorio/")
+										or vim.fn.filereadable(vim.fn.getcwd() .. "/info.json") == 1
+									then
+										libraries[#libraries + 1] = vim.fn.expand("~/.local/factorio/script-docs")
+									end
+
+									return libraries
+								end,
 							},
 							completion = {
 								callSnippet = "Replace",
 							},
-							-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-							-- diagnostics = { disable = { 'missing-fields' } },
+							-- Conditionally set diagnostics based on project type
+							diagnostics = {
+								globals = function()
+									local path = vim.fn.expand("%:p")
+									local globals = {}
+
+									-- Add Neovim globals for Neovim config files
+									if path:match("/.config/nvim/") then
+										globals = { "vim" }
+									end
+
+									-- Add Factorio globals for Factorio mod projects
+									if
+										path:match("/factorio/")
+										or vim.fn.filereadable(vim.fn.getcwd() .. "/info.json") == 1
+									then
+										table.insert(globals, "game")
+										table.insert(globals, "script")
+										table.insert(globals, "remote")
+										table.insert(globals, "commands")
+										table.insert(globals, "settings")
+										table.insert(globals, "data")
+										table.insert(globals, "mods")
+										-- Add more Factorio globals as needed
+									end
+
+									return globals
+								end,
+							},
 						},
 					},
+					-- Custom root_dir function to support different project types
+					root_dir = function(fname)
+						local nvim_config = vim.fn.stdpath("config")
+						local in_nvim_config = fname:match(nvim_config)
+
+						-- For Factorio mods
+						local is_factorio_mod = fname:match("/factorio/")
+							or vim.fn.filereadable(vim.fn.getcwd() .. "/info.json") == 1
+
+						if in_nvim_config then
+							return nvim_config
+						elseif is_factorio_mod then
+							-- Use the mod directory as root for Factorio mods
+							return vim.fn.getcwd()
+						else
+							-- Default root dir logic from lspconfig
+							return require("lspconfig.util").find_git_ancestor(fname)
+								or require("lspconfig.util").find_node_modules_ancestor(fname)
+								or require("lspconfig.util").find_package_json_ancestor(fname)
+								or require("lspconfig.util").find_patterns(
+									fname,
+									{ ".luarc.json", ".luacheckrc", ".stylua.toml" }
+								)
+								or vim.fn.getcwd()
+						end
+					end,
 				},
-				-- csharp_ls = {
 				--     enabled = false,
 				--     handlers = {
 				--         ["textDocument/definition"] = require("csharpls_extended").handler,
@@ -601,7 +668,8 @@ return {
 							on_attach = function(client, bufnr)
 								-- Set up mappings
 								map("K", vim.lsp.buf.hover, "Hover Documentation", bufnr)
-								map("<C-k>", vim.lsp.buf.signature_help, "Signature help", bufnr)
+								-- TODO: Rebind this because it classhes with harpoon
+								-- map("<C-k>", vim.lsp.buf.signature_help, "Signature help", bufnr)
 								map("gd", require("telescope.builtin").lsp_definitions, "Telescope Definition", bufnr)
 								map("gr", require("telescope.builtin").lsp_references, "Telescope References", bufnr)
 								map("ga", vim.lsp.buf.code_action, "Code Action", bufnr)
