@@ -61,6 +61,7 @@
     lg = "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %C(dim ul white)%an%C(reset)%C(bold yellow)%d%C(reset)' --all"
     lge ="log --pretty=medium --notes='*' --decorate --date=short --abbrev-commit --graph"
 
+		diffstats = !sh -c 'git diff --stat HEAD "$(git rev-list -n 1 --before=\"${*:-1 week ago}\" HEAD)"' --
     lines = "!f() { git log --author=\"$1\" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2; } END { printf \"Added:\t %s\\nRemoved: %s\\nTotal:\t %s\\n\", add, subs, loc }' -;};f"
     # git log --author="Anthony Poschen" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -
     # see all devs by commit number without email
