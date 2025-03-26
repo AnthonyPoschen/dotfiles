@@ -53,15 +53,6 @@ hs.hotkey.bind({ "cmd" }, "1", function()
 			return
 		end
 
-		-- If Teams is running, ensure all windows are raised and cycle
-		local allWindows = hs.window.allWindows()
-		for _, win in pairs(allWindows) do
-			if win:application():name() == "Microsoft Teams" then
-				win:raise() -- Raise above other apps
-				win:focus() -- Ensure it’s focused
-			end
-		end
-
 		-- Cycle windows if already focused
 		cycleWindows("Microsoft Teams")
 	end
