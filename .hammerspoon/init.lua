@@ -15,6 +15,9 @@ local function cycleWindows(appName)
 
 	local windows = app:allWindows()
 	if #windows <= 1 then
+		if #windows == 1 then
+			windows[1]:focus()
+		end
 		return
 	end -- No need to cycle if 1 or fewer windows
 
