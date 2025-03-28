@@ -1,7 +1,18 @@
 [core]
   editor = nvim
+	pager = delta
   abbrev = 8
   ignorecase = false
+[delta "no-background"]
+	hyperlinks = true
+	line-numbers = true
+	minus-style = red
+	plus-style = green
+	minus-emph-style = red
+	plus-emph-style = green
+	syntax-theme = none
+[delta]
+  features = no-background
 [user]
   email = zanven42@gmail.com
   name = Anthony Poschen
