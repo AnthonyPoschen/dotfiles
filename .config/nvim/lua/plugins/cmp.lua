@@ -1,7 +1,10 @@
 return {
 	"saghen/blink.cmp",
 	lazy = false, -- lazy loading handled internally
-	dependencies = "rafamadriz/friendly-snippets",
+	dependencies = {
+		"rafamadriz/friendly-snippets",
+		"Kaiser-Yang/blink-cmp-avante",
+	},
 	version = "*",
 	opts = {
 		-- 'default' for mappings similar to built-in completion
@@ -37,9 +40,17 @@ return {
 		},
 		sources = {
 			default = {
+				"avante",
 				"lsp",
 				"path",
 				"snippets",
+			},
+			providers = {
+				avante = {
+					module = "blink-cmp-avante",
+					name = "Avante",
+					opts = {},
+				},
 			},
 		},
 	},

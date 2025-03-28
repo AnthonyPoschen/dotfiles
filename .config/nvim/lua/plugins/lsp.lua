@@ -465,9 +465,14 @@ return {
 							"Telescope Type Definition",
 							bufnr
 						)
-						map("gr", require("omnisharp_extended").telescope_lsp_references, "Telescope References", bufnr)
 						map(
-							"gi",
+							"grr",
+							require("omnisharp_extended").telescope_lsp_references,
+							"Telescope References",
+							bufnr
+						)
+						map(
+							"gri",
 							require("omnisharp_extended").telescope_lsp_implementation,
 							"Telescope Implementation",
 							bufnr
@@ -551,23 +556,17 @@ return {
 								-- TODO: Rebind this because it classhes with harpoon
 								-- map("<C-k>", vim.lsp.buf.signature_help, "Signature help", bufnr)
 								map("gd", require("telescope.builtin").lsp_definitions, "Telescope Definition", bufnr)
-								map("gr", require("telescope.builtin").lsp_references, "Telescope References", bufnr)
-								map("ga", vim.lsp.buf.code_action, "Code Action", bufnr)
+								map("grr", require("telescope.builtin").lsp_references, "Telescope References", bufnr)
+								map("gra", vim.lsp.buf.code_action, "Code Action", bufnr)
 								map(
-									"gy",
-									require("telescope.builtin").lsp_type_definitions,
-									"Telescope Type Definition",
-									bufnr
-								)
-								map(
-									"gi",
+									"gri",
 									require("telescope.builtin").lsp_implementations,
 									"Telescope Implementation",
 									bufnr
 								)
-								map("<leader>r", vim.lsp.buf.rename, "Rename symbol", bufnr)
+								map("grn", vim.lsp.buf.rename, "Rename symbol", bufnr)
 
-								map("gs", function()
+								map("grs", function()
 									local lsp_symbols = vim.tbl_map(string.lower, vim.lsp.protocol.SymbolKind)
 									-- define a filter function to excl. undesired symbols
 									local symbols = vim.tbl_filter(function(symbol)
@@ -577,7 +576,7 @@ return {
 									-- require("telescope.builtin").lsp_document_symbols,
 								end, "Telescope Document Symbols", bufnr)
 								map(
-									"gws",
+									"grw",
 									require("telescope.builtin").lsp_dynamic_workspace_symbols,
 									"Telescope Workspace Symbols",
 									bufnr
