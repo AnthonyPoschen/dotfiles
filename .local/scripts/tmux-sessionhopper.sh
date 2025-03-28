@@ -27,7 +27,7 @@ for session in $session_list; do
 done
 
 # Pass the formatted list to fzf and extract the session name
-session=$(echo "$sessions" | fzf | cut -d ' ' -f 1)
+session=$(echo "$sessions" | fzf --prompt="Switch: " | cut -d ' ' -f 1)
 if [[ -z $session ]]; then
 	exit 0
 fi

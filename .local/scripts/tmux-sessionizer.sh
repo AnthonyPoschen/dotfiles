@@ -8,7 +8,7 @@ source ~/.project-paths.sh
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ${Folders[*]} ${defaultFolders[*]} -mindepth 1 -maxdepth 1 -type d | fzf)
+    selected=$(find ${Folders[*]} ${defaultFolders[*]} -mindepth 1 -maxdepth 1 -type d | fzf --prompt="Create: ")
 fi
 
 if [[ -z $selected ]]; then
