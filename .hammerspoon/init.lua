@@ -1,8 +1,21 @@
 ---@diagnostic disable-next-line: lowercase-global
 hs = hs
 
-local homeMachine = hs.host.localizedName() == "TBD"
+hs.application.enableSpotlightForNameSearches(true)
+local homeMachine = hs.host.localizedName() == "Anthony’s MacBook Pro"
 
+local keybinds = {
+	Home = {
+		{ "cmd", "1", "Discord" },
+		{ "cmd", "2", "Ghostty" },
+		{ "cmd", "3", "Brave Browser" },
+	},
+	Work = {
+		{ "cmd", "1", "Microsoft Teams" },
+		{ "cmd", "2", "Ghostty" },
+		{ "cmd", "3", "Brave Browser" },
+	},
+}
 -- NOTE: use this for debugging to get list of applications, console mode
 -- for _, app in pairs(hs.application.runningApplications()) do print(app:title()) end
 
@@ -42,35 +55,11 @@ local function cycleWindows(appName)
 	end
 end
 
--- Keybind for Discord or Microsoft Teams
-hs.hotkey.bind({ "cmd" }, "1", function()
-	if homeMachine then
-		hs.application.launchOrFocus("Discord")
-	else
-		local teams = hs.application.get("Microsoft Teams")
-		if not teams then
-			hs.application.launchOrFocus("Microsoft Teams")
-			return
-		end
-
-		-- Cycle windows if already focused
-		cycleWindows("Microsoft Teams")
-	end
-end)
-
--- Keybind for Ghostty
-hs.hotkey.bind({ "cmd" }, "2", function()
-	hs.application.launchOrFocus("Ghostty")
-end)
-
--- Keybind for Brave Browser
-hs.hotkey.bind({ "cmd" }, "3", function()
-	local brave = hs.application.get("Brave Browser")
-	if not brave then
-		hs.application.launchOrFocus("Brave Browser")
-		return
-	end
-
-	-- Cycle windows if already focused
-	cycleWindows("Brave Browser")
-end)
+-- lua has retarded ternary operator
+local keybindGroup = homeMachine and "Home" or "Work"
+for _, keybind in ipairs(keybinds[keybindGroup]) do
+	hs.hotkey.bind(keybind[1], keybind[2], function()
+		hs.application.launchOrFocus(keybind[3])
+		cycleWindows(keybind[3])
+	end)
+end
