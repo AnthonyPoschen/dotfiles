@@ -1,7 +1,7 @@
 -- Determine the default provider based on hostname
 local default_provider = "copilot"
 if vim.fn.hostname() == "Anthonys-MacBook-Pro.local" then
-	default_provider = "gemini"
+	default_provider = "claude"
 end
 
 return {
@@ -31,6 +31,12 @@ return {
 			-- provider = "claude",
 			-- provider = "claude_mcp",
 			-- Additional options for Claude
+			mappings = {
+				files = {
+					add_current = "<leader>ac",
+					add_all_buffers = "<leader>ab",
+				},
+			},
 			cursor_applying_provider = nil,
 			behaviour = {
 				support_paste_from_clipboard = true,
@@ -44,6 +50,14 @@ return {
 				timeout = 60000,
 				temprature = nil,
 				max_tokens = 65536,
+			},
+			windows = {
+				ask = {
+					start_insert = false,
+				},
+				edit = {
+					start_insert = false,
+				},
 			},
 		},
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`

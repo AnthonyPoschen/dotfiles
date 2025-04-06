@@ -12,18 +12,27 @@ return {
 					auto_trigger = true,
 					keymap = {
 						-- -- Accept the suggestion
-						-- accept = "<C-y>",
 						-- accept_word = false,
 						-- accept_line = false,
 						accept = false,
 					},
+				},
+				filetypes = {
+					[".env"] = false,
 				},
 			})
 			vim.keymap.set("i", "<C-y>", function()
 				require("copilot.suggestion").accept()
 				require("copilot.suggestion").next()
 			end, {
-				desc = "[copilot] accept suggestion",
+				desc = "[copilot] accept full suggestion",
+				silent = true,
+			})
+			vim.keymap.set("i", "<Tab>", function()
+				require("copilot.suggestion").accept_line()
+				require("copilot.suggestion").next()
+			end, {
+				desc = "[copilot] accept line suggestion",
 				silent = true,
 			})
 		end,
