@@ -1,3 +1,9 @@
+-- Determine the default provider based on hostname
+local default_provider = "copilot"
+if vim.fn.hostname() == "Anthonys-MacBook-Pro.local" then
+	default_provider = "gemini"
+end
+
 return {
 	-- NOTE: Hotkeys to use avante - https://github.com/yetone/avante.nvim/blob/main/lua/avante/config.lua#L361
 	-- While Coding keys to bring up avante
@@ -20,7 +26,7 @@ return {
 		event = "VeryLazy",
 		version = false, -- Never set this value to "*"! Never!
 		opts = {
-			provider = "copilot", -- default provider
+			provider = default_provider,
 			-- Uncomment the following lines to switch providers
 			-- provider = "claude",
 			-- provider = "claude_mcp",
@@ -31,6 +37,13 @@ return {
 				enable_claude_text_editor_tool_mode = true,
 				enable_cursor_planning_mode = false,
 				use_cwd_as_project_root = false, -- NOTE: maybe change this to true from default
+			},
+			gemini = {
+				-- endpoint = "https://generativelanguage.googleapis.com/v1beta/models",
+				model = "gemini-2.5-pro-exp-03-25",
+				timeout = 60000,
+				temprature = nil,
+				max_tokens = 65536,
 			},
 		},
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`

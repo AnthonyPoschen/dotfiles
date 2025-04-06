@@ -112,7 +112,7 @@ function M.cycle_windows()
 		local win = wins[next_win_idx]
 		local buf = vim.api.nvim_win_get_buf(win)
 		local buf_name = vim.api.nvim_buf_get_name(buf)
-		local buf_ft = vim.api.nvim_buf_get_option(buf, "filetype")
+		local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = buf })
 
 		-- Skip Noice windows (check buffer name or filetype)
 		if not (buf_name:match("notify") or buf_ft == "notify") then
