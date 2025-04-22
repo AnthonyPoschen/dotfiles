@@ -338,14 +338,10 @@ return {
 									end
 
 									-- Add Factorio Lua objects if in a Factorio repo
-									local factorio_paths = {
-										"/factorio",
-									}
-									for _, path in ipairs(factorio_paths) do
-										if cwd:match(path) then
-											vim.list_extend(library_paths, { path })
-											break
-										end
+									-- Match any path containing "factorio"
+									if cwd:match("factorio") then
+										-- Add the current working directory to library paths
+										vim.list_extend(library_paths, { "~/.local/factorio/" })
 									end
 
 									return library_paths
