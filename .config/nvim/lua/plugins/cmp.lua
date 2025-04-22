@@ -43,7 +43,7 @@ return {
 				"avante",
 				"lsp",
 				"path",
-				"snippets",
+				-- "snippets",
 			},
 			providers = {
 				avante = {

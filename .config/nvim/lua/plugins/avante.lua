@@ -107,6 +107,7 @@ return {
 				"MeanderingProgrammer/render-markdown.nvim",
 				opts = {
 					file_types = { "markdown", "Avante" },
+					completions = { blink = { enabled = true } },
 				},
 				ft = { "markdown", "Avante" },
 			},

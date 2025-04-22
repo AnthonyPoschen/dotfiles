@@ -143,3 +143,22 @@ opt.fillchars = {
 	eob = " ",
 }
 opt.foldlevel = 99
+
+-- Diagnostic configuration options
+vim.diagnostic.config({
+	-- virtual_text = true,
+	-- virtual_lines = true,
+	underline = true,
+	signs = true,
+	update_in_insert = false,
+	severity_sort = true,
+	float = {
+		focusable = false,
+		style = "minimal",
+		border = "rounded",
+		source = "always",
+		header = "",
+		prefix = "",
+		scope = "line",
+	},
+})
