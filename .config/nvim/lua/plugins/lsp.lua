@@ -107,7 +107,6 @@ return {
 			local servers = {
 				marksman = {},
 				arduino_language_server = {},
-				volar = {},
 				zls = {},
 				bashls = {
 					filetypes = { "sh", "zsh", "zshrc" },
@@ -481,16 +480,17 @@ return {
 			-- 	max_concurrent_installers = 10,
 			-- })
 
-			require("mason-lspconfig").setup_handlers({
-				-- The first entry (without a key) will be the default handler
-				-- and will be called for each installed server that doesn't have
-				-- a dedicated handler.
-				function(server_name) -- default handler
-					if not servers[server_name] then
-						require("lspconfig")[server_name].setup({})
-					end
-				end,
-			})
+			-- TODO: remove if not needed after updating to 2.0
+			-- require("mason-lspconfig").setup_handlers({
+			-- 	-- The first entry (without a key) will be the default handler
+			-- 	-- and will be called for each installed server that doesn't have
+			-- 	-- a dedicated handler.
+			-- 	function(server_name) -- default handler
+			-- 		if not servers[server_name] then
+			-- 			require("lspconfig")[server_name].setup({})
+			-- 		end
+			-- 	end,
+			-- })
 
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				pattern = "*.go",
