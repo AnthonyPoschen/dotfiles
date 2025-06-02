@@ -1,3 +1,6 @@
+-- TODO: Review mason, all of the lsp config appears to be useless now
+-- all related config to lsp should interact with neovim built in funtions now
+-- this package seems like it is only useful for installing LSP servers now
 return {
 	{
 		"williamboman/mason.nvim",
@@ -153,6 +156,7 @@ return {
 							experimentalPostfixCompletions = true,
 							-- organizeImports = true,
 							staticcheck = true,
+
 							directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
 							semanticTokens = true,
 						},
