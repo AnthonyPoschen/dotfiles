@@ -1,6 +1,31 @@
+vim.diagnostic.config({
+	virtual_lines = {
+		current_line = true,
+		-- format = function(diagnostic)
+		-- 	return string.format("%s %s", diagnostic.source or "LSP", diagnostic.message)
+		-- end,
+	},
+	virtual_test = false,
+	signs = {
+		active = true,
+		values = {
+			{ name = "DiagnosticSignError", text = "" },
+			{ name = "DiagnosticSignWarn", text = "" },
+			{ name = "DiagnosticSignInfo", text = "" },
+			{ name = "DiagnosticSignHint", text = "" },
+		},
+	},
+	update_in_insert = false,
+	float = { border = "rounded" },
+	severity_sort = true,
+})
 vim.lsp.config("*", {
 	root_markers = { ".git", ".hg" },
+	update_in_insert = false,
+	float = { border = "rounded" },
+	severity_sort = true,
 })
+
 -- Keymaps
 -- https://neovim.io/doc/user/lsp.html#lsp-config
 vim.api.nvim_create_autocmd("LspAttach", {
