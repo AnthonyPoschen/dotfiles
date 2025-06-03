@@ -1,7 +1,7 @@
 -- Determine the default provider based on hostname
 local default_provider = "copilot"
 if vim.fn.hostname() == "Anthonys-MacBook-Pro.local" then
-	default_provider = "claude"
+	default_provider = "copilot"
 end
 
 return {
