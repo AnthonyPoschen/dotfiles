@@ -44,12 +44,14 @@ return {
 				enable_cursor_planning_mode = false,
 				use_cwd_as_project_root = false, -- NOTE: maybe change this to true from default
 			},
-			gemini = {
-				-- endpoint = "https://generativelanguage.googleapis.com/v1beta/models",
-				model = "gemini-2.5-pro-exp-03-25",
-				timeout = 60000,
-				temprature = nil,
-				max_tokens = 65536,
+			providers = {
+				gemini = {
+					-- endpoint = "https://generativelanguage.googleapis.com/v1beta/models",
+					model = "gemini-2.5-pro-exp-03-25",
+					timeout = 60000,
+					temprature = nil,
+					max_tokens = 65536,
+				},
 			},
 			windows = {
 				ask = {
