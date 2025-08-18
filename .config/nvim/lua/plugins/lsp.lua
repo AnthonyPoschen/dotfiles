@@ -22,9 +22,7 @@ return {
 
 			-- These can have more fields like cmd, settings and filetypes
 			local servers = {
-				gotest = {},
 				templ = {},
-				docker_language_server = {},
 				marksman = {},
 				arduino_language_server = {},
 				zls = {},
@@ -390,42 +388,7 @@ return {
 				},
 			}
 
-			require("mason").setup({
-				max_concurrent_installers = 10,
-			})
-			local mason_registry = require("mason-registry")
-			local desired_servers = vim.tbl_keys(servers)
 
-			for _, pkg in ipairs(mason_registry.get_installed_packages()) do
-				local name = pkg.name
-				if not vim.tbl_contains(desired_servers, name) then
-					vim.notify("Uninstalling unused LSP: " .. name)
-					pkg:uninstall()
-				end
-			end
-
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				pattern = "*.go",
-				callback = function()
-					local params = vim.lsp.util.make_range_params()
-					params.context = { only = { "source.organizeImports" } }
-					-- buf_request_sync defaults to a 1000ms timeout. Depending on your
-					-- machine and codebase, you may want longer. Add an additional
-					-- argument after params if you find that you have to write the file
-					-- twice for changes to be saved.
-					-- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-					local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params)
-					for cid, res in pairs(result or {}) do
-						for _, r in pairs(res.result or {}) do
-							if r.edit then
-								local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
-								vim.lsp.util.apply_workspace_edit(r.edit, enc)
-							end
-						end
-					end
-					-- vim.lsp.buf.format({ async = false })
-				end,
-			})
 
 			-- local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
@@ -452,10 +415,78 @@ return {
 				}
 				lspconfig[server_name].setup({ opts })
 			end
+
+			require("mason").setup({
+				max_concurrent_installers = 10,
+			})
+
+			-- local mason_registry = require("mason-registry")
+			-- local primary_servers = vim.tbl_keys(servers)
+			-- local secondary_servers = { "gotests", "jsonls", "yamlls", "jqls", "pylsp", "docker_compose_language_service",
+			-- 	"ts_ls", "dockerls", "rust_analyser", "bashls", "arduino_language_server", "docker_language_server",
+			-- 	"tailwindcss", "lua_ls", "html" }
+			-- local combined = {}
+			-- for _, name in ipairs(primary_servers) do combined[name] = true end
+			-- for _, name in ipairs(secondary_servers) do combined[name] = true end
+			--
+			-- for _, pkg in ipairs(mason_registry.get_installed_packages()) do
+			-- 	local name = pkg.name
+			-- 	if combined[name] == nil then
+			-- 		vim.notify("Uninstalling unused LSP: " .. name)
+			-- 		pkg:uninstall()
+			-- 	end
+			-- end
+			-- require("mason-lspconfig").setup({
+			-- 	automatic_enable = false,
+			-- 	automatic_installation = true,
+			-- 	ensure_installed = vim.tbl_keys(combined),
+			-- })
+
+			---
+			---
+
+			local mason_registry = require("mason-registry")
+			local lsp_to_pkg = require("mason-lspconfig.mappings").get_all().lspconfig_to_package
+
+			-- Your server keys
+			local primary_servers = vim.tbl_keys(servers)
+			local secondary_servers = {
+				"jsonls", "yamlls", "jqls", "pylsp", "docker_compose_language_service",
+				"ts_ls", "dockerls", "rust_analyzer", "bashls", "arduino_language_server",
+				"docker_language_server", "tailwindcss", "lua_ls", "html"
+			}
+			local non_lsp_installs = { "gotests" }
+
+			-- Combine and deduplicate LSP server names
+			local combined_lsp_servers = {}
+			for _, name in ipairs(primary_servers) do combined_lsp_servers[name] = true end
+			for _, name in ipairs(secondary_servers) do combined_lsp_servers[name] = true end
+
+			local ensure_installed = vim.tbl_keys(combined_lsp_servers)
+
+			-- Convert LSP server names to Mason package names for uninstalling
+			local valid_packages = {}
+			for lsp_name, _ in pairs(combined_lsp_servers) do
+				local pkg_name = lsp_to_pkg[lsp_name]
+				if pkg_name then
+					valid_packages[pkg_name] = true
+				end
+			end
+
+			-- Uninstall unused Mason packages
+			for _, pkg in ipairs(mason_registry.get_installed_packages()) do
+				local name = pkg.name
+				if not valid_packages[name] and not vim.tbl_contains(non_lsp_installs, name) then
+					vim.notify("Uninstalling unused LSP: " .. name)
+					pkg:uninstall()
+				end
+			end
+
+			-- Setup Mason with correct LSP server names
 			require("mason-lspconfig").setup({
 				automatic_enable = false,
 				automatic_installation = true,
-				ensure_installed = desired_servers,
+				ensure_installed = ensure_installed,
 			})
 		end,
 	},

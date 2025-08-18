@@ -7,7 +7,7 @@ return {
 			["h"] = "actions.parent", -- Go up to parent directory
 			["l"] = "actions.select", -- Enter selected directory/file
 			["<CR>"] = "actions.select", -- Enter selected directory/file
-			["q"] = "actions.close", -- Close Oil (saves changes by default)
+			["q"] = "actions.close",  -- Close Oil (saves changes by default)
 			["/"] = function()
 				require("telescope.builtin").find_files({ cwd = require("oil").get_current_dir() })
 			end,
@@ -17,12 +17,12 @@ return {
 			show_hidden = true, -- Optional: show hidden files
 		},
 		float = {
-			padding = 4, -- Padding inside the float
-			max_width = 90, -- Max width of the float
+			padding = 4,     -- Padding inside the float
+			max_width = 120, -- Max width of the float
 			max_height = 40, -- Max height of the float
 			border = "rounded", -- Border style (rounded, single, double, etc.)
 			win_options = {
-				winblend = 0, -- Transparency (0 = opaque, 100 = fully transparent)
+				winblend = 0,  -- Transparency (0 = opaque, 100 = fully transparent)
 			},
 		},
 	},
