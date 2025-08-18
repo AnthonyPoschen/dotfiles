@@ -36,6 +36,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			return
 		end
 
+		local bufname = vim.api.nvim_buf_get_name(args.buf)
+		if bufname == "" or bufname == nil or bufname == "null" then
+			-- Skip attaching to buffers with invalid names
+			return
+		end
 		-- global defaults
 		-- https://neovim.io/doc/user/lsp.html
 		-- "grn" is mapped in Normal mode to vim.lsp.buf.rename()

@@ -3,92 +3,6 @@
 -- this package seems like it is only useful for installing LSP servers now
 return {
 	{
-		"williamboman/mason.nvim",
-		cmd = "Mason",
-		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-		build = ":MasonUpdate",
-		opts = {
-			ensure_installed = {
-				"asmfmt",
-				"ast-grep",
-				"bash-language-server",
-				"buf",
-				"css-lsp",
-				"cssmodules-language-server",
-				"delve",
-				"docker-compose-language-service",
-				"dockerfile-language-server",
-				"eslint-lsp",
-				"fixjson",
-				"gitlint",
-				"go-debug-adapter",
-				"gofumpt",
-				"goimports",
-				"goimports-reviser",
-				"golangci-lint-langserver",
-				"golines",
-				"gomodifytags",
-				"gopls",
-				"gotests",
-				"gotestsum",
-				"hadolint",
-				"helm-ls",
-				"html-lsp",
-				"htmx-lsp",
-				"iferr",
-				"jq",
-				"jq-lsp",
-				"json-lsp",
-				"json-to-struct",
-				"lua-language-server",
-				"luau-lsp",
-				"markdownlint",
-				"marksman",
-				"nilaway",
-				"prettier",
-				"python-lsp-server",
-				"shfmt",
-				"stylua",
-				"sql-formatter",
-				"tailwindcss-language-server",
-				"templ",
-				"ts-standard",
-				"typescript-language-server",
-				"vim-language-server",
-				"yaml-language-server",
-				"yamlfmt",
-				"yamllint",
-			},
-		},
-		---@param opts MasonSettings | {ensure_installed: string[]}
-		config = function(_, opts)
-			require("mason").setup(opts)
-			local mr = require("mason-registry")
-			mr:on("package:install:success", function()
-				vim.defer_fn(function()
-					-- trigger FileType event to possibly load this newly installed LSP server
-					require("lazy.core.handler.event").trigger({
-						event = "FileType",
-						buf = vim.api.nvim_get_current_buf(),
-					})
-				end, 100)
-			end)
-			local function ensure_installed()
-				for _, tool in ipairs(opts.ensure_installed) do
-					local p = mr.get_package(tool)
-					if not p:is_installed() then
-						p:install()
-					end
-				end
-			end
-			if mr.refresh then
-				mr.refresh(ensure_installed)
-			else
-				ensure_installed()
-			end
-		end,
-	},
-	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = {
 			"saghen/blink.cmp",
@@ -171,7 +85,6 @@ return {
 					},
 				},
 				html = {},
-				azure_pipelines_ls = {},
 				docker_compose_language_service = {},
 				dockerls = {},
 				-- nginx_language_server = {},
@@ -284,27 +197,21 @@ return {
 				},
 				glsl_analyzer = {},
 				yamlls = {
-					capabilities = {
-						textDocument = {
-							foldingRange = {
-								dynamicRegistration = false,
-								lineFoldingOnly = true,
-							},
-						},
-					},
+					-- capabilities = {
+					-- 	textDocument = {
+					-- 		foldingRange = {
+					-- 			dynamicRegistration = false,
+					-- 			lineFoldingOnly = true,
+					-- 		},
+					-- 	},
+					-- },
 					settings = {
 						yaml = {
 							editor = {
 								formatOnType = false,
 							},
-
-							schemaStore = {
-								-- You must disable built-in schemaStore support if you want to use
-								-- this plugin and its advanced options like `ignore`.
-								enable = false,
-								-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-								url = "",
-							},
+							validate = true,
+							schemaStore = { enable = false },
 							schemas = require("schemastore").yaml.schemas(),
 							customTags = {
 								"!Ref",
@@ -321,9 +228,16 @@ return {
 								"!If",
 							},
 							schemaValidation = "error",
-							validate = { enable = true },
 						},
 					},
+					on_init = function(client)
+						if not client.config.root_uri then
+							client.config.root_uri = vim.uri_from_fname(client.config.root_dir or vim.fn.getcwd())
+						end
+					end,
+					root_dir = function(fname)
+						return vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
+					end,
 				},
 				lua_ls = {
 					settings = {
@@ -394,8 +308,8 @@ return {
 						else
 							-- Default root dir logic from lspconfig
 							return vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
-								or vim.fs.dirname(vim.fs.find("node_modules", { path = fname, upward = true })[1])
-								or vim.fs.dirname(vim.fs.find("package.json", { path = fname, upward = true })[1])
+								or vim.fs.dirname(vim.fs.find("node_modules", { path = fname, upward = true })[0])
+								or vim.fs.dirname(vim.fs.find("package.json", { path = fname, upward = true })[0])
 								or vim.fs.dirname(
 									vim.fs.find(
 										{ ".luarc.json", ".luacheckrc", ".stylua.toml" },
@@ -406,12 +320,6 @@ return {
 						end
 					end,
 				},
-				--     enabled = false,
-				--     handlers = {
-				--         ["textDocument/definition"] = require("csharpls_extended").handler,
-				--         ["textDocument/typeDefinition"] = require("csharpls_extended").handler,
-				--     },
-				-- },
 				omnisharp = {
 					settings = {
 						csharp = {
@@ -480,21 +388,9 @@ return {
 				},
 			}
 
-			-- require("mason").setup({
-			-- 	max_concurrent_installers = 10,
-			-- })
-
-			-- TODO: remove if not needed after updating to 2.0
-			-- require("mason-lspconfig").setup_handlers({
-			-- 	-- The first entry (without a key) will be the default handler
-			-- 	-- and will be called for each installed server that doesn't have
-			-- 	-- a dedicated handler.
-			-- 	function(server_name) -- default handler
-			-- 		if not servers[server_name] then
-			-- 			require("lspconfig")[server_name].setup({})
-			-- 		end
-			-- 	end,
-			-- })
+			require("mason").setup({
+				max_concurrent_installers = 10,
+			})
 
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				pattern = "*.go",
@@ -519,77 +415,35 @@ return {
 				end,
 			})
 
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-			-- UFO (Folding)
-			capabilities.textDocument.foldingRange = {
-				dynamicRegistration = false,
-				lineFoldingOnly = true,
-			}
+			-- local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
+			local lspconfig = require("lspconfig")
+			for server_name, server in pairs(servers) do
+				-- Early exit if disabled
+				if server.enabled == false then
+					return
+				end
 
-			require("mason-lspconfig").setup({
-				automatic_installation = true,
-				-- https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers
-				ensure_installed = vim.tbl_keys(servers),
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-
-						-- Early exit if disabled
-						if server.enabled == false then
-							return
+				local opts = {
+					capabilities = capabilities,
+					on_attach = function(client, bufnr)
+						if server.on_attach then
+							server.on_attach(client, bufnr)
 						end
-
-						require("lspconfig")[server_name].setup({
-							cmd = server.cmd,
-							settings = server.settings,
-							filetypes = server.filetypes,
-							handlers = server.handlers,
-							-- This handles overriding only values explicitly passed
-							-- by the server configuration above. Useful when disabling
-							-- certain features of an LSP (for example, turning off formatting for tsserver)
-							capabilities = capabilities,
-							on_attach = function(client, bufnr)
-								-- Set up mappings
-								map("K", vim.lsp.buf.hover, "Hover Documentation", bufnr)
-								-- TODO: Rebind this because it classhes with harpoon
-								-- map("<C-k>", vim.lsp.buf.signature_help, "Signature help", bufnr)
-								map("gd", require("telescope.builtin").lsp_definitions, "Telescope Definition", bufnr)
-								map("grr", require("telescope.builtin").lsp_references, "Telescope References", bufnr)
-								map("gra", vim.lsp.buf.code_action, "Code Action", bufnr)
-								map(
-									"gri",
-									require("telescope.builtin").lsp_implementations,
-									"Telescope Implementation",
-									bufnr
-								)
-								map("grn", vim.lsp.buf.rename, "Rename symbol", bufnr)
-
-								map("grs", function()
-									local lsp_symbols = vim.tbl_map(string.lower, vim.lsp.protocol.SymbolKind)
-									-- define a filter function to excl. undesired symbols
-									local symbols = vim.tbl_filter(function(symbol)
-										return symbol ~= "field"
-									end, lsp_symbols)
-									require("telescope.builtin").lsp_document_symbols({ symbols = symbols })
-									-- require("telescope.builtin").lsp_document_symbols,
-								end, "Telescope Document Symbols", bufnr)
-								map(
-									"grw",
-									require("telescope.builtin").lsp_dynamic_workspace_symbols,
-									"Telescope Workspace Symbols",
-									bufnr
-								)
-
-								-- Call the server's on_attach, if it exists
-								if server.on_attach then
-									server.on_attach(client, bufnr)
-								end
-							end,
-						})
 					end,
-				},
+					cmd = server.cmd,
+					settings = server.settings,
+					filetypes = server.filetypes,
+					handlers = server.handlers,
+					root_dir = server.root_dir,
+					on_init = server.on_init,
+				}
+				lspconfig[server_name].setup({ opts })
+			end
+			require("mason-lspconfig").setup({
+				automatic_enable = false,
+				automatic_installation = true,
+				ensure_installed = vim.tbl_keys(servers),
 			})
 		end,
 	},

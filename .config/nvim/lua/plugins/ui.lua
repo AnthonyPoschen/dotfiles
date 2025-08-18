@@ -15,7 +15,10 @@ function detectors.cwd()
 end
 function detectors.pattern(buf, patterns)
 	patterns = type(patterns) == "string" and { patterns } or patterns
-	local path = realpath(vim.api.nvim_buf_get_name(assert(buf))) or vim.loop.cwd()
+	if not vim.api.nvim_buf_is_valid(buf) then
+		return {}
+	end
+	local path = realpath(vim.api.nvim_buf_get_name(buf)) or vim.loop.cwd()
 	local pattern = vim.fs.find(patterns, { path = path, upward = true })[1]
 	return pattern and { vim.fs.dirname(pattern) } or {}
 end
