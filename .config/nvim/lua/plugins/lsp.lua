@@ -22,6 +22,9 @@ return {
 
 			-- These can have more fields like cmd, settings and filetypes
 			local servers = {
+				gotest = {},
+				templ = {},
+				docker_language_server = {},
 				marksman = {},
 				arduino_language_server = {},
 				zls = {},
@@ -70,7 +73,6 @@ return {
 							experimentalPostfixCompletions = true,
 							-- organizeImports = true,
 							staticcheck = true,
-
 							directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
 							semanticTokens = true,
 						},
@@ -188,7 +190,7 @@ return {
 							experimental = {
 								classRegex = {
 									{ "cva\\(([^)]*)\\)", "[\"'`]?([^\"'`]*).*?[\"'`]?" },
-									{ "cx\\(([^)]*)\\)", "[\"'`]?([^\"'`]*).*?[\"'`]?" },
+									{ "cx\\(([^)]*)\\)",  "[\"'`]?([^\"'`]*).*?[\"'`]?" },
 								},
 							},
 						},
@@ -298,7 +300,7 @@ return {
 
 						-- For Factorio mods
 						local is_factorio_mod = fname:match("/factorio/")
-							or vim.fn.filereadable(vim.fn.getcwd() .. "/info.json") == 1
+								or vim.fn.filereadable(vim.fn.getcwd() .. "/info.json") == 1
 
 						if in_nvim_config then
 							return nvim_config
@@ -308,15 +310,15 @@ return {
 						else
 							-- Default root dir logic from lspconfig
 							return vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
-								or vim.fs.dirname(vim.fs.find("node_modules", { path = fname, upward = true })[0])
-								or vim.fs.dirname(vim.fs.find("package.json", { path = fname, upward = true })[0])
-								or vim.fs.dirname(
-									vim.fs.find(
-										{ ".luarc.json", ".luacheckrc", ".stylua.toml" },
-										{ path = fname, upward = true }
-									)[1]
-								)
-								or vim.fn.getcwd()
+									or vim.fs.dirname(vim.fs.find("node_modules", { path = fname, upward = true })[0])
+									or vim.fs.dirname(vim.fs.find("package.json", { path = fname, upward = true })[0])
+									or vim.fs.dirname(
+										vim.fs.find(
+											{ ".luarc.json", ".luacheckrc", ".stylua.toml" },
+											{ path = fname, upward = true }
+										)[1]
+									)
+									or vim.fn.getcwd()
 						end
 					end,
 				},
@@ -391,6 +393,16 @@ return {
 			require("mason").setup({
 				max_concurrent_installers = 10,
 			})
+			local mason_registry = require("mason-registry")
+			local desired_servers = vim.tbl_keys(servers)
+
+			for _, pkg in ipairs(mason_registry.get_installed_packages()) do
+				local name = pkg.name
+				if not vim.tbl_contains(desired_servers, name) then
+					vim.notify("Uninstalling unused LSP: " .. name)
+					pkg:uninstall()
+				end
+			end
 
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				pattern = "*.go",
@@ -443,7 +455,7 @@ return {
 			require("mason-lspconfig").setup({
 				automatic_enable = false,
 				automatic_installation = true,
-				ensure_installed = vim.tbl_keys(servers),
+				ensure_installed = desired_servers,
 			})
 		end,
 	},
