@@ -1,14 +1,25 @@
-font-family = "Fragment Mono"
-font-size = 20
+config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
+
+font-family = "CaskaydiaMono Nerd Font"
+font-style = Regular
+font-size = 11
 font-thicken = true
-adjust-cell-height = 5%
+# adjust-cell-height = 5%
+window-theme = ghostty
 window-padding-x = 0
 window-padding-y = 0
 window-padding-balance = true
 
 # Automatically close the app
 confirm-close-surface = false
+resize-overlay = never
 window-save-state = always
+gtk-toolbar-style = flat
+
+cursor-style = "block"
+cursor-style-blink = false
+
+shell-integration-features = no-cursor,ssh-env
 
 keybind = clear
 keybind = cmd+shift+,=reload_config

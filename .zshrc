@@ -1,7 +1,9 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-[ -z "$TMUX"  ] && { tmux attach || exec tmux new-session -s home && tmux kill-server && exit;}
+# if [[ -z "$TMUX" && $- == *i* && -z "$VIM"  ]]; then
+# 	tmux attach || exec tmux new-session -s home && tmux kill-server && exit
+# fi
 fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -17,8 +19,10 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#8D8D8D,bold"
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"
 
-# export ZPLUG_HOME=/usr/local/opt/zplug
-export ZPLUG_HOME=$(brew --prefix)/opt/zplug
+export ZPLUG_HOME=/usr/local/opt/zplug
+if command -v brew >/dev/null 2>&1; then
+    export ZPLUG_HOME="$(brew --prefix)/opt/zplug"
+fi
 source $ZPLUG_HOME/init.zsh
 
 # temp fixes
@@ -120,7 +124,8 @@ bindkey -M vicmd 'j' history-substring-search-down
 bindkey -v
 # export KEYTIMEOUT=1
 export KEYTIMEOUT=20
-bindkey -M viins 'jj' vi-cmd-mode
+# TODO: Remove this jj prefix when my brain no longer needs it, escape is easy now
+# bindkey -M viins 'jj' vi-cmd-mode
 # history
 export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=1000000
@@ -159,12 +164,8 @@ export PATH="$PATH:$HOME/.bin"
 export PATH="$PATH:$HOME/.node_modules_global/bin"
 export PATH="$PATH:$HOME/.gem/ruby/2.5.0/bin"
 export PATH="$PATH:$HOME/.krew/bin"
-# TODO: Once know normal ssh working again delete the bellow
-# export PATH="/usr/local/Cellar/openssh/8.3p1/bin:$PATH" # temporary fix till ssh fixes it shit in macos
-# export PATH="/usr/local/Cellar/openssh/8.3p1/sbin:$PATH" # temporary fix till ssh fixes it shit in macos
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/bin:$PATH"
-export PATH="$PATH:/Users/zanven/istio-1.5.1/bin"
 
 export DOCKER_BUILDKIT=1
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
