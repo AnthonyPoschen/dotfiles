@@ -28,18 +28,18 @@ return {
 				desc = "[copilot] accept full suggestion",
 				silent = true,
 			})
-			vim.keymap.set("i", "<Tab>", function()
-				local copilot = require("copilot.suggestion")
-				if copilot.is_visible() then
-					copilot.accept()
-					copilot.next()
-				else
-					vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, true, true), "n")
-				end
-			end, {
-				desc = "[copilot] accept line suggestion",
-				silent = true,
-			})
+			-- vim.keymap.set("i", "<Tab>", function()
+			-- 	local copilot = require("copilot.suggestion")
+			-- 	if copilot.is_visible() then
+			-- 		copilot.accept()
+			-- 		copilot.next()
+			-- 	else
+			-- 		vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, true, true), "n")
+			-- 	end
+			-- end, {
+			-- 	desc = "[copilot] accept line suggestion",
+			-- 	silent = true,
+			-- })
 		end,
 	},
 	-- {
