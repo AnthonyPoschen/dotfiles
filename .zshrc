@@ -1,9 +1,12 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -z "$TMUX" && $- == *i* && -z "$VIM"  ]]; then
-# 	tmux attach || exec tmux new-session -s home && tmux kill-server && exit
-# fi
+#
+if [[ $(uname) == "Darwin" ]]; then
+    export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+fi
+if [[ -z "$TMUX" && $- == *i* && -z "$VIM"  ]]; then
+	tmux attach || exec tmux new-session -s home && tmux kill-server && exit
+fi
 fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
@@ -20,8 +23,8 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"
 
 export ZPLUG_HOME=/usr/local/opt/zplug
-if command -v brew >/dev/null 2>&1; then
-    export ZPLUG_HOME="$(brew --prefix)/opt/zplug"
+if [[ $(uname) == "Darwin" ]]; then
+    export ZPLUG_HOME="/opt/homebrew/opt/zplug"
 fi
 source $ZPLUG_HOME/init.zsh
 
