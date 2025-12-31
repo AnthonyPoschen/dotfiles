@@ -29,3 +29,6 @@ keybind = cmd+q=quit
 keybind = ctrl+equal=increase_font_size:2
 keybind = ctrl+minus=decrease_font_size:2
 keybind = ctrl+0=reset_font_size
+
+# Slowdown mouse scrolling
+mouse-scroll-multiplier = 0.95
