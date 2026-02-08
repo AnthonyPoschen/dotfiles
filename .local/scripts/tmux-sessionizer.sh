@@ -1,5 +1,5 @@
 #!/bin/sh -
-defaultFolders=(~/ ~/.local ~/.config)
+defaultFolders=(~/tmp ~/.local ~/.config)
 if [[ ! -f ~/.project-paths.sh ]]; then
     echo "No .project-paths.sh file found. Please create one in your home directory and set the variable 'Folders' to a list of paths"
     exit 1

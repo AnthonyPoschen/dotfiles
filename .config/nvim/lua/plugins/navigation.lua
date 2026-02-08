@@ -33,10 +33,10 @@ return {
 				-- highlight_unlabeled_phase_one_targets = true,
 				equivalence_classes = { " \t\r\n" },
 			})
-			vim.keymap.set({ "n", "v" }, "<leader>f", function()
+			vim.keymap.set({ "n", "v" }, "<leader>g", function()
 				leap.leap({ target_windows = { vim.fn.win_getid() }, opts = { patterns = { "\\<\\k\\+\\>" } } })
 			end, { desc = "Leap forward to word" })
-			vim.keymap.set({ "n", "v" }, "<leader>F", function()
+			vim.keymap.set({ "n", "v" }, "<leader>G", function()
 				leap.leap({
 					target_windows = { vim.fn.win_getid() },
 					opts = { patterns = { "\\<\\k\\+\\>" }, backward = true },
