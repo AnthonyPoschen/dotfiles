@@ -2,88 +2,89 @@
   "$schema" : "https:\/\/schema.linearmouse.app\/0.9.5",
   "schemes" : [
     {
-      "scrolling" : {
-        "acceleration" : {
-          "vertical" : 1
-        },
-        "speed" : {
-          "vertical" : 0
-        },
-        "distance" : {
-          "vertical" : "auto"
-        }
-      },
       "if" : {
         "device" : {
-          "productID" : "0x1722",
-          "productName" : "SteelSeries Sensei 310 eSports Mouse",
+          "category" : "mouse",
           "vendorID" : "0x1038",
-          "category" : "mouse"
+          "productID" : "0x1722",
+          "productName" : "SteelSeries Sensei 310 eSports Mouse"
         }
       },
       "pointer" : {
         "disableAcceleration" : true
+      },
+      "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1
+        },
+        "distance" : {
+          "vertical" : "auto"
+        },
+        "speed" : {
+          "vertical" : 0
+        }
       }
     },
     {
-      "buttons" : {
-        "mappings" : [
-          {
-            "option" : false,
-            "command" : false,
-            "button" : 3,
-            "shift" : false,
-            "control" : false,
-            "action" : "missionControl.spaceLeft"
-          },
-          {
-            "option" : false,
-            "command" : false,
-            "button" : 4,
-            "shift" : false,
-            "control" : false,
-            "action" : "missionControl.spaceRight"
-          }
-        ]
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "productID" : "0xc539",
+          "productName" : "USB Receiver",
+          "vendorID" : "0x46d"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 1.91,
+        "disableAcceleration" : true,
+        "speed" : 0.8
       },
       "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1
+        },
         "distance" : {
           "vertical" : "36px"
         },
         "speed" : {
           "vertical" : 0
-        },
-        "acceleration" : {
-          "vertical" : 1
         }
       },
-      "if" : {
-        "device" : {
-          "productID" : "0xc539",
-          "category" : "mouse",
-          "vendorID" : "0x46d",
-          "productName" : "USB Receiver"
-        }
-      },
-      "pointer" : {
-        "disableAcceleration" : true,
-        "speed" : 0.8,
-        "acceleration" : 1.91
+      "buttons" : {
+        "mappings" : [
+          {
+            "action" : "missionControl.spaceLeft",
+            "shift" : false,
+            "command" : false,
+            "control" : false,
+            "option" : false,
+            "button" : 3
+          },
+          {
+            "action" : "missionControl.spaceRight",
+            "shift" : false,
+            "command" : false,
+            "control" : false,
+            "option" : false,
+            "button" : 4
+          }
+        ]
       }
     },
     {
       "if" : {
         "device" : {
+          "productName" : "G903 LIGHTSPEED Wireless Gaming Mouse w\/ HERO",
+          "vendorID" : "0x46d",
           "serialNumber" : "C1FCE577",
           "category" : "mouse",
-          "productID" : "0xc091",
-          "productName" : "G903 LIGHTSPEED Wireless Gaming Mouse w\/ HERO",
-          "vendorID" : "0x46d"
+          "productID" : "0xc091"
         }
       },
       "pointer" : {
         "speed" : 0.598,
-        "acceleration" : 0.5677
+        "acceleration" : 0.5677,
+        "disableAcceleration" : true
       }
     }
   ]
