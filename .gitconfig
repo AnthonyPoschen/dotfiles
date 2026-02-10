@@ -3,6 +3,7 @@
 	pager = delta
   abbrev = 8
   ignorecase = false
+	excludesfile = /Users/ap/.gitconfig-global-ignores
 [delta "no-background"]
 	hyperlinks = true
 	line-numbers = true
