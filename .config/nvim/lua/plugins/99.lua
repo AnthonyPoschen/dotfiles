@@ -5,28 +5,30 @@ end
 
 -- helper for when using primes 99 to use enter to submit the prompt
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "99",
-  callback = function()
-    vim.keymap.set("n", "w", "<cmd>w<cr>", { buffer = true, noremap = true, silent = true })
-    vim.keymap.set("n", "<cr>", "<cmd>w<cr>", { buffer = true, noremap = true, silent = true })
-  end,
+	pattern = "99",
+	callback = function()
+		vim.keymap.set("n", "w", "<cmd>w<cr>", { buffer = true, noremap = true, silent = true })
+		vim.keymap.set("n", "<cr>", "<cmd>w<cr>", { buffer = true, noremap = true, silent = true })
+	end,
 })
 
 return {
 	---"ThePrimeagen/99",
-	"jellydn/99",
-	branch="feature/blink-cmp",
+	"anthonyposchen/99",
+	-- "jellydn/99",
+	-- branch="feature/blink-cmp",
+	-- dir = "/home/zanven/git/github.com/anthonyposchen/99",
 	opts = {
 		debug = true,
 	},
 	config = function()
 		local _99 = require("99")
 
-					-- For logging that is to a file if you wish to trace through requests
-					-- for reporting bugs, i would not rely on this, but instead the provided
-					-- logging mechanisms within 99.  This is for more debugging purposes
-					local cwd = vim.uv.cwd()
-					local basename = vim.fs.basename(cwd)
+		-- For logging that is to a file if you wish to trace through requests
+		-- for reporting bugs, i would not rely on this, but instead the provided
+		-- logging mechanisms within 99.  This is for more debugging purposes
+		local cwd = vim.uv.cwd()
+		local basename = vim.fs.basename(cwd)
 		_99.setup({
 			logger = {
 				level = _99.DEBUG,
@@ -36,36 +38,37 @@ return {
 
 			--- A new feature that is centered around tags
 			completion = {
-					--- Defaults to .cursor/rules
-					-- I am going to disable these until i understand the
-					-- problem better.  Inside of cursor rules there is also
-					-- application rules, which means i need to apply these
-					-- differently
-					-- cursor_rules = "<custom path to cursor rules>"
+				--- Defaults to .cursor/rules
+				-- I am going to disable these until i understand the
+				-- problem better.  Inside of cursor rules there is also
+				-- application rules, which means i need to apply these
+				-- differently
+				-- cursor_rules = "<custom path to cursor rules>"
 
-					--- A list of folders where you have your own SKILL.md
-					--- Expected format:
-					--- /path/to/dir/<skill_name>/SKILL.md
-					---
-					--- Example:
-					--- Input Path:
-					--- "scratch/custom_rules/"
-					---
-					--- Output Rules:
-					--- {path = "scratch/custom_rules/vim/SKILL.md", name = "vim"},
-					--- ... the other rules in that dir ...
-					---
-					custom_rules = {
-						"scratch/custom_rules/",
-					},
+				--- A list of folders where you have your own SKILL.md
+				--- Expected format:
+				--- /path/to/dir/<skill_name>/SKILL.md
+				---
+				--- Example:
+				--- Input Path:
+				--- "scratch/custom_rules/"
+				---
+				--- Output Rules:
+				--- {path = "scratch/custom_rules/vim/SKILL.md", name = "vim"},
+				--- ... the other rules in that dir ...
+				---
+				custom_rules = {
+					"scratch/custom_rules/",
+				},
 
-					--- What autocomplete do you use.  We currently only
-					--- support cmp right now
-					source = "blink",
+				--- What autocomplete do you use.  We currently only
+				--- support cmp right now
+				source = "blink",
 			},
+			tmp_dir = "~/tmp/99",
 
 			-- provider="opencode"
-			model=default_model,
+			model = default_model,
 
 			--- WARNING: if you change cwd then this is likely broken
 			--- ill likely fix this in a later change
@@ -98,15 +101,15 @@ return {
 			-- _99.visual()
 		end)
 
-					--- if you have a request you dont want to make any changes, just cancel it
+		--- if you have a request you dont want to make any changes, just cancel it
 		vim.keymap.set("v", "<leader>s", function()
 			_99.stop_all_requests()
 		end)
 
-					--- Example: Using rules + actions for custom behaviors
-					--- Create a rule file like ~/.rules/debug.md that defines custom behavior.
-					--- For instance, a "debug" rule could automatically add printf statements
-					--- throughout a function to help debug its execution flow.
+		--- Example: Using rules + actions for custom behaviors
+		--- Create a rule file like ~/.rules/debug.md that defines custom behavior.
+		--- For instance, a "debug" rule could automatically add printf statements
+		--- throughout a function to help debug its execution flow.
 		vim.keymap.set("n", "<leader>9fd", function()
 			_99.fill_in_function()
 		end)

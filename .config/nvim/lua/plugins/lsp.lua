@@ -188,7 +188,7 @@ return {
 							experimental = {
 								classRegex = {
 									{ "cva\\(([^)]*)\\)", "[\"'`]?([^\"'`]*).*?[\"'`]?" },
-									{ "cx\\(([^)]*)\\)",  "[\"'`]?([^\"'`]*).*?[\"'`]?" },
+									{ "cx\\(([^)]*)\\)", "[\"'`]?([^\"'`]*).*?[\"'`]?" },
 								},
 							},
 						},
@@ -298,7 +298,7 @@ return {
 
 						-- For Factorio mods
 						local is_factorio_mod = fname:match("/factorio/")
-								or vim.fn.filereadable(vim.fn.getcwd() .. "/info.json") == 1
+							or vim.fn.filereadable(vim.fn.getcwd() .. "/info.json") == 1
 
 						if in_nvim_config then
 							return nvim_config
@@ -308,15 +308,15 @@ return {
 						else
 							-- Default root dir logic from lspconfig
 							return vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
-									or vim.fs.dirname(vim.fs.find("node_modules", { path = fname, upward = true })[0])
-									or vim.fs.dirname(vim.fs.find("package.json", { path = fname, upward = true })[0])
-									or vim.fs.dirname(
-										vim.fs.find(
-											{ ".luarc.json", ".luacheckrc", ".stylua.toml" },
-											{ path = fname, upward = true }
-										)[1]
-									)
-									or vim.fn.getcwd()
+								or vim.fs.dirname(vim.fs.find("node_modules", { path = fname, upward = true })[0])
+								or vim.fs.dirname(vim.fs.find("package.json", { path = fname, upward = true })[0])
+								or vim.fs.dirname(
+									vim.fs.find(
+										{ ".luarc.json", ".luacheckrc", ".stylua.toml" },
+										{ path = fname, upward = true }
+									)[1]
+								)
+								or vim.fn.getcwd()
 						end
 					end,
 				},
@@ -388,8 +388,6 @@ return {
 				},
 			}
 
-
-
 			-- local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
 			local lspconfig = require("lspconfig")
@@ -451,16 +449,31 @@ return {
 			-- Your server keys
 			local primary_servers = vim.tbl_keys(servers)
 			local secondary_servers = {
-				"jsonls", "yamlls", "jqls", "pylsp", "docker_compose_language_service",
-				"ts_ls", "dockerls", "rust_analyzer", "bashls", "arduino_language_server",
-				"docker_language_server", "tailwindcss", "lua_ls", "html"
+				"jsonls",
+				"yamlls",
+				"jqls",
+				"pylsp",
+				"docker_compose_language_service",
+				"ts_ls",
+				"dockerls",
+				"rust_analyzer",
+				"bashls",
+				"arduino_language_server",
+				"docker_language_server",
+				"tailwindcss",
+				"lua_ls",
+				"html",
 			}
 			local non_lsp_installs = { "gotests" }
 
 			-- Combine and deduplicate LSP server names
 			local combined_lsp_servers = {}
-			for _, name in ipairs(primary_servers) do combined_lsp_servers[name] = true end
-			for _, name in ipairs(secondary_servers) do combined_lsp_servers[name] = true end
+			for _, name in ipairs(primary_servers) do
+				combined_lsp_servers[name] = true
+			end
+			for _, name in ipairs(secondary_servers) do
+				combined_lsp_servers[name] = true
+			end
 
 			local ensure_installed = vim.tbl_keys(combined_lsp_servers)
 
