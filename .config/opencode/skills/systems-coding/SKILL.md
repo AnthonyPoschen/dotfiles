@@ -1,8 +1,9 @@
 ---
 name: systems-coding
 description: >
-  REQUIRED for programming in systems languages (Go, Zig, C, C++, C#). 
-  Produces natural, clean, and highly readable code. Always apply.
+  MANDATORY. Auto-activates for ANY Go (*.go), Zig, C, C++, C# codegen/editing task.
+  Detects language from file extension or "golang/go" mention. ALWAYS apply.
+  Produces natural, clean, idiomatic, highly readable code.
 ---
 **Target Languages:** Go, Zig, C, C++, C#
 **Core Guidelines:**
