@@ -22,6 +22,8 @@ description: >
   * break complex functions when
     * reuse of a part of the function will occur
     * function performs many logical calculations over lots of lines
+  * Do not pass in complex variables as function parameters.
+    * i.e foo(bar().taz.helper); should become helper := bar().taz.helper; foo(helper);
 * **Magic Values**
   * usage for simple once off parameters
   * avoid usage when it is used multiple times in the same scope
