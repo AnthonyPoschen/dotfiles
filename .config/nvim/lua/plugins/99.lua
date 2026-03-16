@@ -13,11 +13,7 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 return {
-	---"ThePrimeagen/99",
-	"anthonyposchen/99",
-	-- "jellydn/99",
-	-- branch="feature/blink-cmp",
-	-- dir = "/home/zanven/git/github.com/anthonyposchen/99",
+	"ThePrimeagen/99",
 	opts = {
 		debug = true,
 	},
@@ -97,7 +93,7 @@ return {
 		-- likely ill add a mode check and assert on required visual mode
 		-- so just prepare for it now
 		vim.keymap.set("v", "<leader>v", function()
-			_99.visual_prompt()
+			_99.visual()
 			-- _99.visual()
 		end)
 

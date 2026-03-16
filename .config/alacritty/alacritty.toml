@@ -100,3 +100,6 @@ shell = { program = "/bin/zsh", args = ["--login"] }
 # [[colors.indexed_colors]]
 # index = 17
 # color = '#db4b4b'
+
+[terminal]
+osc52 = "CopyPaste"
