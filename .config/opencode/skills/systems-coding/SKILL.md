@@ -7,11 +7,21 @@ description: >
 
 ## Activation
 
-- Use for `*.go`, `*.zig`, `*.c`, `*.h`, `*.cc`, `*.cpp`, `*.cxx`, `*.hpp`,
-  `*.hh`, `*.hxx`, `*.cs`.
-- Also use when user explicitly requests Go/Golang, Zig, C, C++, or C# code.
-- Do not use for generic discussion or incidental word matches.
-- Priority: file extension match -> explicit language request -> project signals.
+- Activate for supported-language tasks in any mode: implementation/coding,
+  refactor/restructure, code review, PR/diff discussion, planning/chat on
+  architecture or design decisions.
+- Hard triggers:
+  - target files match supported extensions (`*.go`, `*.zig`, `*.c`, `*.h`,
+    `*.cc`, `*.cpp`, `*.cxx`, `*.hpp`, `*.hh`, `*.hxx`, `*.cs`)
+  - PR/diff includes supported-language files
+  - explicit request for supported-language refactor/review/implementation
+- Intent triggers (including plan/chat mode): refactor, cleanup, simplify,
+  split, extract, modularize, review, critique, improve, code quality,
+  PR discussion, diff discussion, architecture/design discussion.
+- Do not activate for generic discussion with no code/design/review intent,
+  incidental word matches, or unrelated non-supported-language scope.
+- Activation priority: direct file/diff evidence -> explicit intent
+  (refactor/review/plan/chat) -> project/repo context signals.
 
 ## Scope
 
