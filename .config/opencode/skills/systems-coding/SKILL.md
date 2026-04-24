@@ -64,40 +64,48 @@ Detailed examples: `./examples/control-flow.md`
 
 - `FMT-1 MUST`: Function-body lines use `<= 80` chars.
   Check: statements/expressions in function blocks fit `<= 80`.
-- `FMT-2 MUST`: Function definition/declaration line uses `<= 120` chars.
-  Check: full signature line fits `<= 120`.
 - `FMT-3 MUST`: All comment lines use `<= 80` chars.
   Check: docs, phase comments, and tagged comments wrap at `<= 80`.
+- `FMT-4 MUST`: Width rules never justify multiline signatures.
+  Check: long signatures are handled by param compaction or function split.
 
 ### Functions
 
 - `FN-1 MUST`: Function definitions/declarations stay single-line.
   Check: signature line not split.
-- `FN-2 SHOULD`: If 2+ params come from same source object/struct, pass that
-  object or focused context struct when safe. Check: related params
-  consolidated when cohesion improves.
-- `FN-3 MUST`: If signature exceeds 80 chars, evaluate shared-object/context
-  refactor before adding scalar params. Check: refactor used or explicit reason
-  not safe.
-- `FN-4 MUST`: Function responsibility aligns with function name and one primary
+- `FN-1b MUST NOT`: Never split function parameter lists across multiple lines.
+  Check: multiline signatures are violations.
+- `FN-2 SHOULD`: If parameter count is `>= 5`, evaluate parameter compaction.
+  Check: param model reviewed before accepting long noisy signatures.
+- `FN-3 MUST`: Prefer reusing existing cohesive structs/types/contexts before
+  introducing new input structs. Check: existing types are considered first.
+- `FN-4 SHOULD`: If compaction is not obvious, evaluate whether function is too
+  complex or truly needs many independent inputs.
+  Check: decision recorded in code shape (split vs keep inputs).
+- `FN-5 SHOULD`: If function is too complex, split responsibilities into smaller
+  functions. Check: parent orchestrates, children execute.
+- `FN-6 SHOULD`: If many inputs are still required, create a focused input struct
+  for related inputs only. Check: struct groups one cohesive subset.
+- `FN-7 MUST NOT`: Do not bundle all parameters into one catch-all wrapper
+  struct. Check: unrelated inputs remain separate.
+- `FN-8 MUST NOT`: Do not pass broad unrelated context/struct only to reduce
+  parameter count. Check: passed fields remain cohesive to function purpose.
+- `FN-9 MUST`: Function responsibility aligns with function name and one primary
   purpose. Check: no unrelated mixed responsibilities.
-- `FN-5 MUST`: Decomposition rules apply only when function body is `> 40 code
-  lines` (exclude blank/comment lines). Check: functions `<= 40 code lines` are
-  not split only for phase count.
-- `FN-6 MUST`: For functions `> 40 code lines`, extract clear distinct parts
+- `FN-10 MUST`: Decomposition rules apply only when function body is
+  `> 40 code lines` (exclude blank/comment lines).
+  Check: functions `<= 40 code lines` are not split only for phase count.
+- `FN-11 MUST`: For functions `> 40 code lines`, extract clear distinct parts
   into helpers when present. Check: long mixed sections are compartmentalized.
-- `FN-7 SHOULD`: Parent function remains high-level orchestrator after
-  extraction. Check: parent is sequence/control flow, helpers hold execution.
-- `FN-8 SHOULD`: Extract substantial reusable logic into dedicated helper
-  functions/types. Check: non-trivial repeated/likely-reused logic not
-  duplicated inline.
-- `FN-9 MUST`: Parent keeps branching/decision logic; children execute steps.
+- `FN-12 MUST`: Parent keeps branching/decision logic; children execute steps.
   Check: high-level decision trees are not spread across children.
-- `FN-10 SHOULD`: Pass resolved decision inputs to children (flags/enums/
+- `FN-13 SHOULD`: Pass resolved decision inputs to children (flags/enums/
   prepared values), not raw context requiring new policy decisions.
   Check: children do not re-derive high-level business decisions.
-- `FN-11 MUST`: Children may validate local invariants but must not duplicate
+- `FN-14 MUST`: Children may validate local invariants but must not duplicate
   orchestration-level branching. Check: no duplicated high-level branching.
+- `FN-15 SHOULD`: Extract substantial reusable logic into dedicated helper
+  functions/types. Check: non-trivial repeated logic is not duplicated inline.
 
 Detailed examples: `./examples/functions.md`
 
@@ -175,8 +183,10 @@ Detailed examples: `./examples/comments.md`
 - Activation matches supported language and task type.
 - Project tools/conventions take precedence on conflict.
 - Guard clauses first; avoid avoidable nested conditional chains.
-- Function body lines `<= 80`; comment lines `<= 80`; signature line single-line
-  and `<= 120`.
+- Function body lines `<= 80`; comment lines `<= 80`; signature single-line only.
+- Multiline function signatures are always violations.
+- For `>= 5` params: reuse existing structs first; split function if complex;
+  use focused input struct only for related subsets.
 - Decompose only when function body `> 40 code lines`; parent orchestrates,
   children execute.
 - No mutable global runtime state; repeated literals consolidated; function docs
