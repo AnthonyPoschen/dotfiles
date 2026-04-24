@@ -21,10 +21,8 @@ cursor-style-blink = false
 
 shell-integration-features = no-cursor,ssh-env
 
-keybind = clear
 keybind = super+shift+,=reload_config
 keybind = super+c=copy_to_clipboard
-keybind = super+v=paste_from_clipboard
 keybind = super+q=quit
 keybind = ctrl+equal=increase_font_size:2
 keybind = ctrl+minus=decrease_font_size:2

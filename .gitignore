@@ -21,6 +21,7 @@
 \.config/containers
 \.config/configstore
 \.config/nvim/lazy-lock.json
+\.config/hypr/shaders
 .DS_Store
 ._.DS_Store
 **/.DS_Store
