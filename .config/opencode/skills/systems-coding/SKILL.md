@@ -75,8 +75,12 @@ Detailed examples: `./examples/control-flow.md`
   Check: signature line not split.
 - `FN-1b MUST NOT`: Never split function parameter lists across multiple lines.
   Check: multiline signatures are violations.
-- `FN-2 SHOULD`: If parameter count is `>= 5`, evaluate parameter compaction.
-  Check: param model reviewed before accepting long noisy signatures.
+- `FN-2 MUST`: If parameter count is `>= 5`, justify cohesion or refactor
+  before accepting the function shape.
+  Check: either (a) cohesive inputs are encapsulated, or (b) function is split
+  to reduce unrelated inputs.
+- `FN-2b SHOULD`: Record brief rationale when keeping `>= 5` parameters.
+  Check: reason explains why inputs are independent and cannot be compacted.
 - `FN-3 MUST`: Prefer reusing existing cohesive structs/types/contexts before
   introducing new input structs. Check: existing types are considered first.
 - `FN-4 SHOULD`: If compaction is not obvious, evaluate whether function is too
@@ -108,6 +112,21 @@ Detailed examples: `./examples/control-flow.md`
   functions/types. Check: non-trivial repeated logic is not duplicated inline.
 
 Detailed examples: `./examples/functions.md`
+
+### Abstraction Boundaries
+
+- `AB-1 MUST NOT`: Introduce pass-through wrappers that simply mirror external
+  SDK/API methods with renamed plumbing.
+  Check: wrapper adds clear behavior, not just argument forwarding.
+- `AB-2 MUST`: Add wrapper/helper layers only when they add domain value
+  (policy, retries, validation, translation, composition, or test seam).
+  Check: abstraction has explicit purpose beyond hiding the underlying call.
+- `AB-3 SHOULD`: Prefer calling vendor SDK/API directly at integration edges
+  when wrapper adds no domain semantics.
+  Check: simple one-to-one SDK calls stay direct in boundary adapters.
+- `AB-4 MUST NOT`: Create internal objects solely to hide provider names or
+  mimic provider operations one-for-one.
+  Check: object methods are not thin aliases for provider methods.
 
 ### Variables And State
 
@@ -185,8 +204,11 @@ Detailed examples: `./examples/comments.md`
 - Guard clauses first; avoid avoidable nested conditional chains.
 - Function body lines `<= 80`; comment lines `<= 80`; signature single-line only.
 - Multiline function signatures are always violations.
-- For `>= 5` params: reuse existing structs first; split function if complex;
-  use focused input struct only for related subsets.
+- For `>= 5` params: justify cohesion or refactor before accepting shape; reuse
+  existing structs first; split function if complex; use focused input struct
+  only for related subsets.
+- Avoid pass-through provider wrappers; keep direct SDK calls unless abstraction
+  adds clear domain behavior.
 - Decompose only when function body `> 40 code lines`; parent orchestrates,
   children execute.
 - No mutable global runtime state; repeated literals consolidated; function docs
