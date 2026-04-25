@@ -23,12 +23,13 @@ shell-integration-features = no-cursor,ssh-env
 
 keybind = super+shift+,=reload_config
 keybind = super+c=copy_to_clipboard
+keybind = super+v=paste_from_clipboard
 keybind = super+q=quit
 keybind = ctrl+equal=increase_font_size:2
 keybind = ctrl+minus=decrease_font_size:2
 keybind = ctrl+0=reset_font_size
 
-copy-on-select = false
+copy-on-select = clipboard
 clipboard-read = allow
 clipboard-write = allow
 
