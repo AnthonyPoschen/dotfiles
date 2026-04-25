@@ -1,15 +1,16 @@
 ---
 name: systems-coding
 description: >
-  HIGH PRIORITY for codegen/edit/review in Go, Zig, C, C++, and C#.
-  Enforces clean, idiomatic, readable systems code.
+  ALWAYS activate for coding/refactor/review/design tasks in Go, Zig, C, C++,
+  and C#. High-priority quality guardrails for clean, idiomatic, readable
+  systems code.
 ---
 
 ## Activation
 
-- Activate for supported-language tasks in any mode: implementation/coding,
-  refactor/restructure, code review, PR/diff discussion, planning/chat on
-  architecture or design decisions.
+- MUST activate for supported-language tasks in any mode: implementation/
+  coding, refactor/restructure, code review, PR/diff discussion, and planning/
+  chat on architecture or design decisions.
 - Hard triggers:
   - target files match supported extensions (`*.go`, `*.zig`, `*.c`, `*.h`,
     `*.cc`, `*.cpp`, `*.cxx`, `*.hpp`, `*.hh`, `*.hxx`, `*.cs`)
