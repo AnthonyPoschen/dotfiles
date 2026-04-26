@@ -198,3 +198,6 @@ export COLUMNS="120"
 # Added by GDK bootstrap
 # source /Users/zanven/.asdf/asdf.sh
 eval "$(mise activate zsh)"
+
+# setup clipboard with system clipbaord for zshrc vi mode
+source ~/.zshrc-clipboard
