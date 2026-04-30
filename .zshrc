@@ -197,7 +197,11 @@ export COLUMNS="120"
 
 # Added by GDK bootstrap
 # source /Users/zanven/.asdf/asdf.sh
-eval "$(mise activate zsh)"
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
 
-# setup clipboard with system clipbaord for zshrc vi mode
-source ~/.zshrc-clipboard
+# setup clipboard with system clipboard for zshrc vi mode
+if [ -f ~/.zshrc-clipboard ]; then
+  source ~/.zshrc-clipboard
+fi
