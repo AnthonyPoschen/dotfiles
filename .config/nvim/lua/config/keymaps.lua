@@ -111,14 +111,28 @@ utils.create_ft_augroup("go", {
 }, "goKeys")
 
 -- CMP / LSP
+local function jump_diagnostic(count)
+	return function()
+		vim.diagnostic.jump({
+			count = count,
+			on_jump = function()
+				vim.diagnostic.open_float(nil, {
+					focus = false,
+					scope = "line",
+				})
+			end,
+		})
+	end
+end
+
 map("n", "<leader>e", function()
 	vim.diagnostic.open_float(nil, {
 		focus = true,
 		scope = "line",
 	})
 end, { desc = "Line Diagnostics", noremap = true, silent = true })
--- map('n', '[d', vim.diagnostic.goto_prev, opt_noremap_silent)
--- map('n', ']d', vim.diagnostic.goto_next, opt_noremap_silent)
+map("n", "[d", jump_diagnostic(-1), { desc = "Previous Diagnostic", noremap = true, silent = true })
+map("n", "]d", jump_diagnostic(1), { desc = "Next Diagnostic", noremap = true, silent = true })
 
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })

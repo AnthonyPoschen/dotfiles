@@ -13,7 +13,6 @@ local treesitter_parsers = {
 	"javascript",
 	"jsdoc",
 	"json",
-	"jsonc",
 	"lua",
 	"luadoc",
 	"luap",
