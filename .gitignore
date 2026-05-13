@@ -13,6 +13,8 @@
 !\.local
 !\.local/scripts
 !\.local/scripts/*
+!/.agents/
+!/.agents/**
 
 \.config/tmux/plugins/*
 \.config/tmux/plugins
