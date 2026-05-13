@@ -329,6 +329,3 @@ printc() {
     local color="%F{$1}"
     echo -E ${(qqqq)${(%)color}}
 }
-
-# skills (central ~/.agents/skills/ from skills.sh)
-alias skills-sync='~/.agents/skills/sync-to-codex.sh'
