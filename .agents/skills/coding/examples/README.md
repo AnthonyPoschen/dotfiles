@@ -1,4 +1,4 @@
-# Systems Coding Examples
+# Coding Examples
 
 Use this index to load only the smallest example set needed for a rule decision.
 

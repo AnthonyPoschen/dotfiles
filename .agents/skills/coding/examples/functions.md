@@ -5,7 +5,6 @@
 ## Good: Short Linear Phases Stay Inline
 
 ```go
-// buildInvoice validates input, prices lines, and returns an invoice.
 func buildInvoice(in InvoiceInput, now time.Time) (Invoice, error) {
     if in.CustomerID == "" {
         return Invoice{}, ErrInvalidCustomer
@@ -44,7 +43,6 @@ func buildInvoice(in InvoiceInput, now time.Time) (Invoice, error) {
 ## Bad: One Helper Per Small Phase
 
 ```go
-// buildInvoice validates input, prices lines, and returns an invoice.
 func buildInvoice(in InvoiceInput, now time.Time) (Invoice, error) {
     if err := validateInvoiceInput(in); err != nil {
         return Invoice{}, err
@@ -61,7 +59,6 @@ func buildInvoice(in InvoiceInput, now time.Time) (Invoice, error) {
 ## Good: Extract Cohesive Substantial Phase Groups
 
 ```go
-// convertReport sanitizes raw input and builds a report.
 func convertReport(in RawReport) (Report, error) {
     clean, err := sanitizeRawReport(in)
     if err != nil {
@@ -86,7 +83,6 @@ each tiny sanitize step unless one becomes substantial or reusable.
 ## Good: Parent Retains Orchestration
 
 ```go
-// reconcileAccount loads state, computes adjustments, and persists results.
 func reconcileAccount(ctx context.Context, id string, deps Deps) error {
     state, err := loadReconciliationState(ctx, id, deps.DB)
     if err != nil {

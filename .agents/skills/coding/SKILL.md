@@ -1,26 +1,29 @@
 ---
-name: systems-coding
+name: coding
 description: >
-  ALWAYS activate for coding/refactor/review/design tasks in Go, Zig, C, C++,
-  and C#. High-priority quality guardrails for clean, idiomatic, readable
-  systems code.
+  ALWAYS activate for coding, refactor, review, debugging, and design tasks
+  across programming languages. High-priority guardrails for clean, idiomatic,
+  maintainable code while respecting project tools and language conventions.
 ---
 
 ## Activation
 
-- MUST activate for supported-language tasks in any mode: implementation/
-  coding, refactor/restructure, code review, PR/diff discussion, and planning/
-  chat on architecture or design decisions.
+- MUST activate for programming-language tasks in any mode: implementation,
+  coding, debugging, refactor/restructure, code review, PR/diff discussion,
+  and planning/chat on architecture or design decisions.
 - Hard triggers:
-  - target files match supported extensions (`*.go`, `*.zig`, `*.c`, `*.h`,
-    `*.cc`, `*.cpp`, `*.cxx`, `*.hpp`, `*.hh`, `*.hxx`, `*.cs`)
-  - PR/diff includes supported-language files
-  - explicit request for supported-language refactor/review/implementation
+  - target files are source code, tests, build files, package manifests,
+    scripts, migrations, generated-code inputs, or infrastructure-as-code
+  - PR/diff includes code or code-adjacent project files
+  - explicit request for coding, debugging, refactor, review, implementation,
+    architecture, or design of software behavior
 - Intent triggers (including plan/chat mode): refactor, cleanup, simplify,
   split, extract, modularize, review, critique, improve, code quality,
-  PR discussion, diff discussion, architecture/design discussion.
+  debugging, tests, CI, PR discussion, diff discussion, architecture/design
+  discussion.
 - Do not activate for generic discussion with no code/design/review intent,
-  incidental word matches, or unrelated non-supported-language scope.
+  incidental word matches, prose-only docs, data-only files, or unrelated
+  non-code scope.
 - Activation priority: direct file/diff evidence -> explicit intent
   (refactor/review/plan/chat) -> project/repo context signals.
 
@@ -63,19 +66,31 @@ Detailed examples: `./examples/control-flow.md`
 
 ### Formatting
 
-- `FMT-1 MUST`: Function-body lines use `<= 80` chars.
-  Check: statements/expressions in function blocks fit `<= 80`.
-- `FMT-3 MUST`: All comment lines use `<= 80` chars.
-  Check: docs, phase comments, and tagged comments wrap at `<= 80`.
-- `FMT-4 MUST`: Width rules never justify multiline signatures.
-  Check: long signatures are handled by param compaction or function split.
+- `FMT-1 MUST`: Project formatter, linter, and language conventions win over
+  manual style preferences.
+  Check: do not fight automatic formatting or established local style.
+- `FMT-2 SHOULD`: Prefer function-body lines `<= 80` chars when project style
+  and formatter allow it.
+  Check: long statements/expressions are simplified or wrapped by formatter.
+- `FMT-3 SHOULD`: Prefer comment lines `<= 80` chars when project style allows
+  it. Check: docs, phase comments, and tagged comments wrap cleanly.
+- `FMT-4 SHOULD`: Strongly prefer single-line function signatures and
+  declarations when formatter and language conventions allow it.
+  Check: avoid manual multiline signatures unless formatter, language syntax,
+  or readability clearly requires them.
+- `FMT-5 MUST NOT`: Split signatures only to satisfy manual width preferences.
+  Check: if a signature is too large, first consider parameter cohesion,
+  naming, or function shape.
 
 ### Functions
 
-- `FN-1 MUST`: Function definitions/declarations stay single-line.
-  Check: signature line not split.
-- `FN-1b MUST NOT`: Never split function parameter lists across multiple lines.
-  Check: multiline signatures are violations.
+- `FN-1 SHOULD`: Function definitions/declarations stay single-line when
+  formatter and language conventions allow it.
+  Check: signature line not split without a formatter, syntax, or readability
+  reason.
+- `FN-1b SHOULD`: Avoid multiline function parameter lists when the project
+  formatter does not require them.
+  Check: prefer improving parameter cohesion over manual signature wrapping.
 - `FN-2 MUST`: If parameter count is `>= 5`, justify cohesion or refactor
   before accepting the function shape.
   Check: either (a) cohesive inputs are encapsulated, or (b) function is split
@@ -173,9 +188,13 @@ Detailed examples: `./examples/variables-magic-values.md`
 
 ### Comments And Docs
 
-- `CD-1 MUST`: Every function definition has short doc comment (1-2 lines).
-  Check: doc directly above function explains purpose/outcome, not line-by-line
+- `CD-1 MUST`: Public/exported APIs, non-obvious behavior, domain policy,
+  edge-case handling, and complex helpers have short doc comments.
+  Check: comments explain purpose, contract, or consequence, not line-by-line
   implementation.
+- `CD-1b SHOULD`: Private obvious helpers and small local functions usually do
+  not need doc comments.
+  Check: name, types, and local context make purpose clear without a comment.
 - `CD-2 MUST`: Do not narrate obvious syntax/operations. Check: no trivial
   per-line commentary.
 - `CD-3 MUST`: In non-trivial functions, add one short comment at start of each
@@ -213,12 +232,12 @@ Detailed examples: `./examples/comments.md`
 
 ## Quick Checklist
 
-- Activation matches supported language and task type.
+- Activation matches programming-language work or code-adjacent project files.
 - Project tools/conventions take precedence on conflict.
 - Guard clauses first; avoid avoidable nested conditional chains.
-- Function body lines `<= 80`; comment lines `<= 80`; signature single-line
-  only.
-- Multiline function signatures are always violations.
+- Prefer `<= 80` body/comment lines and single-line signatures when formatter
+  and language conventions allow it.
+- Do not split signatures only for manual width preferences.
 - For `>= 5` params: justify cohesion or refactor before accepting shape; reuse
   existing structs first; split function if complex; use focused input struct
   only for related subsets.
@@ -226,5 +245,5 @@ Detailed examples: `./examples/comments.md`
   adds clear domain behavior.
 - Keep short linear functions inline; decompose long functions by substantial
   phases or cohesive phase groups; parent retains meaningful orchestration.
-- No mutable global runtime state; repeated literals consolidated; function docs
-  and tag-comment rules satisfied.
+- No mutable global runtime state; repeated literals consolidated; purposeful
+  docs and tag-comment rules satisfied.
