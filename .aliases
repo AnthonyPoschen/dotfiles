@@ -329,3 +329,7 @@ printc() {
     local color="%F{$1}"
     echo -E ${(qqqq)${(%)color}}
 }
+
+# skills management (central ~/.skills/)
+alias skills-import='~/.skills/sync-import.sh'
+alias skills-sync='~/.skills/sync-to-codex.sh'
