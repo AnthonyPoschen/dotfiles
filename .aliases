@@ -159,7 +159,7 @@ _ssm() {
         launch_time_fixed=$(echo "$launch_time" | sed 's/+00:00/+0000/')
 
         # Convert LaunchTime to seconds since epoch (macOS)
-        launch_seconds=$(date -j -f "%Y-%m-%dT%H:%M:%S%z" "$launch_time_fixed" +%s 2>/dev/null)
+        launch_seconds=$(date -j -f "%Y-%m-%dT%H:%M:%S%z" "$launch_time_fixed" +%s 2%/dev/null)
         now=$(date +%s)
 
         # Check if launch_seconds is valid
@@ -330,6 +330,5 @@ printc() {
     echo -E ${(qqqq)${(%)color}}
 }
 
-# skills management (central ~/.skills/)
-alias skills-import='~/.skills/sync-import.sh'
-alias skills-sync='~/.skills/sync-to-codex.sh'
+# skills (central ~/.agents/skills/ from skills.sh)
+alias skills-sync='~/.agents/skills/sync-to-codex.sh'
