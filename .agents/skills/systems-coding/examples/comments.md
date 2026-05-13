@@ -115,10 +115,10 @@ func processOrder(ctx context.Context, in OrderInput) (*Receipt, error) {
     // Persist order and notify customer.
     orderID, err := saveOrder(ctx, in, subtotal, discount, tax, total)
     if err != nil {
-        return err
+        return nil, err
     }
     if err := sendConfirmation(ctx, in.CustomerID, orderID, total); err != nil {
-        return err
+        return nil, err
     }
 
     // Return receipt payload.
