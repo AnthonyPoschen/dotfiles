@@ -32,6 +32,7 @@ func main() {
     db := mustOpenDB()
     store := Store{DB: db}
     _ = runServer(store)
+}
 
 func (s Store) loadUser(ctx context.Context, id string) (User, error) {
     return queryUser(ctx, s.DB, id)
