@@ -45,4 +45,20 @@ for skill_dir in "$SKILLS_DIR"/*; do
     done
 done
 
+# Symlink AGENTS.md (central ~/.agents/AGENTS.md) to tool dirs
+AGENTS_SRC="$HOME/.agents/AGENTS.md"
+if [ -f "$AGENTS_SRC" ]; then
+  for target_dir in "$OPENCODE_SKILLS_DIR" "$CODEX_SKILLS_DIR"; do
+    target="$target_dir/AGENTS.md"
+    if [ -L "$target" ] && [ "$(readlink "$target")" = "$AGENTS_SRC" ]; then
+      printf 'ok   %s -> %s\n' "$target" "$AGENTS_SRC"
+      continue
+    fi
+    [ -L "$target" ] && rm "$target"
+    [ -e "$target" ] && { printf 'skip AGENTS.md: exists\n'; continue; }
+    ln -s "$AGENTS_SRC" "$target"
+    printf 'link %s -> %s\n' "$target" "$AGENTS_SRC"
+  done
+fi
+
 printf 'done: %s linked, %s skipped\n' "$changed" "$skipped"
