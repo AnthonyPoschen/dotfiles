@@ -11,16 +11,15 @@ return {
 	},
 	opts = {
 		lsp = {
-			-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+			-- Override markdown rendering so LSP popups use Treesitter.
 			override = {
 				["vim.lsp.util.convert_input_to_markdown_lines"] = true,
 				["vim.lsp.util.stylize_markdown"] = true,
-				["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
 			},
 		},
 		-- yo
 		popupmenu = {
-			backend = "cmp",
+			backend = "nui",
 		},
 		views = {
 			cmdline_popup = {

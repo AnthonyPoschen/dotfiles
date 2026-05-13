@@ -388,30 +388,36 @@ return {
 				},
 			}
 
-			-- local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = require("blink.cmp").get_lsp_capabilities(capabilities)
-			local lspconfig = require("lspconfig")
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			for server_name, server in pairs(servers) do
-				-- Early exit if disabled
-				if server.enabled == false then
-					return
-				end
+				if server.enabled ~= false then
+					local opts = {
+						capabilities = capabilities,
+						on_attach = function(client, bufnr)
+							if server.on_attach then
+								server.on_attach(client, bufnr)
+							end
+						end,
+						cmd = server.cmd,
+						settings = server.settings,
+						filetypes = server.filetypes,
+						handlers = server.handlers,
+						on_init = server.on_init,
+					}
 
-				local opts = {
-					capabilities = capabilities,
-					on_attach = function(client, bufnr)
-						if server.on_attach then
-							server.on_attach(client, bufnr)
+					if server.root_dir then
+						opts.root_dir = function(bufnr, on_dir)
+							local fname = vim.api.nvim_buf_get_name(bufnr)
+							local root = server.root_dir(fname)
+							if root then
+								on_dir(root)
+							end
 						end
-					end,
-					cmd = server.cmd,
-					settings = server.settings,
-					filetypes = server.filetypes,
-					handlers = server.handlers,
-					root_dir = server.root_dir,
-					on_init = server.on_init,
-				}
-				lspconfig[server_name].setup({ opts })
+					end
+
+					vim.lsp.config(server_name, opts)
+					vim.lsp.enable(server_name)
+				end
 			end
 
 			require("mason").setup({
@@ -446,6 +452,30 @@ return {
 			local mason_registry = require("mason-registry")
 			local lsp_to_pkg = require("mason-lspconfig.mappings").get_all().lspconfig_to_package
 
+			local function install_mason_tools(packages)
+				for _, package_name in ipairs(packages) do
+					local ok, pkg = pcall(mason_registry.get_package, package_name)
+					if ok and not pkg:is_installed() and not pkg:is_installing() then
+						vim.notify("Installing Mason tool: " .. package_name)
+						pkg:install({}, function(success)
+							if success and package_name == "tree-sitter-cli" then
+								vim.schedule(function()
+									if vim.fn.exists(":TSInstallConfigured") == 2 then
+										vim.cmd.TSInstallConfigured()
+									end
+								end)
+							end
+						end)
+					end
+				end
+			end
+
+			local function ensure_mason_tools(packages)
+				mason_registry.refresh(function()
+					install_mason_tools(packages)
+				end)
+			end
+
 			-- Your server keys
 			local primary_servers = vim.tbl_keys(servers)
 			local secondary_servers = {
@@ -464,7 +494,7 @@ return {
 				"lua_ls",
 				"html",
 			}
-			local non_lsp_installs = { "gotests" }
+			local non_lsp_installs = { "gotests", "tree-sitter-cli" }
 
 			-- Combine and deduplicate LSP server names
 			local combined_lsp_servers = {}
@@ -485,15 +515,19 @@ return {
 					valid_packages[pkg_name] = true
 				end
 			end
+			for _, package_name in ipairs(non_lsp_installs) do
+				valid_packages[package_name] = true
+			end
 
 			-- Uninstall unused Mason packages
 			for _, pkg in ipairs(mason_registry.get_installed_packages()) do
 				local name = pkg.name
-				if not valid_packages[name] and not vim.tbl_contains(non_lsp_installs, name) then
-					vim.notify("Uninstalling unused LSP: " .. name)
+				if not valid_packages[name] then
+					vim.notify("Uninstalling unused Mason package: " .. name)
 					pkg:uninstall()
 				end
 			end
+			ensure_mason_tools(non_lsp_installs)
 
 			-- Setup Mason with correct LSP server names
 			require("mason-lspconfig").setup({

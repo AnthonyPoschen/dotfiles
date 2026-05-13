@@ -5,6 +5,17 @@ local opt = vim.opt
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+local max_virtual_text_width = 80
+
+local function format_diagnostic_preview(diagnostic)
+	local message = diagnostic.message:gsub("%s+", " ")
+	if #message <= max_virtual_text_width then
+		return message
+	end
+
+	return message:sub(1, max_virtual_text_width - 3) .. "..."
+end
+
 -- Enable LazyVim auto format
 vim.g.autoformat = true
 -- LazyVim root dir detection
@@ -146,8 +157,13 @@ opt.foldlevel = 99
 
 -- Diagnostic configuration options
 vim.diagnostic.config({
-	-- virtual_text = true,
-	-- virtual_lines = true,
+	virtual_lines = false,
+	virtual_text = {
+		spacing = 2,
+		source = "if_many",
+		virt_text_pos = "eol_right_align",
+		format = format_diagnostic_preview,
+	},
 	underline = true,
 	signs = true,
 	update_in_insert = false,

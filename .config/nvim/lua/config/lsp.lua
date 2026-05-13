@@ -1,11 +1,22 @@
+local max_virtual_text_width = 80
+
+local function format_diagnostic_preview(diagnostic)
+	local message = diagnostic.message:gsub("%s+", " ")
+	if #message <= max_virtual_text_width then
+		return message
+	end
+
+	return message:sub(1, max_virtual_text_width - 3) .. "..."
+end
+
 vim.diagnostic.config({
-	virtual_lines = {
-		current_line = true,
-		-- format = function(diagnostic)
-		-- 	return string.format("%s %s", diagnostic.source or "LSP", diagnostic.message)
-		-- end,
+	virtual_lines = false,
+	virtual_text = {
+		spacing = 2,
+		source = "if_many",
+		virt_text_pos = "eol_right_align",
+		format = format_diagnostic_preview,
 	},
-	virtual_test = false,
 	signs = {
 		active = true,
 		values = {
@@ -18,6 +29,24 @@ vim.diagnostic.config({
 	update_in_insert = false,
 	float = { border = "rounded" },
 	severity_sort = true,
+})
+
+local function open_line_diagnostics()
+	local line = vim.api.nvim_win_get_cursor(0)[1] - 1
+	local diagnostics = vim.diagnostic.get(0, { lnum = line })
+	if vim.tbl_isempty(diagnostics) then
+		return
+	end
+
+	vim.diagnostic.open_float(nil, {
+		focus = false,
+		scope = "line",
+	})
+end
+
+vim.api.nvim_create_autocmd("CursorHold", {
+	group = vim.api.nvim_create_augroup("lsp.diagnostic.hover", { clear = true }),
+	callback = open_line_diagnostics,
 })
 vim.lsp.config("*", {
 	root_markers = { ".git", ".hg" },

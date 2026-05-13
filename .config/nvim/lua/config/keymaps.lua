@@ -111,7 +111,12 @@ utils.create_ft_augroup("go", {
 }, "goKeys")
 
 -- CMP / LSP
--- map('n', '<Space>e', vim.diagnostic.open_float, opt_noremap_silent)
+map("n", "<leader>e", function()
+	vim.diagnostic.open_float(nil, {
+		focus = true,
+		scope = "line",
+	})
+end, { desc = "Line Diagnostics", noremap = true, silent = true })
 -- map('n', '[d', vim.diagnostic.goto_prev, opt_noremap_silent)
 -- map('n', ']d', vim.diagnostic.goto_next, opt_noremap_silent)
 
