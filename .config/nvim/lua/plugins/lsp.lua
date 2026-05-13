@@ -15,9 +15,43 @@ return {
 			-- "Decodetalkers/csharpls-extended-lsp.nvim",
 		},
 		config = function()
+			local function prepend_existing_path(path)
+				local current_path = vim.env.PATH or ""
+				if vim.uv.fs_stat(path) and not current_path:find(path, 1, true) then
+					vim.env.PATH = path .. ":" .. current_path
+				end
+			end
+
+			local function add_platform_tool_paths()
+				if vim.uv.os_uname().sysname ~= "Darwin" then
+					return
+				end
+
+				prepend_existing_path("/opt/homebrew/bin")
+				prepend_existing_path("/usr/local/bin")
+			end
+
+			add_platform_tool_paths()
+
 			-- on_attach function to overwrite the default keymaps
 			local function map(keys, func, desc, bufnr)
 				vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
+			end
+
+			local function set_server_keymaps(keys, bufnr)
+				for _, key in ipairs(keys or {}) do
+					local opts = vim.tbl_extend("force", {
+						buffer = bufnr,
+						silent = true,
+					}, key)
+					opts[1] = nil
+					opts[2] = nil
+
+					local mode = opts.mode or "n"
+					opts.mode = nil
+
+					vim.keymap.set(mode, key[1], key[2], opts)
+				end
 			end
 
 			-- These can have more fields like cmd, settings and filetypes
@@ -308,8 +342,8 @@ return {
 						else
 							-- Default root dir logic from lspconfig
 							return vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
-								or vim.fs.dirname(vim.fs.find("node_modules", { path = fname, upward = true })[0])
-								or vim.fs.dirname(vim.fs.find("package.json", { path = fname, upward = true })[0])
+								or vim.fs.dirname(vim.fs.find("node_modules", { path = fname, upward = true })[1])
+								or vim.fs.dirname(vim.fs.find("package.json", { path = fname, upward = true })[1])
 								or vim.fs.dirname(
 									vim.fs.find(
 										{ ".luarc.json", ".luacheckrc", ".stylua.toml" },
@@ -397,6 +431,7 @@ return {
 							if server.on_attach then
 								server.on_attach(client, bufnr)
 							end
+							set_server_keymaps(server.keys, bufnr)
 						end,
 						cmd = server.cmd,
 						settings = server.settings,
@@ -494,7 +529,16 @@ return {
 				"lua_ls",
 				"html",
 			}
-			local non_lsp_installs = { "gotests", "tree-sitter-cli" }
+			local mason_tools = {
+				"gotests",
+				"markdownlint",
+				"prettier",
+				"shfmt",
+				"sql-formatter",
+				"stylua",
+				"tree-sitter-cli",
+				"yamlfmt",
+			}
 
 			-- Combine and deduplicate LSP server names
 			local combined_lsp_servers = {}
@@ -515,7 +559,7 @@ return {
 					valid_packages[pkg_name] = true
 				end
 			end
-			for _, package_name in ipairs(non_lsp_installs) do
+			for _, package_name in ipairs(mason_tools) do
 				valid_packages[package_name] = true
 			end
 
@@ -527,7 +571,7 @@ return {
 					pkg:uninstall()
 				end
 			end
-			ensure_mason_tools(non_lsp_installs)
+			ensure_mason_tools(mason_tools)
 
 			-- Setup Mason with correct LSP server names
 			require("mason-lspconfig").setup({

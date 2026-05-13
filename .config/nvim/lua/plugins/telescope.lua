@@ -26,10 +26,6 @@ return {
 				build = "make",
 				enabled = vim.fn.executable("make") == 1,
 				config = function()
-					--Util.on_load("telescope.nvim", function()
-					--	require("telescope").load_extension("fzf")
-					--	require("telescope").load_extension("smart_open")
-					--end)
 					local name = "telescope.nvim"
 					local Config = require("lazy.core.config")
 					if Config.plugins[name] and Config.plugins[name]._.loaded then

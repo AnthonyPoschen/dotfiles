@@ -18,7 +18,7 @@ map("i", "jj", "<Esc>", opt_noremap)
 map("n", "n", "nzz")
 map("n", "N", "Nzz")
 
-map("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "LazyVim Panel" })
+map("n", "<leader>p", "<cmd>Lazy<cr>", { desc = "Lazy Panel" })
 
 -- TODO: consider tab management keys to reclaim { and } keys
 -- tab management
@@ -28,9 +28,6 @@ map("n", "+", "<cmd>tabnew<cr>", opt_noremap)
 map("n", "_", "<cmd>tabclose<cr>", opt_noremap)
 
 -- File management
--- map("n", "-", "<cmd>Ranger<cr>", opt_noremap)
--- map("n", "=", "<cmd>Ranger tabe<cr>", opt_noremap)
--- map("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 map("n", "-", function()
 	require("oil").open_float()
 end, { desc = "Open parent directory" })

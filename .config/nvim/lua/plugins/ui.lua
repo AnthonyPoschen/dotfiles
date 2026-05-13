@@ -1,82 +1,22 @@
--- local Util = require("util")
 local function realpath(path)
 	if path == "" or path == nil then
 		return nil
 	end
-	path = vim.loop.fs_realpath(path) or path
-
-	local LazyUtil = require("lazy.core.util")
-	return LazyUtil.norm(path)
-end
-local cache = {}
-local detectors = {}
-function detectors.cwd()
-	return { vim.loop.cwd() }
-end
-function detectors.pattern(buf, patterns)
-	patterns = type(patterns) == "string" and { patterns } or patterns
-	if not vim.api.nvim_buf_is_valid(buf) then
-		return {}
-	end
-	local path = realpath(vim.api.nvim_buf_get_name(buf)) or vim.loop.cwd()
-	local pattern = vim.fs.find(patterns, { path = path, upward = true })[1]
-	return pattern and { vim.fs.dirname(pattern) } or {}
+	return vim.fs.normalize(vim.uv.fs_realpath(path) or path)
 end
 
-local function detect()
-	function resolve(spec)
-		if detectors[spec] then
-			return detectors[spec]
-		elseif type(spec) == "function" then
-			return spec
-		end
-		return function(buf)
-			return detectors.pattern(buf, spec)
-		end
+local function get_root()
+	local buf_path = vim.api.nvim_buf_get_name(0)
+	local start = buf_path ~= "" and buf_path or vim.uv.cwd()
+	local marker = vim.fs.find(".git", { path = start, upward = true })[1]
+	if marker then
+		return realpath(vim.fs.dirname(marker))
 	end
-	opts = opts or {}
-	opts.spec = opts.spec or type(vim.g.root_spec) == "table" and vim.g.root_spec or M.spec
-	opts.buf = (opts.buf == nil or opts.buf == 0) and vim.api.nvim_get_current_buf() or opts.buf
+	return realpath(vim.uv.cwd())
+end
 
-	local ret = {} ---@type LazyRoot[]
-	for _, spec in ipairs(opts.spec) do
-		local paths = resolve(spec)(opts.buf)
-		paths = paths or {}
-		paths = type(paths) == "table" and paths or { paths }
-		local roots = {} ---@type string[]
-		for _, p in ipairs(paths) do
-			local pp = realpath(p)
-			if pp and not vim.tbl_contains(roots, pp) then
-				roots[#roots + 1] = pp
-			end
-		end
-		table.sort(roots, function(a, b)
-			return #a > #b
-		end)
-		if #roots > 0 then
-			ret[#ret + 1] = { spec = spec, paths = roots }
-			if opts.all == false then
-				break
-			end
-		end
-	end
-	return ret
-end
-local function getroot(opts)
-	local buf = vim.api.nvim_get_current_buf()
-	local ret = cache[buf]
-	if not ret then
-		local roots = detect({ all = false })
-		ret = roots[1] and roots[1].paths[1] or vim.loop.cwd()
-		cache[buf] = ret
-	end
-	if opts and opts.normalize then
-		return ret
-	end
-	return ret
-end
 local function cwdf()
-	return realpath(vim.loop.cwd()) or ""
+	return realpath(vim.uv.cwd()) or ""
 end
 
 local icons = {
@@ -239,8 +179,7 @@ return {
 
 				local function get()
 					local cwd = cwdf()
-					local root = getroot()
-					-- local root = Util.root.get({ normalize = true })
+					local root = get_root()
 					local name = vim.fs.basename(root)
 
 					if root == cwd then

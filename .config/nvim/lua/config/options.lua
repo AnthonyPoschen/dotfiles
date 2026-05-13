@@ -1,6 +1,3 @@
--- Options are automatically loaded before lazy.nvim startup
--- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
--- Add any additional options here
 local opt = vim.opt
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
@@ -16,14 +13,6 @@ local function format_diagnostic_preview(diagnostic)
 	return message:sub(1, max_virtual_text_width - 3) .. "..."
 end
 
--- Enable LazyVim auto format
-vim.g.autoformat = true
--- LazyVim root dir detection
--- Each entry can be:
--- * the name of a detector function like `lsp` or `cwd`
--- * a pattern or array of patterns like `.git` or `lua`.
--- * a function with signature `function(buf) -> string|string[]`
-vim.g.root_spec = { "lsp", { ".git", "lua" }, "cwd" }
 opt.autowrite = true -- Enable auto write
 opt.timeoutlen = 300
 opt.ts = 4
@@ -165,7 +154,14 @@ vim.diagnostic.config({
 		format = format_diagnostic_preview,
 	},
 	underline = true,
-	signs = true,
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "",
+			[vim.diagnostic.severity.WARN] = "",
+			[vim.diagnostic.severity.INFO] = "",
+			[vim.diagnostic.severity.HINT] = "",
+		},
+	},
 	update_in_insert = false,
 	severity_sort = true,
 	float = {

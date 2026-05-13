@@ -12,14 +12,12 @@ return {
 				-- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
 				-- ['_'] = { 'fallback linter' },
 			},
-			-- LazyVim extension to easily override linter options
-			-- or add custom linters.
+			-- Override linter options or add custom linters.
 			---@type table<string,table>
 			linters = {
 				-- -- Example of using selene only when a selene.toml file is present
 				-- selene = {
-				--   -- `condition` is another LazyVim extension that allows you to
-				--   -- dynamically enable/disable linters based on the context.
+				--   -- `condition` dynamically enables/disables linters by context.
 				--   condition = function(ctx)
 				--     return vim.fs.find({ "selene.toml" }, { path = ctx.filename, upward = true })[1]
 				--   end,
@@ -27,8 +25,6 @@ return {
 			},
 		},
 		config = function(_, opts)
-			local LazyUtil = require("lazy.core.util")
-
 			local M = {}
 
 			local lint = require("lint")
@@ -73,7 +69,7 @@ return {
 				names = vim.tbl_filter(function(name)
 					local linter = lint.linters[name]
 					if not linter then
-						LazyUtil.warn("Linter not found: " .. name, { title = "nvim-lint" })
+						vim.notify("Linter not found: " .. name, vim.log.levels.WARN, { title = "nvim-lint" })
 					end
 					return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
 				end, names)

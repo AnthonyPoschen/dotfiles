@@ -1,36 +1,3 @@
-local max_virtual_text_width = 80
-
-local function format_diagnostic_preview(diagnostic)
-	local message = diagnostic.message:gsub("%s+", " ")
-	if #message <= max_virtual_text_width then
-		return message
-	end
-
-	return message:sub(1, max_virtual_text_width - 3) .. "..."
-end
-
-vim.diagnostic.config({
-	virtual_lines = false,
-	virtual_text = {
-		spacing = 2,
-		source = "if_many",
-		virt_text_pos = "eol_right_align",
-		format = format_diagnostic_preview,
-	},
-	signs = {
-		active = true,
-		values = {
-			{ name = "DiagnosticSignError", text = "" },
-			{ name = "DiagnosticSignWarn", text = "" },
-			{ name = "DiagnosticSignInfo", text = "" },
-			{ name = "DiagnosticSignHint", text = "" },
-		},
-	},
-	update_in_insert = false,
-	float = { border = "rounded" },
-	severity_sort = true,
-})
-
 local function open_line_diagnostics()
 	local line = vim.api.nvim_win_get_cursor(0)[1] - 1
 	local diagnostics = vim.diagnostic.get(0, { lnum = line })
