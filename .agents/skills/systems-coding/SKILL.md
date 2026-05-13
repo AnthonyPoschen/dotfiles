@@ -89,27 +89,40 @@ Detailed examples: `./examples/control-flow.md`
   Check: decision recorded in code shape (split vs keep inputs).
 - `FN-5 SHOULD`: If function is too complex, split responsibilities into smaller
   functions. Check: parent orchestrates, children execute.
-- `FN-6 SHOULD`: If many inputs are still required, create a focused input struct
-  for related inputs only. Check: struct groups one cohesive subset.
+- `FN-6 SHOULD`: If many inputs are still required, create a focused input
+  struct for related inputs only. Check: struct groups one cohesive subset.
 - `FN-7 MUST NOT`: Do not bundle all parameters into one catch-all wrapper
   struct. Check: unrelated inputs remain separate.
 - `FN-8 MUST NOT`: Do not pass broad unrelated context/struct only to reduce
   parameter count. Check: passed fields remain cohesive to function purpose.
 - `FN-9 MUST`: Function responsibility aligns with function name and one primary
   purpose. Check: no unrelated mixed responsibilities.
-- `FN-10 MUST`: Decomposition rules apply only when function body is
-  `> 40 code lines` (exclude blank/comment lines).
-  Check: functions `<= 40 code lines` are not split only for phase count.
-- `FN-11 MUST`: For functions `> 40 code lines`, extract clear distinct parts
-  into helpers when present. Check: long mixed sections are compartmentalized.
-- `FN-12 MUST`: Parent keeps branching/decision logic; children execute steps.
+- `FN-10 MUST`: Do not extract helper functions from functions `<= 40 code
+  lines` for decomposition, phase labeling, or visual organization alone.
+  Check: short functions stay inline unless extraction is required by reuse,
+  duplicated substantial logic, API boundaries, or clear correctness/testing
+  need.
+- `FN-11 MUST`: For functions `> 40 code lines`, extract only substantial
+  phases or cohesive phase groups when doing so improves local reasoning,
+  naming, reuse, or testability.
+  Check: many short, linear phases may remain inline; avoid one helper per
+  small phase.
+- `FN-12 MUST`: Extracted helpers represent meaningful work, not just comments
+  converted into function names.
+  Check: helper name adds domain meaning and body is substantial, reusable,
+  independently testable, or hides cohesive detail.
+- `FN-13 SHOULD`: After extraction, parent function retains meaningful
+  orchestration or policy.
+  Check: if parent only calls helpers in sequence, reconsider whether parent
+  should exist or caller should compose steps directly.
+- `FN-14 MUST`: Parent keeps branching/decision logic; children execute steps.
   Check: high-level decision trees are not spread across children.
-- `FN-13 SHOULD`: Pass resolved decision inputs to children (flags/enums/
+- `FN-15 SHOULD`: Pass resolved decision inputs to children (flags/enums/
   prepared values), not raw context requiring new policy decisions.
   Check: children do not re-derive high-level business decisions.
-- `FN-14 MUST`: Children may validate local invariants but must not duplicate
+- `FN-16 MUST`: Children may validate local invariants but must not duplicate
   orchestration-level branching. Check: no duplicated high-level branching.
-- `FN-15 SHOULD`: Extract substantial reusable logic into dedicated helper
+- `FN-17 SHOULD`: Extract substantial reusable logic into dedicated helper
   functions/types. Check: non-trivial repeated logic is not duplicated inline.
 
 Detailed examples: `./examples/functions.md`
@@ -203,14 +216,15 @@ Detailed examples: `./examples/comments.md`
 - Activation matches supported language and task type.
 - Project tools/conventions take precedence on conflict.
 - Guard clauses first; avoid avoidable nested conditional chains.
-- Function body lines `<= 80`; comment lines `<= 80`; signature single-line only.
+- Function body lines `<= 80`; comment lines `<= 80`; signature single-line
+  only.
 - Multiline function signatures are always violations.
 - For `>= 5` params: justify cohesion or refactor before accepting shape; reuse
   existing structs first; split function if complex; use focused input struct
   only for related subsets.
 - Avoid pass-through provider wrappers; keep direct SDK calls unless abstraction
   adds clear domain behavior.
-- Decompose only when function body `> 40 code lines`; parent orchestrates,
-  children execute.
+- Keep short linear functions inline; decompose long functions by substantial
+  phases or cohesive phase groups; parent retains meaningful orchestration.
 - No mutable global runtime state; repeated literals consolidated; function docs
   and tag-comment rules satisfied.

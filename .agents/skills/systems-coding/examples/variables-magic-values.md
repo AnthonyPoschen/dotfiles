@@ -28,12 +28,14 @@ type Store struct {
     DB *sql.DB
 }
 
+// main opens dependencies and starts the server.
 func main() {
     db := mustOpenDB()
     store := Store{DB: db}
     _ = runServer(store)
 }
 
+// loadUser fetches a user through the injected store dependency.
 func (s Store) loadUser(ctx context.Context, id string) (User, error) {
     return queryUser(ctx, s.DB, id)
 }

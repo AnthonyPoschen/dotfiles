@@ -2,50 +2,110 @@
 
 [Back to rules](../SKILL.md#functions)
 
-## Bad: Long mixed-responsibility function
+## Good: Short Linear Phases Stay Inline
 
 ```go
-func handleOrder(ctx context.Context, in OrderInput, db DB, cli Mailer) error {
+// buildInvoice validates input, prices lines, and returns an invoice.
+func buildInvoice(in InvoiceInput, now time.Time) (Invoice, error) {
     if in.CustomerID == "" {
-        return ErrInvalidCustomer
+        return Invoice{}, ErrInvalidCustomer
     }
+    if len(in.Lines) == 0 {
+        return Invoice{}, ErrEmptyInvoice
+    }
+
     subtotal := 0
-    for _, item := range in.Items {
-        if item.Qty <= 0 {
-            return ErrInvalidQty
+    for _, line := range in.Lines {
+        if line.Qty <= 0 {
+            return Invoice{}, ErrInvalidQty
         }
-        subtotal += item.Qty * item.UnitPrice
+        subtotal += line.Qty * line.UnitPrice
     }
+
     discount := 0
-    if in.IsLoyalCustomer {
-        discount = subtotal / 10
+    if in.DiscountCode != "" {
+        discount = lookupDiscount(in.DiscountCode, subtotal)
     }
-    tax := (subtotal - discount) * 7 / 100
+
+    tax := (subtotal - discount) * taxRate / taxScale
     total := subtotal - discount + tax
-    if err := db.SaveOrder(ctx, in, total); err != nil {
-        return err
-    }
-    if err := cli.SendReceipt(ctx, in.CustomerID, total); err != nil {
-        return err
-    }
-    return nil
+
+    return Invoice{
+        CustomerID: in.CustomerID,
+        DueAt:      now.Add(invoiceDueAfter),
+        Subtotal:   subtotal,
+        Discount:   discount,
+        Tax:        tax,
+        Total:      total,
+    }, nil
 }
 ```
 
-## Good: Parent orchestrates, children execute
+## Bad: One Helper Per Small Phase
 
 ```go
-func handleOrder(ctx context.Context, in OrderInput, deps Deps) error {
-    if err := validateOrder(in); err != nil {
-        return err
+// buildInvoice validates input, prices lines, and returns an invoice.
+func buildInvoice(in InvoiceInput, now time.Time) (Invoice, error) {
+    if err := validateInvoiceInput(in); err != nil {
+        return Invoice{}, err
     }
 
-    totals := computeTotals(in)
+    subtotal := computeSubtotal(in.Lines)
+    discount := computeDiscount(in.DiscountCode, subtotal)
+    tax := computeTax(subtotal, discount)
 
-    if err := persistOrder(ctx, in, totals, deps.DB); err != nil {
-        return err
-    }
-
-    return sendReceipt(ctx, in.CustomerID, totals.Total, deps.Mailer)
+    return makeInvoice(in.CustomerID, now, subtotal, discount, tax), nil
 }
 ```
+
+## Good: Extract Cohesive Substantial Phase Groups
+
+```go
+// convertReport sanitizes raw input and builds a report.
+func convertReport(in RawReport) (Report, error) {
+    clean, err := sanitizeRawReport(in)
+    if err != nil {
+        return Report{}, err
+    }
+
+    groups := groupReportRows(clean.Rows)
+    summaries := computeReportSummaries(groups)
+
+    return Report{
+        Metadata:  clean.Metadata,
+        Groups:    groups,
+        Summaries: summaries,
+    }, nil
+}
+```
+
+`sanitizeRawReport` is a good extraction when it groups related validation,
+normalization, status mapping, and amount parsing. Avoid separate helpers for
+each tiny sanitize step unless one becomes substantial or reusable.
+
+## Good: Parent Retains Orchestration
+
+```go
+// reconcileAccount loads state, computes adjustments, and persists results.
+func reconcileAccount(ctx context.Context, id string, deps Deps) error {
+    state, err := loadReconciliationState(ctx, id, deps.DB)
+    if err != nil {
+        return err
+    }
+
+    adjustments, err := computeLedgerAdjustments(state)
+    if err != nil {
+        return err
+    }
+
+    if len(adjustments) == 0 {
+        return nil
+    }
+
+    return saveLedgerAdjustments(ctx, deps.DB, adjustments)
+}
+```
+
+This parent is still useful because it owns ordering, error handling, and the
+empty-adjustment policy. If the parent only forwarded calls without policy or
+branching, reconsider whether the caller should compose the steps directly.

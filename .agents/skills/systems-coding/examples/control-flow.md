@@ -20,6 +20,7 @@ func process(user *User, req *Request) error {
 ## Good: Guard clauses first
 
 ```go
+// process validates inputs and runs the request.
 func process(user *User, req *Request) error {
     if user == nil {
         return ErrInvalidInput

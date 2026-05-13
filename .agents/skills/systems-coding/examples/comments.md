@@ -132,4 +132,4 @@ func processOrder(ctx context.Context, in OrderInput) (*Receipt, error) {
 }
 ```
 
-[Back to rules](../SKILL.md#tagged-comments)
+[Back to rules](../SKILL.md#comments-and-docs)
