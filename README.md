@@ -35,7 +35,7 @@ config may be required for oh my zsh
 Install tmux plugin manager
 
 ```sh
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 ```
 
 Install tmux plugins with following hotkey Ctrl+A I

@@ -71,13 +71,19 @@ these before assuming a Neovim mapping is broken.
 Current tmux anchors:
 
 - Prefix is `C-a`; `C-b` is unbound as prefix.
-- Root bindings: `C-f`, `C-g`, `C-t`, `C-b`.
+- Root bindings: `C-f`, `C-g`, `C-t`, `C-b`. These are high-value session
+  movement and management keys; keep them prioritized over default shell or
+  Neovim meanings.
 - Prefix bindings: `c`, `n`, `p`, `^r`, `-`, `s`, `v`, `[`, `]`, `q`,
   `^H`, `^J`, `^K`, `^L`, `Space`, `+`, `r`.
 - Copy mode is vi-style.
 - Clipboard differs by platform: `pbcopy` on macOS, `wl-copy`/`wl-paste` on
   Linux.
 - Extended keys are enabled with `extended-keys` and `terminal-features`.
+
+Future keymap review: explicitly rank the key hierarchy and reserve the best
+key real estate for the actions that most improve navigation speed and daily
+workflow.
 
 ## Shell
 
