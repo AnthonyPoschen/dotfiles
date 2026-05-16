@@ -3,6 +3,7 @@
 
 !\.gitignore
 !/AGENTS.md
+!/skills-lock.json
 !\.tmux.conf
 !\.zshrc
 !\.config
@@ -15,7 +16,11 @@
 !\.local/scripts
 !\.local/scripts/*
 !/.agents/
-!/.agents/**
+!/.agents/.skill-lock.json
+!/.agents/AGENTS.md
+!/.agents/skills/
+!/.agents/skills/*/
+!/.agents/skills/*/**
 
 .oh-my-zsh-custom/
 
