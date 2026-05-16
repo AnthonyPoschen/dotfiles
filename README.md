@@ -50,6 +50,28 @@ Install zsh zplug plugins
 zplug install
 ```
 
+## Omarchy voice dictation
+
+Install Voxtype:
+
+```sh
+omarchy voxtype install
+```
+
+Hold `Super + Z` to say it. Release the keys to stop recording; Voxtype
+transcribes the audio and types the result into the focused app after a short
+delay.
+
+While recording, the dictation wrapper mutes Discord's microphone capture
+stream only. It does not mute the system microphone. If Discord was already
+muted before dictation started, it stays muted when the keys are released.
+
+Waybar shows the dictation state:
+
+- Green `●`: ready
+- Red `●`: recording
+- Amber `…`: transcribing
+
 Setting up p10k
 install custom fonts before setting up zsh
 

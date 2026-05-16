@@ -1,0 +1,75 @@
+#!/bin/sh
+set -eu
+
+state_dir="${XDG_RUNTIME_DIR:-/tmp}/voxtype"
+state_file="$state_dir/discord-source-outputs-to-unmute"
+
+mkdir -p "$state_dir"
+
+discord_source_outputs() {
+  pactl list source-outputs 2>/dev/null | awk '
+    /^Source Output #/ {
+      flush()
+      id = substr($3, 2)
+      mute = ""
+      match_discord = 0
+      block = ""
+      next
+    }
+    /^$/ {
+      flush()
+      id = ""
+      next
+    }
+    {
+      block = block "\n" $0
+      if ($0 ~ /^[[:space:]]*Mute:/) mute = $2
+      lower = tolower($0)
+      if (lower ~ /discord/ || lower ~ /webrtc voiceengine/) match_discord = 1
+    }
+    END { flush() }
+    function flush() {
+      if (id != "" && match_discord) print id, mute
+    }
+  '
+}
+
+mute_discord() {
+  : >"$state_file"
+
+  discord_source_outputs | while read -r id mute; do
+    [ -n "$id" ] || continue
+
+    if [ "$mute" = "no" ]; then
+      printf "%s\n" "$id" >>"$state_file"
+    fi
+
+    pactl set-source-output-mute "$id" 1 2>/dev/null || true
+  done
+}
+
+restore_discord() {
+  [ -f "$state_file" ] || return 0
+
+  while read -r id; do
+    [ -n "$id" ] || continue
+    pactl set-source-output-mute "$id" 0 2>/dev/null || true
+  done <"$state_file"
+
+  rm -f "$state_file"
+}
+
+case "${1:-}" in
+  start)
+    mute_discord
+    exec voxtype record start
+    ;;
+  stop)
+    voxtype record stop
+    restore_discord
+    ;;
+  *)
+    echo "Usage: voxtype-record-with-discord-mute start|stop" >&2
+    exit 64
+    ;;
+esac

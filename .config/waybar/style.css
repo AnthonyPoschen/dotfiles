@@ -98,12 +98,18 @@ tooltip {
 }
 
 #custom-voxtype {
-  min-width: 12px;
+  min-width: 10px;
   margin: 0 0 0 7.5px;
+  font-weight: bold;
+  color: #6a9955;
 }
 
 #custom-voxtype.recording {
   color: #a55555;
+}
+
+#custom-voxtype.transcribing {
+  color: #d0a14a;
 }
 
 #custom-idle-indicator.active,

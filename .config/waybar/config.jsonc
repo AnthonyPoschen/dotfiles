@@ -17,6 +17,7 @@
 		"tray",
 		"bluetooth",
 		"network",
+		"custom/voxtype",
 		"pulseaudio#mic",
 		"pulseaudio",
 		"cpu",
@@ -202,9 +203,10 @@
     "return-type": "json",
     "format": "{icon}",
     "format-icons": {
-      "idle": "",
-      "recording": "󰍬",
-      "transcribing": "󰔟"
+      "stopped": "●",
+      "idle": "●",
+      "recording": "●",
+      "transcribing": "…"
     },
     "tooltip": true,
     "on-click-right": "omarchy-voxtype-config",
