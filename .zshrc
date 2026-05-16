@@ -8,13 +8,16 @@ if [[ -z "$TMUX" && $- == *i* && -z "$VIM"  ]]; then
 	tmux attach || exec tmux new-session -s home && tmux kill-server && exit
 fi
 fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# NOTE: Prompt experiment - Powerlevel10k instant prompt is disabled while trying Starship.
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 export ZSH="$HOME/.oh-my-zsh"
 export ZSH_CUSTOM="$HOME/.oh-my-zsh-custom"
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# NOTE: Prompt experiment - Starship is enabled near the end of this file.
+# Keep Powerlevel10k disabled while trying Starship so the prompts do not fight.
+# ZSH_THEME="powerlevel10k/powerlevel10k"
 # Zsh autosuggest
 bindkey -M viins '^y' autosuggest-accept
 bindkey -M viins '^ ' autosuggest-accept
@@ -169,11 +172,17 @@ export PATH="$PATH:$HOME/.gem/ruby/2.5.0/bin"
 export PATH="$PATH:$HOME/.krew/bin"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 export DOCKER_BUILDKIT=1
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# NOTE: Prompt experiment - Powerlevel10k is disabled while trying Starship.
+# To re-enable p10k, uncomment ZSH_THEME above and the source line below, then
+# comment out the Starship init line.
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# NOTE: Prompt experiment - Starship prompt.
+eval "$(starship init zsh)"
 
 unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 unset POWERLEVEL9K_AWS_SHOW_ON_COMMAND

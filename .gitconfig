@@ -4,6 +4,8 @@
   abbrev = 8
   ignorecase = false
 	excludesfile = /Users/ap/.gitconfig-global-ignores
+[init]
+	defaultBranch = master
 [delta "no-background"]
 	hyperlinks = true
 	line-numbers = true
@@ -19,6 +21,7 @@
   name = Anthony Poschen
 [branch]
   autosetuprebase = always
+	sort = -committerdate
 [fetch]
   prune = true
   pruneTags = true
@@ -32,6 +35,7 @@
   autoSetupRemote = true
 [rerere]
 	enabled = true
+	autoupdate = true
 [clean]
   requireForce = false
 [remote "origin"]
@@ -48,6 +52,15 @@
 	keepBackup = false
 [diff]
 	tool = fugitive
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+[commit]
+	verbose = true
+[column]
+	ui = auto
+[tag]
+	sort = -version:refname
 [difftool]
 	prompt = false
 [mergetool "fugitive"]

@@ -1,7 +1,11 @@
 #!/bin/bash
 # git dotfiles management alias
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias brew-update='brew bundle --no-upgrade -f --file ~/Brewfile && brew bundle dump -f --file ~/Brewfile'
+alias brew-sync='_brew_sync'
+alias brew-update='_brew_sync'
+function _brew_sync() {
+  brew bundle --no-upgrade --file "$HOME/Brewfile" && brew bundle dump --force --file "$HOME/Brewfile"
+}
 # config file edits
 alias conf-nvim='nvim ~/.config/nvim/init.lua'
 alias conf-kitty='nvim ~/.config/kitty/kitty.conf'

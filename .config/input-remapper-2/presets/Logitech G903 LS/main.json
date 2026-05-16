@@ -1,0 +1,28 @@
+[
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 276,
+                "origin_hash": "bf9e080a5f1e7b59d1e4b54cb1f9f165"
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "KEY_RIGHTCTRL + KEY_M",
+        "name": "side front",
+        "mapping_type": "key_macro"
+    },
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 275,
+                "origin_hash": "bf9e080a5f1e7b59d1e4b54cb1f9f165"
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "KEY_RIGHTCTRL + KEY_N",
+        "name": "side rear",
+        "mapping_type": "key_macro"
+    }
+]
