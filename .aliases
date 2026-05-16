@@ -19,6 +19,117 @@ export DOCKER_BUILDKIT=1
 
 alias gpl='git fetch --tags -f && git pull --rebase' # get tags with force to overwrite clobbering tags error
 alias gph='git push'
+git() {
+  if [ "$1" != "clone" ]; then
+    command git "$@"
+    return
+  fi
+
+  shift
+  _git_clone_into_git_tree "$@"
+}
+
+_git_clone_into_git_tree() {
+  local arg repo target positional_count skip_next after_separator
+  positional_count=0
+  skip_next=0
+  after_separator=0
+
+  for arg in "$@"; do
+    if [ "$skip_next" = "1" ]; then
+      skip_next=0
+      continue
+    fi
+
+    if [ "$after_separator" = "1" ]; then
+      positional_count=$((positional_count + 1))
+      if [ "$positional_count" = "1" ]; then
+        repo="$arg"
+      fi
+      continue
+    fi
+
+    case "$arg" in
+      --)
+        after_separator=1
+        ;;
+      -b|--branch|-o|--origin|-u|--upload-pack|--template|--reference|--reference-if-able|--separate-git-dir|-c|--config|--depth|--shallow-since|--shallow-exclude|--jobs|--server-option|--filter)
+        skip_next=1
+        ;;
+      -*)
+        ;;
+      *)
+        positional_count=$((positional_count + 1))
+        if [ "$positional_count" = "1" ]; then
+          repo="$arg"
+        fi
+        ;;
+    esac
+  done
+
+  if [ "$positional_count" != "1" ]; then
+    command git clone "$@"
+    return
+  fi
+
+  target=$(_git_clone_target_from_url "$repo") || {
+    command git clone "$@"
+    return
+  }
+
+  mkdir -p "$(dirname "$target")"
+  echo "Cloning into $target"
+  command git clone "$@" "$target"
+}
+
+_git_clone_target_from_url() {
+  local url stripped host path repo_dir repo_name
+  url="$1"
+  stripped="$url"
+
+  case "$stripped" in
+    *://*)
+      stripped="${stripped#*://}"
+      stripped="${stripped#*@}"
+      host="${stripped%%/*}"
+      path="${stripped#*/}"
+      ;;
+    *@*:*)
+      stripped="${stripped#*@}"
+      host="${stripped%%:*}"
+      path="${stripped#*:}"
+      ;;
+    */*/*)
+      host="${stripped%%/*}"
+      path="${stripped#*/}"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+
+  path="${path%%\?*}"
+  path="${path%%#*}"
+  path="${path#/}"
+  path="${path%/}"
+  host="${host:l}"
+  path="${path:l}"
+
+  if [ -z "$host" ] || [ -z "$path" ] || [ "$path" = "$host" ]; then
+    return 1
+  fi
+
+  repo_dir="${path%/*}"
+  repo_name="${path##*/}"
+  repo_name="${repo_name%.git}"
+
+  if [ -z "$repo_dir" ] || [ -z "$repo_name" ]; then
+    return 1
+  fi
+
+  printf "%s/git/%s/%s/%s\n" "$HOME" "$host" "$repo_dir" "$repo_name"
+}
+
 alias gwl='git worktree list'
 alias gwa='_gwa'
 function _gwa() {

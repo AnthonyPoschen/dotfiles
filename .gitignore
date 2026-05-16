@@ -2,6 +2,7 @@
 **
 
 !\.gitignore
+!/AGENTS.md
 !\.tmux.conf
 !\.zshrc
 !\.config
@@ -15,6 +16,8 @@
 !\.local/scripts/*
 !/.agents/
 !/.agents/**
+
+.oh-my-zsh-custom/
 
 \.config/tmux/plugins/*
 \.config/tmux/plugins
