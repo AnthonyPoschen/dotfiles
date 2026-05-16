@@ -10,6 +10,11 @@ return {
 		"notify",
 	},
 	opts = {
+		cmdline = {
+			format = {
+				cmdline = { pattern = "^:", icon = "", lang = false },
+			},
+		},
 		lsp = {
 			-- Override markdown rendering so LSP popups use Treesitter.
 			override = {

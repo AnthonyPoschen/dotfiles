@@ -25,6 +25,7 @@ return {
 				preset = "enter",
 			},
 			cmdline = {
+				enabled = false,
 				completion = {
 					menu = {
 						auto_show = true,
