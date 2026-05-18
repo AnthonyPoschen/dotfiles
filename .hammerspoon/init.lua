@@ -35,14 +35,66 @@ local function voxtypePath()
 end
 
 local function runVoxtype(command)
-	hs.execute(voxtypePath() .. " record " .. command, true)
+	local shellCommand = voxtypePath() .. " record " .. command
+	local output, status, exitType, rc = hs.execute(shellCommand, true)
+
+	print("voxtype command:", shellCommand)
+	print("voxtype status:", status, "exitType:", exitType, "rc:", rc)
+	if output and output ~= "" then
+		print("voxtype output:", output)
+	end
 end
 
-hs.hotkey.bind({ "ctrl" }, "Y", function()
-	runVoxtype("start")
-end, function()
+local voxtypeKeyCode = hs.keycodes.map.y
+local voxtypeRecording = false
+
+local function stopVoxtypeRecording()
+	if not voxtypeRecording then
+		return false
+	end
+
+	voxtypeRecording = false
 	runVoxtype("stop")
+	return true
+end
+
+local voxtypeTap = hs.eventtap.new({
+	hs.eventtap.event.types.keyDown,
+	hs.eventtap.event.types.keyUp,
+	hs.eventtap.event.types.flagsChanged,
+}, function(event)
+	local eventType = event:getType()
+	local flags = event:getFlags()
+
+	if eventType == hs.eventtap.event.types.flagsChanged then
+		if voxtypeRecording and not flags.ctrl then
+			stopVoxtypeRecording()
+		end
+
+		return false
+	end
+
+	if event:getKeyCode() ~= voxtypeKeyCode then
+		return false
+	end
+
+	if eventType == hs.eventtap.event.types.keyDown and flags.ctrl then
+		if not voxtypeRecording then
+			voxtypeRecording = true
+			runVoxtype("start")
+		end
+
+		return true
+	end
+
+	if eventType == hs.eventtap.event.types.keyUp then
+		return stopVoxtypeRecording()
+	end
+
+	return false
 end)
+
+voxtypeTap:start()
 
 -- Helper function to cycle through windows
 local function cycleWindows(appName)
