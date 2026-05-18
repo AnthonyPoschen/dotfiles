@@ -19,42 +19,6 @@ local keybinds = {
 -- NOTE: use this for debugging to get list of applications, console mode
 -- for _, app in pairs(hs.application.runningApplications()) do print(app:title()) end
 
-local function voxtypePath()
-	local paths = {
-		"/opt/homebrew/bin/voxtype",
-		"/usr/local/bin/voxtype",
-	}
-
-	for _, path in ipairs(paths) do
-		if hs.fs.attributes(path) then
-			return path
-		end
-	end
-
-	return "voxtype"
-end
-
-local function runVoxtype(command)
-	local path = voxtypePath()
-	local logPath = "/tmp/voxtype-hammerspoon.log"
-	local shellCommand = string.format(
-		"%s record %s >>%s 2>&1 &",
-		path,
-		command,
-		logPath
-	)
-	local _, status, exitType, rc = hs.execute(shellCommand, true)
-
-	print("voxtype command:", shellCommand)
-	print("voxtype status:", status, "exitType:", exitType, "rc:", rc)
-end
-
-hs.hotkey.bind({ "ctrl" }, "\\", function()
-	runVoxtype("start")
-end, function()
-	runVoxtype("stop")
-end)
-
 -- Helper function to cycle through windows
 local function cycleWindows(appName)
 	local app = hs.application.get(appName)
@@ -99,3 +63,10 @@ for _, keybind in ipairs(keybinds[keybindGroup]) do
 		cycleWindows(keybind[3])
 	end)
 end
+
+-- voxtype keybinds to record and stop recording voice
+hs.hotkey.bind({ "ctrl" }, "\\", function()
+	hs.execute("/opt/homebrew/bin/voxtype record start")
+end, function()
+	hs.execute("/opt/homebrew/bin/voxtype record stop")
+end)
