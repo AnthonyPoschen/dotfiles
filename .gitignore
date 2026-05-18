@@ -70,6 +70,7 @@
 .config/obs-studio/logs/
 .config/opencode/node_modules/
 .config/opencode/package.json
+.config/opencode/package-lock.json
 .config/opencode/bun.lock
 .config/go/
 .config/obs-studio/
