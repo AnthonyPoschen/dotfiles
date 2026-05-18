@@ -34,14 +34,34 @@ local function voxtypePath()
 	return "voxtype"
 end
 
-local function runVoxtype(command)
-	local shellCommand = voxtypePath() .. " record " .. command
-	local output, status, exitType, rc = hs.execute(shellCommand, true)
+local voxtypeTasks = {}
 
-	print("voxtype command:", shellCommand)
-	print("voxtype status:", status, "exitType:", exitType, "rc:", rc)
-	if output and output ~= "" then
-		print("voxtype output:", output)
+local function runVoxtype(command)
+	local path = voxtypePath()
+	local task
+
+	task = hs.task.new(path, function(exitCode, stdOut, stdErr)
+		voxtypeTasks[task] = nil
+
+		print("voxtype command:", path, "record", command)
+		print("voxtype exitCode:", exitCode)
+		if stdOut and stdOut ~= "" then
+			print("voxtype stdout:", stdOut)
+		end
+		if stdErr and stdErr ~= "" then
+			print("voxtype stderr:", stdErr)
+		end
+	end, nil, { "record", command })
+
+	if not task then
+		print("failed to create voxtype task:", path)
+		return
+	end
+
+	voxtypeTasks[task] = true
+	if not task:start() then
+		voxtypeTasks[task] = nil
+		print("failed to start voxtype task:", path, "record", command)
 	end
 end
 
