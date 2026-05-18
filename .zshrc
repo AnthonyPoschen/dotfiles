@@ -128,6 +128,12 @@ bindkey -M vicmd 'j' history-substring-search-down
 
 # vi key bindings
 bindkey -v
+# Keep Ctrl-C as an interrupt in all ZLE keymaps. Without this, vi insert mode
+# can treat Ctrl-C as self-insert and Starship redraws may print literal
+# command substitutions (especially on macOS).
+bindkey -M viins '^C' send-break
+bindkey -M vicmd '^C' send-break
+bindkey -M emacs '^C' send-break
 # export KEYTIMEOUT=1
 export KEYTIMEOUT=20
 # TODO: Remove this jj prefix when my brain no longer needs it, escape is easy now
