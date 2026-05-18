@@ -49,7 +49,7 @@ local function runVoxtype(command)
 	print("voxtype status:", status, "exitType:", exitType, "rc:", rc)
 end
 
-hs.hotkey.bind({ "ctrl" }, "Y", function()
+hs.hotkey.bind({ "ctrl" }, "\\", function()
 	runVoxtype("start")
 end, function()
 	runVoxtype("stop")
