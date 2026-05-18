@@ -19,6 +19,31 @@ local keybinds = {
 -- NOTE: use this for debugging to get list of applications, console mode
 -- for _, app in pairs(hs.application.runningApplications()) do print(app:title()) end
 
+local function voxtypePath()
+	local paths = {
+		"/opt/homebrew/bin/voxtype",
+		"/usr/local/bin/voxtype",
+	}
+
+	for _, path in ipairs(paths) do
+		if hs.fs.attributes(path) then
+			return path
+		end
+	end
+
+	return "voxtype"
+end
+
+local function runVoxtype(command)
+	hs.execute(voxtypePath() .. " record " .. command, true)
+end
+
+hs.hotkey.bind({ "ctrl" }, "Y", function()
+	runVoxtype("start")
+end, function()
+	runVoxtype("stop")
+end)
+
 -- Helper function to cycle through windows
 local function cycleWindows(appName)
 	local app = hs.application.get(appName)

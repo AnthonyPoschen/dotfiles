@@ -5,6 +5,7 @@ state_dir="${XDG_RUNTIME_DIR:-/tmp}/voxtype"
 state_file="$state_dir/discord-source-outputs-to-unmute"
 
 mkdir -p "$state_dir"
+touch "$state_file"
 
 discord_source_outputs() {
   pactl list source-outputs 2>/dev/null | awk '
@@ -35,12 +36,10 @@ discord_source_outputs() {
 }
 
 mute_discord() {
-  : >"$state_file"
-
   discord_source_outputs | while read -r id mute; do
     [ -n "$id" ] || continue
 
-    if [ "$mute" = "no" ]; then
+    if [ "$mute" = "no" ] && ! grep -qxF "$id" "$state_file"; then
       printf "%s\n" "$id" >>"$state_file"
     fi
 
@@ -62,11 +61,18 @@ restore_discord() {
 case "${1:-}" in
   start)
     mute_discord
-    exec voxtype record start
+    status=0
+    voxtype record start || status=$?
+    if [ "$status" -ne 0 ]; then
+      restore_discord
+    fi
+    exit "$status"
     ;;
   stop)
-    voxtype record stop
+    status=0
+    voxtype record stop || status=$?
     restore_discord
+    exit "$status"
     ;;
   *)
     echo "Usage: voxtype-record-with-discord-mute start|stop" >&2
