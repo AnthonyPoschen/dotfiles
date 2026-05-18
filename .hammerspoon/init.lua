@@ -34,87 +34,26 @@ local function voxtypePath()
 	return "voxtype"
 end
 
-local voxtypeTasks = {}
-
 local function runVoxtype(command)
 	local path = voxtypePath()
-	local task
+	local logPath = "/tmp/voxtype-hammerspoon.log"
+	local shellCommand = string.format(
+		"%s record %s >>%s 2>&1 &",
+		path,
+		command,
+		logPath
+	)
+	local _, status, exitType, rc = hs.execute(shellCommand, true)
 
-	task = hs.task.new(path, function(exitCode, stdOut, stdErr)
-		voxtypeTasks[task] = nil
-
-		print("voxtype command:", path, "record", command)
-		print("voxtype exitCode:", exitCode)
-		if stdOut and stdOut ~= "" then
-			print("voxtype stdout:", stdOut)
-		end
-		if stdErr and stdErr ~= "" then
-			print("voxtype stderr:", stdErr)
-		end
-	end, nil, { "record", command })
-
-	if not task then
-		print("failed to create voxtype task:", path)
-		return
-	end
-
-	voxtypeTasks[task] = true
-	if not task:start() then
-		voxtypeTasks[task] = nil
-		print("failed to start voxtype task:", path, "record", command)
-	end
+	print("voxtype command:", shellCommand)
+	print("voxtype status:", status, "exitType:", exitType, "rc:", rc)
 end
 
-local voxtypeKeyCode = hs.keycodes.map.y
-local voxtypeRecording = false
-
-local function stopVoxtypeRecording()
-	if not voxtypeRecording then
-		return false
-	end
-
-	voxtypeRecording = false
+hs.hotkey.bind({ "ctrl" }, "Y", function()
+	runVoxtype("start")
+end, function()
 	runVoxtype("stop")
-	return true
-end
-
-local voxtypeTap = hs.eventtap.new({
-	hs.eventtap.event.types.keyDown,
-	hs.eventtap.event.types.keyUp,
-	hs.eventtap.event.types.flagsChanged,
-}, function(event)
-	local eventType = event:getType()
-	local flags = event:getFlags()
-
-	if eventType == hs.eventtap.event.types.flagsChanged then
-		if voxtypeRecording and not flags.ctrl then
-			stopVoxtypeRecording()
-		end
-
-		return false
-	end
-
-	if event:getKeyCode() ~= voxtypeKeyCode then
-		return false
-	end
-
-	if eventType == hs.eventtap.event.types.keyDown and flags.ctrl then
-		if not voxtypeRecording then
-			voxtypeRecording = true
-			runVoxtype("start")
-		end
-
-		return true
-	end
-
-	if eventType == hs.eventtap.event.types.keyUp then
-		return stopVoxtypeRecording()
-	end
-
-	return false
 end)
-
-voxtypeTap:start()
 
 -- Helper function to cycle through windows
 local function cycleWindows(appName)
