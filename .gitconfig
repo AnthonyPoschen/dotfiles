@@ -72,7 +72,7 @@
     # url gets the origin url to make sharing repositories faster
     url = "!git remote get-url origin"
     # open git url in borwser on macos
-    urlo = "!sh -c \"open -u $(git url)\""
+	urlo = "!f(){ url=$(git remote get-url origin); url=${url%.git}; case \"$url\" in git@*:*) host=${url#git@}; host=${host%%:*}; path=${url#*:}; url=\"https://$host/$path\" ;; ssh://git@*/*) rest=${url#ssh://git@}; host=${rest%%/*}; path=${rest#*/}; url=\"https://$host/$path\" ;; esac; if command -v xdg-open >/dev/null 2>&1; then xdg-open \"$url\"; elif command -v open >/dev/null 2>&1; then open \"$url\"; elif command -v gio >/dev/null 2>&1; then gio open \"$url\"; else printf \"%s\\n\" \"$url\"; return 1; fi; }; f"
     # chekcout
     co = checkout
     # merge and squash only if other branch is fast forwarded

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+action="${1:-}"
+class="$(hyprctl activewindow -j | jq -r '.class // ""')"
+
+case "$action:$class" in
+  copy:com.mitchellh.ghostty)
+    hyprctl dispatch sendshortcut "SUPER, C,"
+    ;;
+  paste:com.mitchellh.ghostty)
+    hyprctl dispatch sendshortcut "SUPER, V,"
+    ;;
+  copy:*)
+    hyprctl dispatch sendshortcut "CTRL, Insert,"
+    ;;
+  paste:*)
+    hyprctl dispatch sendshortcut "SHIFT, Insert,"
+    ;;
+  *)
+    exit 2
+    ;;
+esac

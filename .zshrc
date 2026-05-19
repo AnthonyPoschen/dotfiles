@@ -2,9 +2,9 @@
 # Initialization code that may require console input (password prompts, [y/n]
 #
 if [[ $(uname) == "Darwin" ]]; then
-    export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+	export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 fi
-if [[ -z "$TMUX" && $- == *i* && -z "$VIM"  ]]; then
+if [[ -z "$TMUX" && $- == *i* && -z "$VIM" ]]; then
 	tmux attach || exec tmux new-session -s home && tmux kill-server && exit
 fi
 fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
@@ -27,7 +27,7 @@ ZSH_AUTOSUGGEST_HISTORY_IGNORE="cd *"
 
 export ZPLUG_HOME=/usr/local/opt/zplug
 if [[ $(uname) == "Darwin" ]]; then
-    export ZPLUG_HOME="/opt/homebrew/opt/zplug"
+	export ZPLUG_HOME="/opt/homebrew/opt/zplug"
 fi
 source $ZPLUG_HOME/init.zsh
 
@@ -48,29 +48,28 @@ source ~/.git-prompt.sh
 # export HTTPS_PROXY="${HTTP_PROXY}"
 # Let fzf use rg
 
-
 plugins=(
-    aws
-    # battery
-    branch
-    colored-man-pages
-    docker
-    encode64
-    extract
-    git
-    gitfast
-    git-escape-magic
-    git-prompt
-    helm
-    # kubectl
-    rsync
-    # themes
-    wd
-    web-search
-    kube-ps1
-    macos
-    fzf-tab
-    zsh-autosuggestions
+	aws
+	# battery
+	branch
+	colored-man-pages
+	docker
+	encode64
+	extract
+	git
+	gitfast
+	git-escape-magic
+	git-prompt
+	helm
+	# kubectl
+	rsync
+	# themes
+	wd
+	web-search
+	kube-ps1
+	macos
+	fzf-tab
+	zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -93,7 +92,6 @@ zplug "zsh-users/zsh-history-substring-search", defer:2
 zplug load
 #### zPlug ####
 
-
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
 # [[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
@@ -107,9 +105,9 @@ zplug load
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --smart-case --glob "!.git/*"'
 zstyle ':fzf-tab:*' default-color $'\033[38;5;255m'
 FZF_TAB_GROUP_COLORS=(
-    $'\033[94m' $'\033[32m' $'\033[33m' $'\033[35m' $'\033[31m' $'\033[38;5;27m' $'\033[36m' \
-    $'\033[38;5;100m' $'\033[38;5;98m' $'\033[91m' $'\033[38;5;80m' $'\033[92m' \
-    $'\033[38;5;214m' $'\033[38;5;165m' $'\033[38;5;124m' $'\033[38;5;120m'
+	$'\033[94m' $'\033[32m' $'\033[33m' $'\033[35m' $'\033[31m' $'\033[38;5;27m' $'\033[36m'
+	$'\033[38;5;100m' $'\033[38;5;98m' $'\033[91m' $'\033[38;5;80m' $'\033[92m'
+	$'\033[38;5;214m' $'\033[38;5;165m' $'\033[38;5;124m' $'\033[38;5;120m'
 )
 zstyle ':fzf-tab:*' group-colors $FZF_TAB_GROUP_COLORS
 # export RPROMPT=$'%F{blue}$(__git_ps1 "%s")$(kube_ps1)'
@@ -176,6 +174,7 @@ export PATH="$PATH:$HOME/.bin"
 export PATH="$PATH:$HOME/.node_modules_global/bin"
 export PATH="$PATH:$HOME/.gem/ruby/2.5.0/bin"
 export PATH="$PATH:$HOME/.krew/bin"
+export PATH="$PATH:$HOME/.zvm/bin"
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -213,10 +212,10 @@ export COLUMNS="120"
 # Added by GDK bootstrap
 # source /Users/zanven/.asdf/asdf.sh
 if command -v mise >/dev/null 2>&1; then
-  eval "$(mise activate zsh)"
+	eval "$(mise activate zsh)"
 fi
 
 # setup clipboard with system clipboard for zshrc vi mode
 if [ -f ~/.zshrc-clipboard ]; then
-  source ~/.zshrc-clipboard
+	source ~/.zshrc-clipboard
 fi

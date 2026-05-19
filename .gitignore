@@ -33,6 +33,7 @@
 \.config/nvim/lazy-lock.json
 \.config/hypr/shaders
 \.config/nvim.log
+\.config/nvim/nvim.log
 .DS_Store
 ._.DS_Store
 **/.DS_Store

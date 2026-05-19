@@ -31,6 +31,17 @@ return {
 				prepend_existing_path("/usr/local/bin")
 			end
 
+			local function zls_cmd()
+				if vim.env.ZLS_CMD and vim.fn.executable(vim.env.ZLS_CMD) == 1 then
+					return { vim.env.ZLS_CMD }
+				end
+
+				local zvm_zls = vim.fn.expand("~/.zvm/bin/zls")
+				if vim.fn.executable(zvm_zls) == 1 then
+					return { zvm_zls }
+				end
+			end
+
 			add_platform_tool_paths()
 
 			-- on_attach function to overwrite the default keymaps
@@ -59,7 +70,10 @@ return {
 				templ = {},
 				marksman = {},
 				arduino_language_server = {},
-				zls = {},
+				zls = {
+					cmd = zls_cmd(),
+					mason = false,
+				},
 				bashls = {
 					filetypes = { "sh", "zsh", "zshrc" },
 				},
@@ -538,7 +552,9 @@ return {
 			-- Combine and deduplicate LSP server names
 			local combined_lsp_servers = {}
 			for _, name in ipairs(primary_servers) do
-				combined_lsp_servers[name] = true
+				if not servers[name] or servers[name].mason ~= false then
+					combined_lsp_servers[name] = true
+				end
 			end
 			for _, name in ipairs(secondary_servers) do
 				combined_lsp_servers[name] = true
