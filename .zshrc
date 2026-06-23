@@ -187,7 +187,42 @@ export DOCKER_DEFAULT_PLATFORM=linux/amd64
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # NOTE: Prompt experiment - Starship prompt.
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
+
+#NOTE: oh-my-posh
+# https://ohmyposh.dev/docs/installation/prompt
+export POSH_THEME="$HOME/.config/oh-my-posh/theme.json"
+eval "$(oh-my-posh --config "$POSH_THEME" init zsh)"
+
+_omp_secondary_prompt=$("$_omp_executable" --config "$POSH_THEME" print secondary --shell=zsh)
+
+function _omp_get_prompt() {
+	local type=$1
+	local args=("${@[2,-1]}")
+	"$_omp_executable" --config "$POSH_THEME" print "$type" \
+		--save-cache \
+		--shell=zsh \
+		--shell-version=$ZSH_VERSION \
+		--status=$_omp_status \
+		--pipestatus="${_omp_pipestatus[*]}" \
+		--no-status=$_omp_no_status \
+		--execution-time=$_omp_execution_time \
+		--job-count=$_omp_job_count \
+		--stack-count=$_omp_stack_count \
+		--terminal-width="${COLUMNS-0}" \
+		${args[@]}
+}
+
+autoload -Uz add-zsh-hook
+function _prompt_spacer() {
+	if [[ -n "${_prompt_spacer_seen:-}" ]]; then
+		print
+	else
+		typeset -g _prompt_spacer_seen=1
+	fi
+}
+add-zsh-hook precmd _prompt_spacer
+# END: oh-my-posh
 
 unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 unset POWERLEVEL9K_AWS_SHOW_ON_COMMAND

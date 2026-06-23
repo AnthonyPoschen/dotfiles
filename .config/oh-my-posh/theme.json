@@ -1,0 +1,80 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json",
+  "version": 3,
+  "final_space": true,
+  "blocks": [
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "segments": [
+        {
+          "type": "path",
+          "style": "plain",
+          "foreground": "#4B9FE1",
+          "template": "{{ .Path }} ",
+          "properties": {
+            "style": "powerlevel",
+            "max_depth": 3,
+            "max_width": 80,
+            "folder_separator_icon": "/",
+            "home_icon": "~"
+          }
+        },
+        {
+          "type": "git",
+          "style": "plain",
+          "foreground": "#59C9A5",
+          "template": "{{ .HEAD }}{{ if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if gt .StashCount 0 }} *{{ .StashCount }}{{ end }}{{ if .Working.Changed }} !{{ .Working.String }}{{ end }}{{ if .Staging.Changed }} +{{ .Staging.String }}{{ end }}",
+          "properties": {
+            "branch_icon": "",
+            "fetch_status": true,
+            "fetch_upstream_icon": false,
+            "source": "cli"
+          }
+        }
+      ]
+    },
+    {
+      "type": "rprompt",
+      "overflow": "hide",
+      "alignment": "right",
+      "segments": [
+        {
+          "type": "aws",
+          "style": "plain",
+          "foreground": "#F3AE35",
+          "template": "{{ if .Profile }} {{ .Profile }}{{ if .Region }}@{{ .Region }}{{ end }}{{ end }}",
+          "properties": {
+            "display_default": true
+          }
+        },
+        {
+          "type": "kubectl",
+          "style": "plain",
+          "foreground": "#7A5EA8",
+          "template": "{{ if .Context }} 󱃾 {{ if .Cluster }}{{ .Cluster }}{{ else }}{{ .Context }}{{ end }}{{ if .Namespace }} / {{ .Namespace }}{{ end }}{{ end }}",
+          "properties": {
+            "parse_kubeconfig": true,
+            "display_error": false
+          }
+        }
+      ]
+    },
+    {
+      "type": "prompt",
+      "alignment": "left",
+      "newline": true,
+      "segments": [
+        {
+          "type": "text",
+          "style": "plain",
+          "foreground_templates": [
+            "{{ if gt .Code 0 }}#D81E5B{{ end }}",
+            "#59C9A5"
+          ],
+          "template": "{{ if gt .Code 0 }}✗{{ else }}❯{{ end }}"
+        }
+      ]
+    }
+  ]
+}
