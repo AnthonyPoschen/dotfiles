@@ -36,9 +36,9 @@ source $ZPLUG_HOME/init.zsh
 # source ~/.kubectl-completion
 # source <(kubectl completion bash)
 source ~/.aliases
-# git status on right prompt
-setopt prompt_subst
-source ~/.git-prompt.sh
+# Legacy prompt plumbing from pre-oh-my-posh setups.
+# setopt prompt_subst
+# source ~/.git-prompt.sh
 
 # export HTTP_PROXY=`scutil --proxy | awk '\
 #   /HTTPEnable/ { enabled = $3; } \
@@ -66,7 +66,7 @@ plugins=(
 	# themes
 	wd
 	web-search
-	kube-ps1
+	# kube-ps1 # redundant now that oh-my-posh renders kube context
 	macos
 	fzf-tab
 	zsh-autosuggestions
@@ -75,7 +75,8 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/terraform terraform
+# Terraform completion is unused and adds extra completion plumbing.
+# complete -o nospace -C /usr/local/bin/terraform terraform
 
 # Self update zplug
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
@@ -226,7 +227,7 @@ add-zsh-hook precmd _prompt_spacer
 
 unset POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND
 unset POWERLEVEL9K_AWS_SHOW_ON_COMMAND
-unset ZSH_AUTOSUGGEST_USE_ASYNC
+# Keep autosuggestions async to avoid synchronous redraw stalls while typing.
 export COLUMNS="120"
 
 ########################
@@ -258,5 +259,6 @@ fi
 # >>> grok installer >>>
 export PATH="$HOME/.grok/bin:$PATH"
 fpath=(~/.grok/completions/zsh $fpath)
-autoload -Uz compinit && compinit -C
+# compinit already runs via oh-my-zsh; avoid reinitializing completion here.
+# autoload -Uz compinit && compinit -C
 # <<< grok installer <<<

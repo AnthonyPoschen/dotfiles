@@ -35,7 +35,7 @@
       ]
     },
     {
-      "type": "rprompt",
+      "type": "prompt",
       "overflow": "hide",
       "alignment": "right",
       "segments": [
