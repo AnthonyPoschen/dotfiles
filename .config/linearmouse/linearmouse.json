@@ -1,13 +1,13 @@
 {
-  "$schema" : "https:\/\/schema.linearmouse.app\/0.9.5",
+  "$schema" : "https:\/\/schema.linearmouse.app\/0.11.2",
   "schemes" : [
     {
       "if" : {
         "device" : {
           "category" : "mouse",
-          "vendorID" : "0x1038",
           "productID" : "0x1722",
-          "productName" : "SteelSeries Sensei 310 eSports Mouse"
+          "productName" : "SteelSeries Sensei 310 eSports Mouse",
+          "vendorID" : "0x1038"
         }
       },
       "pointer" : {
@@ -26,6 +26,26 @@
       }
     },
     {
+      "buttons" : {
+        "mappings" : [
+          {
+            "action" : "missionControl.spaceLeft",
+            "button" : 3,
+            "command" : false,
+            "control" : false,
+            "option" : false,
+            "shift" : false
+          },
+          {
+            "action" : "missionControl.spaceRight",
+            "button" : 4,
+            "command" : false,
+            "control" : false,
+            "option" : false,
+            "shift" : false
+          }
+        ]
+      },
       "if" : {
         "device" : {
           "category" : "mouse",
@@ -35,7 +55,7 @@
         }
       },
       "pointer" : {
-        "acceleration" : 1.91,
+        "acceleration" : 1.94,
         "disableAcceleration" : true,
         "speed" : 0.8
       },
@@ -49,42 +69,22 @@
         "speed" : {
           "vertical" : 0
         }
-      },
-      "buttons" : {
-        "mappings" : [
-          {
-            "action" : "missionControl.spaceLeft",
-            "shift" : false,
-            "command" : false,
-            "control" : false,
-            "option" : false,
-            "button" : 3
-          },
-          {
-            "action" : "missionControl.spaceRight",
-            "shift" : false,
-            "command" : false,
-            "control" : false,
-            "option" : false,
-            "button" : 4
-          }
-        ]
       }
     },
     {
       "if" : {
         "device" : {
-          "productName" : "G903 LIGHTSPEED Wireless Gaming Mouse w\/ HERO",
-          "vendorID" : "0x46d",
-          "serialNumber" : "C1FCE577",
           "category" : "mouse",
-          "productID" : "0xc091"
+          "productID" : "0xc091",
+          "productName" : "G903 LIGHTSPEED Wireless Gaming Mouse w\/ HERO",
+          "serialNumber" : "C1FCE577",
+          "vendorID" : "0x46d"
         }
       },
       "pointer" : {
-        "speed" : 0.598,
-        "acceleration" : 0.5677,
-        "disableAcceleration" : true
+        "acceleration" : 2,
+        "disableAcceleration" : true,
+        "speed" : 0.598
       }
     }
   ]
