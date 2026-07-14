@@ -121,6 +121,10 @@
     undo="!f(){to=1; [[ -n \"$1\" ]] && to=$1; git reset --soft HEAD~$to;};f"
     gone = !"git fetch -p && git for-each-ref --format '%(refname:short) %(upstream:track)' | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D"
     retag = "!f(){ if [ -z \"$(git tag -l $1)\" ]; then echo \"tag does not exist\"; else git push --delete origin $1 || true && git tag -f $1 && git push origin refs/tags/$1;fi;};f"
+		retag2 = "!f(){ if [ -z \"$1\" ]; then echo \"usage: git retag <tag>\"; return 1; fi; if [ -z \"$(git tag -l \"$1\")\" ]; then echo \"tag does not exist\"; return 1; fi; branches_for(){ branches=$(git for-each-ref --format='%(refname:short)' --contains \"$1\" refs/heads | tr '\n' ',' ); branches=${branches%,}; [ -n \
+				\"$branches\" ] && printf '%s' \"$branches\" || printf '(no local branches)'; }; old_sha=$(git rev-list -n 1 \"$1\") && new_sha=$(git rev-parse HEAD) && old_branches=$(branches_for \"$old_sha\") && new_branches=$(branches_for \"$new_sha\") && printf 'old: %s [%s]\nnew: %s [%s]\n' \"$old_sha\" \"$old_branches\" \
+				\"$new_sha\" \"$new_branches\" && git push --delete origin \"$1\" || true && git tag -f \"$1\" && git push origin refs/tags/\"$1\";};f"
+
     loc24 = "!f(){ git log --since=\"24 hours ago\" --numstat --pretty=\"\" | awk 'NF==3 && $1 ~ /^[0-9]+$/ { added+=$1; removed+=$2 } END { printf \"Added: %d Removed: %d Net: %d\\n\", added, removed, added-removed }'; }; f"
 [include]
     path = "~/.gitconfig-work-includes"
