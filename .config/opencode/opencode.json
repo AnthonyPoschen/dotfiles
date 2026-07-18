@@ -1,68 +1,45 @@
 {
-	"$schema": "https://opencode.ai/config.json",
-	"theme": "system",
-	"autoupdate": false,
-	"permission": {
-		"read": {
-			"*": "allow",
-			"*.env": "deny",
-			"*.env.*": "deny",
-		},
-		"bash": {
-			"*": "ask",
-			"rm -rf /": "deny",
-			"rm -rf /*": "deny",
-			"rm -rf ~/": "deny",
-			"rm -rf ~/*": "deny",
-			"go *": "allow",
-			"make *": "allow",
-			"npm *": "allow",
-			"grep": "allow",
-			"ls": "allow",
-			"cat": "allow",
-		},
-		"external_directory": {
-			"~/tmp/99/": "allow",
-			"~/tmp/99/*": "allow",
-		}
-	},
-	"enabled_providers": [
-		"github-copilot"
-	],
-	"provider": {
-		"github-copilot": {
-			"name": "GitHub Copilot (Work)",
-			"npm": "@ai-sdk/github-copilot",
-			"options": {
-				"enterpriseUrl": "https://github.com"
-			},
-			"models": {
-				"gpt-5.4-copilot": {
-					"name": "OpenAI GPT‑5.4",
-					"reasoning": true,
-					"tool_call": true
-				},
-				"gpt-5.4-mini-copilot": {
-					"name": "OpenAI GPT‑5.4 Mini"
-				},
-				"gpt-5.4-nano-copilot": {
-					"name": "OpenAI GPT‑5.4 Nano"
-				},
-				"gpt-5.3-codex-copilot": {
-					"name": "OpenAI GPT‑5.3 Codex",
-					"tool_call": true
-				},
-				"gpt-5.2-codex-copilot": {
-					"name": "OpenAI GPT‑5.2 Codex",
-					"tool_call": true
-				},
-				"gpt-5.2-copilot": {
-					"name": "OpenAI GPT‑5.2"
-				},
-				"gpt-5-mini-copilot": {
-					"name": "OpenAI GPT‑5 Mini"
-				}
-			}
-		}
-	}
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "system",
+  "autoupdate": false,
+  "permission": {
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny"
+    },
+    "bash": {
+      "*": "ask",
+      "rm -rf /": "deny",
+      "rm -rf /*": "deny",
+      "rm -rf ~/": "deny",
+      "rm -rf ~/*": "deny",
+      "go *": "allow",
+      "make *": "allow",
+      "npm *": "allow",
+      "grep": "allow",
+      "ls": "allow",
+      "cat": "allow"
+    },
+    "external_directory": {
+      "~/tmp/99/": "allow",
+      "~/tmp/99/*": "allow"
+    }
+  },
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "http://localhost:11434/v1",
+        "streaming": false
+      },
+      "models": {
+        "qwen2.5-coder:14b-opencode": {
+          "name": "Qwen2.5 Coder 14B",
+          "tool_call": true
+        }
+      }
+    }
+  }
 }

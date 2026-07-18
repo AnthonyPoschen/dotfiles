@@ -99,3 +99,5 @@
 .config/**/Trust Tokens*
 .config/**/Crashpad/
 .config/**/logs/
+.config/stripe/**
+.config/fish/**
