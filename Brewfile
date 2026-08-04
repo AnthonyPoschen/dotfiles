@@ -6,7 +6,7 @@ tap "homebrew/bundle"
 tap "homebrew/services"
 tap "int128/kubelogin"
 tap "jandedobbeleer/oh-my-posh"
-tap "koekeishiya/formulae"
+tap "koekeishiya/formulae", "https://github.com/asmvik/homebrew-formulae.git"
 tap "libsql/sqld"
 tap "peteonrails/voxtype"
 tap "robscott/tap"
@@ -213,8 +213,6 @@ brew "fd"
 brew "fzf"
 # GitHub command-line tool
 brew "gh"
-# Image format providing lossless and lossy compression for web images
-brew "webp"
 # Distributed revision control system
 brew "git"
 # Regular expressions library
@@ -267,6 +265,8 @@ brew "gox"
 brew "gpgme"
 # New file format for still image compression
 brew "jpeg-xl"
+# Image format providing lossless and lossy compression for web images
+brew "webp"
 # Generic library support script
 brew "libtool"
 # Image processing tools collection
@@ -337,8 +337,6 @@ brew "libfido2"
 brew "libiconv"
 # Library for large linear classification
 brew "liblinear"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.12"
 # C library for creating IP packets
 brew "libnet"
 # X.Org: pthread-stubs.pc
@@ -415,6 +413,8 @@ brew "python-markupsafe"
 brew "python@3.10"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.11"
+# Interpreted, interactive, object-oriented programming language
+brew "python@3.12"
 # Interpreted, interactive, object-oriented programming language
 brew "python@3.8"
 # Interpreted, interactive, object-oriented programming language
@@ -509,6 +509,8 @@ cask "bluesnooze"
 cask "brave-browser"
 # Automated testing of webapps for Google Chrome
 cask "chromedriver"
+# Brings the power of Copilot coding agent directly to your terminal
+cask "copilot-cli"
 # App to build and share containerised applications and microservices
 cask "docker-desktop"
 cask "font-fira-code"
@@ -527,7 +529,7 @@ cask "spotify"
 # Open-source code editor
 cask "visual-studio-code"
 # Push-to-talk voice-to-text
-cask "peteonrails/voxtype/voxtype"
+cask "peteonrails/voxtype/voxtype", trusted: true
 go "github.com/cosmtrek/air"
 go "github.com/klauspost/asmfmt/cmd/asmfmt"
 go "sigs.k8s.io/controller-tools/cmd/controller-gen"

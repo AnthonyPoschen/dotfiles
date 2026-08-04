@@ -10,8 +10,6 @@ lock files as the source of truth.
 - Installed skills are not personal skills, even if they live under `skills/`.
 - Skills under `skills/` that are not listed in either lock file are
   personal/local-managed skills and may be edited directly.
-- To convert an installed skill into a personal skill, remove its entry from
-  the relevant lock file intentionally, then edit the copy under `skills/`.
 - Do not add marker files to distinguish personal skills.
 
 ## Codex Skill Preference
