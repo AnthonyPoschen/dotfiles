@@ -1,6 +1,10 @@
-# Agent Skills
+# Global config
 
-## Personal vs Installed Skills
+use ASD-STE100 simplified english when responding
+
+## Agent Skills
+
+### Personal vs Installed Skills
 
 When asked to review, refactor, or edit personal skills, use
 lock files as the source of truth.
@@ -12,7 +16,7 @@ lock files as the source of truth.
   personal/local-managed skills and may be edited directly.
 - Do not add marker files to distinguish personal skills.
 
-## Codex Skill Preference
+### Codex Skill Preference
 
 When running under Codex, prefer Codex system skills over same-named portable
 skills under `~/.agents/skills`. In particular, use Codex's built-in

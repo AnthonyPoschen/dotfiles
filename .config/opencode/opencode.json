@@ -33,6 +33,18 @@
     }
   },
   "provider": {
+    "opencode": {
+      "blacklist": [
+        "north-mini-code-free",
+        "longcat-2.0-free",
+        "ling-3.0-flash-free",
+        "laguna-s-2.1-free",
+        "deepseek-v4-flash-free",
+        "mimo-v2.5-free",
+        "big-pickle",
+        "nemotron-3-ultra-free"
+      ]
+    },
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Ollama",
