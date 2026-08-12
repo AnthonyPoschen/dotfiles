@@ -29,6 +29,9 @@ require("lazy").setup({
 		-- lazy = false,
 		version = "*", -- always use the latest git commit
 	},
+	git = {
+		timeout = 300,
+	},
 	change_detection = {
 		-- automatically check for config file changes and reload the ui
 		enabled = true,
