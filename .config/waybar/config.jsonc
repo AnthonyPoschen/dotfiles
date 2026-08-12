@@ -16,7 +16,8 @@
 	"modules-right": [
 		"tray",
 		"bluetooth",
-		"network",
+		"network#wifi",
+		"network#ethernet",
 		"custom/voxtype",
 		"pulseaudio#mic",
 		"pulseaudio",
@@ -80,7 +81,8 @@
     "tooltip": false,
     "on-click": "notify-send -u low \"$(omarchy-weather-status)\""
   },
-	"network": {
+	"network#wifi": {
+		"interface": "wlan0",
 		"format-icons": [
 			"󰤯",
 			"󰤟",
@@ -90,14 +92,23 @@
 		],
 		"format": "{icon}",
 		"format-wifi": "{icon}",
-		"format-ethernet": "󰀂",
 		"format-disconnected": "󰤮",
-		"tooltip-format-wifi": "{essid} ({frequency} GHz)",
-		"tooltip-format-ethernet": "Connected",
-		"tooltip-format-disconnected": "Disconnected",
+		"tooltip-format-wifi": "{essid} ({frequency} GHz)\n{ifname}: {ipaddr}",
+		"tooltip-format-disconnected": "Wi-Fi disconnected",
 		"interval": 3,
 		"spacing": 1,
 		"on-click": "omarchy-launch-wifi"
+	},
+	"network#ethernet": {
+		"interface": "enp14s0",
+		"format": "󰈀",
+		"format-ethernet": "󰈀",
+		"format-linked": "󰈀",
+		"format-disconnected": "󰈂",
+		"tooltip-format-ethernet": "Ethernet connected\n{ifname}: {ipaddr}\nGateway: {gwaddr}",
+		"tooltip-format-disconnected": "Ethernet disconnected",
+		"interval": 3,
+		"on-click": "omarchy-launch-or-focus-tui watch -n 1 networkctl status enp14s0 --stats --no-pager"
 	},
 	"battery": {
 		"format": "{capacity}% {icon}",

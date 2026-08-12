@@ -101,3 +101,4 @@
 .config/**/logs/
 .config/stripe/**
 .config/fish/**
+.config/libaccounts-glib/accounts.db
