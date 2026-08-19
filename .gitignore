@@ -102,3 +102,5 @@
 .config/stripe/**
 .config/fish/**
 .config/libaccounts-glib/accounts.db
+.config/acli/
+.config/atlassian/
