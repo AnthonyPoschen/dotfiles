@@ -12,6 +12,16 @@ vim.keymap.del("n", "gc")
 g.mapleader = " "
 g.maplocalleader = "\\"
 
+-- Super/Cmd+C/V. Hyprland Super+C/V becomes <C-Insert>/<S-Insert> in terminals;
+-- <D-c>/<D-v> is Super when Ghostty forwards it. unnamedplus + remote_clipboard
+-- already share + with wl-copy / OSC 52.
+map({ "n", "v", "x" }, "<D-c>", '"+y', { desc = "Copy to system clipboard" })
+map({ "n", "v", "x" }, "<C-Insert>", '"+y', { desc = "Copy to system clipboard" })
+map("n", "<D-v>", '"+p', { desc = "Paste system clipboard" })
+map("n", "<S-Insert>", '"+p', { desc = "Paste system clipboard" })
+map({ "i", "c" }, "<D-v>", "<C-r><C-o>+", { desc = "Paste system clipboard" })
+map("i", "<S-Insert>", "<C-r><C-o>+", { desc = "Paste system clipboard" })
+
 --TODO: disable this keymap eventually
 map("i", "jj", "<Esc>", opt_noremap)
 

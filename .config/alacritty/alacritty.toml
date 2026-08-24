@@ -15,7 +15,7 @@ history = 100000
 # normal = { family = "Fragment Mono", style = "Regular" }
 # normal = { family = "Fira Code", style = "Regular" }
 normal = { family = "Hack Nerd Font", style = "Regular" }
-size = 13.0
+size = 9
 
 [mouse]
 hide_when_typing = true
@@ -103,3 +103,6 @@ shell = { program = "/bin/zsh", args = ["--login"] }
 
 [terminal]
 osc52 = "CopyPaste"
+
+# Send Shift+Return as CSI-u so TUIs can distinguish it from Return without treating it as Alt+Return.
+{ key = "Return", mods = "Shift", chars = "\u001B[13;2u" }

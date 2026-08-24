@@ -262,7 +262,7 @@ fpath=(~/.grok/completions/zsh $fpath)
 # compinit already runs via oh-my-zsh; avoid reinitializing completion here.
 # autoload -Uz compinit && compinit -C
 # <<< grok installer <<<
-
 if [ -f ~/.zshrc_atlassian ]; then
 	source ~/.zshrc_atlassian
 fi
+complete -C '$(which aws_completer)' aws

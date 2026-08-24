@@ -1,1 +1,0 @@
-/home/zanven/.local/share/omarchy/default/elephant/omarchy_themes.lua

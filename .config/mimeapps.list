@@ -48,3 +48,5 @@ text/xml=nvim.desktop
 x-scheme-handler/discord-409416265891971072=discord-409416265891971072.desktop
 x-scheme-handler/aether=aether-protocol-handler.desktop
 inode/directory=org.gnome.Nautilus.desktop
+x-scheme-handler/codex=chatgpt.desktop
+x-scheme-handler/sand=grok-bot.desktop

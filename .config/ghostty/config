@@ -1,8 +1,8 @@
-config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
+config-file = ?"~/.local/state/omarchy/current/theme/ghostty.conf"
 
 font-family = "CaskaydiaMono Nerd Font"
 font-style = Regular
-font-size = 11
+font-size = 9
 font-thicken = true
 # adjust-cell-height = 5%
 window-theme = ghostty
@@ -21,14 +21,30 @@ cursor-style-blink = false
 
 shell-integration-features = no-cursor,ssh-env
 
+# Tmux owns the terminal. Drop every Ghostty default bind (splits, tabs,
+# inspector, command palette, fullscreen, new window, etc.).
+keybind = clear
+
+# Ctrl+click (Linux) / Cmd+click (macOS) to open URLs. This is not a keybind,
+# so `keybind = clear` does not remove it — keep it explicit for the synced config.
+link-url = true
+
+# Reload / quit / font size — not tmux features.
 keybind = super+shift+,=reload_config
 keybind = super+q=quit
 keybind = ctrl+equal=increase_font_size:2
 keybind = ctrl+minus=decrease_font_size:2
 keybind = ctrl+0=reset_font_size
 
-keybind = super+c=copy_to_clipboard
+# Clipboard. Hyprland Super+C/V arrives here as ctrl+insert / shift+insert.
+# performable: only consume copy when Ghostty itself has a selection, otherwise
+# Super+C / Ctrl+Insert reach tmux copy-mode and Neovim.
+keybind = performable:super+c=copy_to_clipboard
 keybind = super+v=paste_from_clipboard
+keybind = performable:ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
+keybind = performable:control+insert=copy_to_clipboard
+keybind = shift+insert=paste_from_clipboard
 copy-on-select = false
 clipboard-read = allow
 clipboard-write = allow
@@ -38,3 +54,9 @@ mouse-scroll-multiplier = 0.95
 
 # Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
 async-backend = epoll
+
+# Send Shift+Enter as CSI-u so TUIs can distinguish it from Enter.
+keybind = shift+enter=csi:13;2u
+
+# Legacy encoding sends Alt+Shift+Enter the same as Alt+Enter; send CSI-u so tmux can match M-S-Enter.
+keybind = alt+shift+enter=csi:13;4u
