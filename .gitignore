@@ -104,3 +104,10 @@
 .config/libaccounts-glib/accounts.db
 .config/acli/
 .config/atlassian/
+.config/Codex/
+.config/Grok Bot/
+.config/plexus/
+.config/genos/
+.config/unifi/
+.config/microsoft-edge/
+.config/opera/
