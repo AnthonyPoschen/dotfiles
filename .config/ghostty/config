@@ -60,3 +60,20 @@ keybind = shift+enter=csi:13;2u
 
 # Legacy encoding sends Alt+Shift+Enter the same as Alt+Enter; send CSI-u so tmux can match M-S-Enter.
 keybind = alt+shift+enter=csi:13;4u
+
+# Ctrl+Enter (Grok send-now). Default Ghostty bind was fullscreen; we cleared it.
+keybind = ctrl+enter=csi:13;5u
+
+# Ctrl+punctuation has no C0 control byte (unlike Ctrl+A–Z, Ctrl+[, Ctrl+\).
+# GTK/legacy encoding drops the modifier, so Neovim/Grok see ";" / "." / etc.
+# Emit xterm modifyOtherKeys; tmux maps that to C-… and forwards CSI-u.
+keybind = ctrl+period=csi:27;5;46~
+keybind = ctrl+.=csi:27;5;46~
+keybind = ctrl+semicolon=csi:27;5;59~
+keybind = ctrl+;=csi:27;5;59~
+keybind = ctrl+quote=csi:27;5;39~
+keybind = ctrl+'=csi:27;5;39~
+keybind = ctrl+comma=csi:27;5;44~
+keybind = ctrl+,=csi:27;5;44~
+keybind = ctrl+slash=csi:27;5;47~
+keybind = ctrl+/=csi:27;5;47~

@@ -1,6 +1,11 @@
 -- Personal binding overrides. Stock Omarchy binds that already match
 -- the old bindings.conf (browser, nautilus, etc.) are left alone.
 
+-- SUPER+L was Toggle workspace layout (dwindle/scrolling). Use it as lock
+-- instead, like Windows Win+L. SUPER+CTRL+L stays as the stock lock chord.
+hl.unbind("SUPER + L")
+o.bind("SUPER + L", "Lock system", "omarchy-system-lock")
+
 -- SUPER+SHIFT+M is Music / Spotify. Stock omarchy-launch-spotify has no
 -- scale flag; CEF on this XWayland screen otherwise draws at 2x.
 hl.unbind("SUPER + SHIFT + M")
