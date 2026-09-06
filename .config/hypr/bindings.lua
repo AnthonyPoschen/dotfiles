@@ -22,11 +22,14 @@ hl.unbind("SUPER + SHIFT + DOWN")
 
 -- Stock SUPER+J = togglesplit → relocate below.
 hl.unbind("SUPER + J")
--- Stock SUPER+K = show key bindings → relocate below.
+-- Stock SUPER+K = show key bindings → relocate to SUPER+SHIFT+/ ("?" help).
 hl.unbind("SUPER + K")
 -- Personal SUPER+L was Lock (stock SUPER+L was layout toggle).
 -- Lock remains on stock SUPER+CTRL+L until a new Win+L-style home is chosen.
 hl.unbind("SUPER + L")
+-- Legacy SUPER+SHIFT+/ was Passwords (1Password) in old bindings.conf.
+hl.unbind("SUPER + SHIFT + /")
+hl.unbind("SUPER + SHIFT + SLASH")
 
 o.bind("SUPER + H", "Focus left window", hl.dsp.focus({ direction = "l" }))
 o.bind("SUPER + J", "Focus below window", hl.dsp.focus({ direction = "d" }))
@@ -38,9 +41,9 @@ o.bind("SUPER + SHIFT + J", "Swap window down", hl.dsp.window.swap({ direction =
 o.bind("SUPER + SHIFT + K", "Swap window up", hl.dsp.window.swap({ direction = "u" }))
 o.bind("SUPER + SHIFT + L", "Swap window right", hl.dsp.window.swap({ direction = "r" }))
 
--- Relocated from SUPER+J / SUPER+K.
+-- Relocated from SUPER+J / SUPER+K (not SUPER+SHIFT+K — that is swap up).
 o.bind("SUPER + CTRL + J", "Toggle window split", hl.dsp.layout("togglesplit"))
-o.bind("SUPER + SHIFT + K", "Show key bindings", "omarchy-menu-keybindings")
+o.bind("SUPER + SHIFT + /", "Show key bindings", "omarchy-menu-keybindings")
 
 -- SUPER+SHIFT+M is Music / Spotify. Stock omarchy-launch-spotify has no
 -- scale flag; CEF on this XWayland screen otherwise draws at 2x.

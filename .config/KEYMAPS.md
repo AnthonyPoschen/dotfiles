@@ -48,7 +48,7 @@ Current Hyprland anchors (personal + intentional):
 - `SUPER+H/J/K/L`: focus window (home-row; replaces Super+arrows).
 - `SUPER+SHIFT+H/J/K/L`: swap window (replaces Super+Shift+arrows).
 - `SUPER+CTRL+J`: toggle split (was Super+J).
-- `SUPER+SHIFT+K`: show key bindings (was Super+K).
+- `SUPER+SHIFT+/`: show key bindings (was Super+K; mnemonic "?").
 - `SUPER+CTRL+L`: lock (stock Omarchy; Win+L habit chord still needs a new home).
 - `SUPER+D`: app launcher.
 - `SUPER+X`: terminal (cwd).
@@ -65,7 +65,8 @@ Track every chord we unbound or stole so we can rehome or discard.
 | `SUPER+LEFT/RIGHT/UP/DOWN` | Focus window (Omarchy tiling-v2) | **Replaced** by `SUPER+H/J/K/L` |
 | `SUPER+SHIFT+LEFT/RIGHT/UP/DOWN` | Swap window (Omarchy tiling-v2) | **Replaced** by `SUPER+SHIFT+H/J/K/L` |
 | `SUPER+J` | Toggle window split (Omarchy tiling-v2) | **Remapped** → `SUPER+CTRL+J` |
-| `SUPER+K` | Show key bindings (`omarchy-menu-keybindings`) | **Remapped** → `SUPER+SHIFT+K` |
+| `SUPER+K` | Show key bindings (`omarchy-menu-keybindings`) | **Remapped** → `SUPER+SHIFT+/` |
+| `SUPER+SHIFT+/` (legacy conf) | Passwords / 1Password | **Needs new home** (or launch via `SUPER+D`) |
 | `SUPER+L` (personal) | Lock system (`omarchy-system-lock`) | **Needs new home** — stock `SUPER+CTRL+L` still locks |
 | `SUPER+L` (stock, before personal) | Toggle workspace layout | Already displaced earlier by personal lock; still unbound |
 
