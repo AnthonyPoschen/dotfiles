@@ -1,10 +1,49 @@
 -- Personal binding overrides. Stock Omarchy binds that already match
 -- the old bindings.conf (browser, nautilus, etc.) are left alone.
+--
+-- Live path: hyprland.lua → Omarchy defaults → this file (Lua).
+-- Legacy hypr/bindings.conf is not the active source under Omarchy 4.
 
--- SUPER+L was Toggle workspace layout (dwindle/scrolling). Use it as lock
--- instead, like Windows Win+L. SUPER+CTRL+L stays as the stock lock chord.
+-- ---------------------------------------------------------------------------
+-- ADV360 / right-Super: home-row window focus + swap
+-- Displaced chords and original actions are tracked in KEYMAPS.md
+-- ("Displaced by Super+hjkl").
+-- ---------------------------------------------------------------------------
+
+-- Stock Omarchy tiling-v2: Super+arrows focus, Super+Shift+arrows swap.
+hl.unbind("SUPER + LEFT")
+hl.unbind("SUPER + RIGHT")
+hl.unbind("SUPER + UP")
+hl.unbind("SUPER + DOWN")
+hl.unbind("SUPER + SHIFT + LEFT")
+hl.unbind("SUPER + SHIFT + RIGHT")
+hl.unbind("SUPER + SHIFT + UP")
+hl.unbind("SUPER + SHIFT + DOWN")
+
+-- Stock SUPER+J = togglesplit → relocate below.
+hl.unbind("SUPER + J")
+-- Stock SUPER+K = show key bindings → relocate to SUPER+SHIFT+/ ("?" help).
+hl.unbind("SUPER + K")
+-- Personal SUPER+L was Lock (stock SUPER+L was layout toggle).
+-- Lock remains on stock SUPER+CTRL+L until a new Win+L-style home is chosen.
 hl.unbind("SUPER + L")
-o.bind("SUPER + L", "Lock system", "omarchy-system-lock")
+-- Legacy SUPER+SHIFT+/ was Passwords (1Password) in old bindings.conf.
+hl.unbind("SUPER + SHIFT + /")
+hl.unbind("SUPER + SHIFT + SLASH")
+
+o.bind("SUPER + H", "Focus left window", hl.dsp.focus({ direction = "l" }))
+o.bind("SUPER + J", "Focus below window", hl.dsp.focus({ direction = "d" }))
+o.bind("SUPER + K", "Focus above window", hl.dsp.focus({ direction = "u" }))
+o.bind("SUPER + L", "Focus right window", hl.dsp.focus({ direction = "r" }))
+
+o.bind("SUPER + SHIFT + H", "Swap window left", hl.dsp.window.swap({ direction = "l" }))
+o.bind("SUPER + SHIFT + J", "Swap window down", hl.dsp.window.swap({ direction = "d" }))
+o.bind("SUPER + SHIFT + K", "Swap window up", hl.dsp.window.swap({ direction = "u" }))
+o.bind("SUPER + SHIFT + L", "Swap window right", hl.dsp.window.swap({ direction = "r" }))
+
+-- Relocated from SUPER+J / SUPER+K (not SUPER+SHIFT+K — that is swap up).
+o.bind("SUPER + CTRL + J", "Toggle window split", hl.dsp.layout("togglesplit"))
+o.bind("SUPER + SHIFT + /", "Show key bindings", "omarchy-menu-keybindings")
 
 -- SUPER+SHIFT+M is Music / Spotify. Stock omarchy-launch-spotify has no
 -- scale flag; CEF on this XWayland screen otherwise draws at 2x.
