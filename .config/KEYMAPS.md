@@ -22,6 +22,9 @@ macOS, a terminal, or tmux may never reach Neovim.
 - macOS `Command` and Linux `Window`/`Super` are OS/window-manager layers.
 - Avoid using `Command` or `Super` as Neovim concepts. Keep Neovim inside the
   terminal/editor layer.
+- **Super = OS/WM**, **Ctrl = tmux/Neovim** (personal convention).
+- Keyboard: Kinesis Advantage 360 (split); Win↔Alt swapped so **Super is on the
+  right**. Prefer cross-hand Super+left-letter chords and home-row nav.
 - tmux is intentional, not incidental. Terminal and shell changes should assume
   tmux is part of the interactive path.
 - Prefer mnemonic namespaces for Neovim leader mappings:
@@ -33,20 +36,38 @@ macOS, a terminal, or tmux may never reach Neovim.
 
 | Scope | File | Notes |
 | --- | --- | --- |
-| Hyprland entrypoint | `hypr/hyprland.conf` | Sources Omarchy defaults first, then personal overrides. |
-| Hyprland personal bindings | `hypr/bindings.conf` | Primary Linux `SUPER` keymap layer. App launchers, terminal/tmux, screenshots, pass-through rules. |
-| Hyprland input | `hypr/input.conf` | Keyboard layout, compose key, pointer/touchpad behavior. |
-| Hyprland app rules | `hypr/apps.conf`, `hypr/apps/*.conf` | App-specific rules; inspect if app focus/window behavior affects key flow. |
-| Omarchy defaults | `~/.local/share/omarchy/default/hypr/bindings/*.conf` | Upstream defaults, outside this repo. Read for conflicts; do not edit directly. |
+| Hyprland entrypoint (live) | `hypr/hyprland.lua` | Omarchy 4 Lua path; loads defaults then personal overrides. |
+| Hyprland personal bindings (live) | `hypr/bindings.lua` | Primary Linux `SUPER` overrides. |
+| Hyprland legacy | `hypr/hyprland.conf`, `hypr/bindings.conf` | Legacy conf path; **not** what Omarchy 4 loads. Keep for reference or delete later. |
+| Hyprland input | `hypr/input.lua` / `input.conf` | Keyboard layout, compose key, pointer/touchpad. |
+| Omarchy defaults | `$OMARCHY_PATH/default/hypr/bindings/*` (often `/usr/share/omarchy`) | Upstream; do not edit. |
 | macOS mouse buttons | `linearmouse/linearmouse.json` | Mouse buttons 3/4 switch Mission Control spaces. |
 
-Current Hyprland anchors:
+Current Hyprland anchors (personal + intentional):
 
-- `SUPER ALT, RETURN`: launch tmux terminal.
-- `SUPER, X`: launch terminal in current cwd.
-- `SUPER, D`: app launcher.
-- `SUPER SHIFT, ...`: app/webapp launch namespace.
-- `SUPER, Q`: passed through to Ghostty.
+- `SUPER+H/J/K/L`: focus window (home-row; replaces Super+arrows).
+- `SUPER+SHIFT+H/J/K/L`: swap window (replaces Super+Shift+arrows).
+- `SUPER+CTRL+J`: toggle split (was Super+J).
+- `SUPER+SHIFT+K`: show key bindings (was Super+K).
+- `SUPER+CTRL+L`: lock (stock Omarchy; Win+L habit chord still needs a new home).
+- `SUPER+D`: app launcher.
+- `SUPER+X`: terminal (cwd).
+- `SUPER+SHIFT+...`: app/webapp launch namespace (cull later).
+- `SUPER+Q`: passed through to Ghostty.
+- `ALT+TAB`: cycle windows (Alt is on the left after Win↔Alt swap).
+
+### Displaced by Super+hjkl
+
+Track every chord we unbound or stole so we can rehome or discard.
+
+| Chord | Original action | Status |
+| --- | --- | --- |
+| `SUPER+LEFT/RIGHT/UP/DOWN` | Focus window (Omarchy tiling-v2) | **Replaced** by `SUPER+H/J/K/L` |
+| `SUPER+SHIFT+LEFT/RIGHT/UP/DOWN` | Swap window (Omarchy tiling-v2) | **Replaced** by `SUPER+SHIFT+H/J/K/L` |
+| `SUPER+J` | Toggle window split (Omarchy tiling-v2) | **Remapped** → `SUPER+CTRL+J` |
+| `SUPER+K` | Show key bindings (`omarchy-menu-keybindings`) | **Remapped** → `SUPER+SHIFT+K` |
+| `SUPER+L` (personal) | Lock system (`omarchy-system-lock`) | **Needs new home** — stock `SUPER+CTRL+L` still locks |
+| `SUPER+L` (stock, before personal) | Toggle workspace layout | Already displaced earlier by personal lock; still unbound |
 
 ## Terminal Emulators
 
@@ -71,19 +92,14 @@ these before assuming a Neovim mapping is broken.
 Current tmux anchors:
 
 - Prefix is `C-a`; `C-b` is unbound as prefix.
-- Root bindings: `C-f`, `C-g`, `C-t`, `C-b`. These are high-value session
-  movement and management keys; keep them prioritized over default shell or
-  Neovim meanings.
+- Root bindings: `C-f`, `C-g`, `C-t`, `C-x`, `C-b`. High-value session
+  movement; keep them prioritized over default shell or Neovim meanings.
 - Prefix bindings: `c`, `n`, `p`, `^r`, `-`, `s`, `v`, `[`, `]`, `q`,
   `^H`, `^J`, `^K`, `^L`, `Space`, `+`, `r`.
 - Copy mode is vi-style.
 - Clipboard differs by platform: `pbcopy` on macOS, `wl-copy`/`wl-paste` on
   Linux.
 - Extended keys are enabled with `extended-keys` and `terminal-features`.
-
-Future keymap review: explicitly rank the key hierarchy and reserve the best
-key real estate for the actions that most improve navigation speed and daily
-workflow.
 
 ## Shell
 
