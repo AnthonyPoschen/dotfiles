@@ -65,7 +65,7 @@
           "vertical" : 1
         },
         "distance" : {
-          "vertical" : 2
+          "vertical" : "81px"
         },
         "smoothed" : {
           "vertical" : {
