@@ -28,7 +28,7 @@ hl.unbind("SUPER + K")
 -- Lock remains on stock SUPER+CTRL+L until a new Win+L-style home is chosen.
 hl.unbind("SUPER + L")
 -- Legacy SUPER+SHIFT+/ was Passwords (1Password) in old bindings.conf.
-hl.unbind("SUPER + SHIFT + /")
+-- Hyprland Lua keysyms use SLASH, not "/".
 hl.unbind("SUPER + SHIFT + SLASH")
 
 o.bind("SUPER + H", "Focus left window", hl.dsp.focus({ direction = "l" }))
@@ -43,7 +43,7 @@ o.bind("SUPER + SHIFT + L", "Swap window right", hl.dsp.window.swap({ direction 
 
 -- Relocated from SUPER+J / SUPER+K (not SUPER+SHIFT+K — that is swap up).
 o.bind("SUPER + CTRL + J", "Toggle window split", hl.dsp.layout("togglesplit"))
-o.bind("SUPER + SHIFT + /", "Show key bindings", "omarchy-menu-keybindings")
+o.bind("SUPER + SHIFT + SLASH", "Show key bindings", "omarchy-menu-keybindings")
 
 -- SUPER+SHIFT+M is Music / Spotify. Stock omarchy-launch-spotify has no
 -- scale flag; CEF on this XWayland screen otherwise draws at 2x.
