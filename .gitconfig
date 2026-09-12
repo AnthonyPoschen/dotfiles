@@ -3,7 +3,7 @@
 	pager = delta
   abbrev = 8
   ignorecase = false
-	excludesfile = /Users/ap/.gitconfig-global-ignores
+	excludesfile = ~/.gitconfig-global-ignores
 [init]
 	defaultBranch = master
 [delta "no-background"]
@@ -139,9 +139,19 @@
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
+# GitHub HTTPS uses `gh` from PATH so this file stays portable across
+# Omarchy and macOS. Do not run `gh auth setup-git`: it writes an absolute
+# mise/Homebrew path into this file. Host-only overrides go in
+# ~/.gitconfig.local (untracked) or the OS includes below.
 [credential "https://github.com"]
-	helper = 
-	helper = !/home/zanven/.local/share/mise/installs/gh/2.97.0/gh_2.97.0_linux_amd64/bin/gh auth git-credential
+	helper =
+	helper = !gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
-	helper = !/home/zanven/.local/share/mise/installs/gh/2.97.0/gh_2.97.0_linux_amd64/bin/gh auth git-credential
+	helper =
+	helper = !gh auth git-credential
+[includeIf "gitdir:/home/"]
+	path = ~/.gitconfig.linux
+[includeIf "gitdir:/Users/"]
+	path = ~/.gitconfig.macos
+[include]
+	path = ~/.gitconfig.local
