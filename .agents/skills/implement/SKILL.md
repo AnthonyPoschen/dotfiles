@@ -12,4 +12,4 @@ Run typechecking regularly, single test files regularly, and the full test suite
 
 Once done, use /code-review to review the work.
 
-Commit your work to the current branch.
+Load `git-worktree`. Implement in `~/worktree/…`, not the primary checkout. Commit there. When the user says push/PR, publish the branch and open a draft PR.
