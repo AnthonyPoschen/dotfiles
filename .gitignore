@@ -81,6 +81,8 @@
 .config/brave-origin-beta-flags.conf
 .config/chromium-flags.conf
 .config/fcitx5/conf/cached_layouts
+.config/fcitx5/conf/notifications.conf
+.config/fcitx5/profile
 .config/git/config
 .config/helm/
 .config/gtk-3.0/bookmarks
