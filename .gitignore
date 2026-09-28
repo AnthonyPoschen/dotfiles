@@ -113,3 +113,11 @@
 .config/unifi/
 .config/microsoft-edge/
 .config/opera/
+.config/cliamp/
+!.config/cliamp/config.toml
+!.config/cliamp/radio_favorites.toml
+.config/autostart/com.onepassword.OnePassword.desktop
+.config/browser-harness/
+.config/chromium-headless/
+.config/herdr/
+!.config/herdr/config.toml

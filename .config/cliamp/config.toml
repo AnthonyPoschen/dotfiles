@@ -1,0 +1,15 @@
+volume = -5
+
+theme = ""
+
+speed = 1.00
+
+eq_preset = "Custom"
+eq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+repeat = "All"
+visualizer = "Stereo"
+[spotify]
+bitrate   = 320
+
+[ytmusic]
+enabled = true

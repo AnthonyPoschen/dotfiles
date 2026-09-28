@@ -1,0 +1,20 @@
+# omarchy-instant-replay configuration v1
+monitor=
+seconds=300
+audio=window-mic
+mode=follow
+filter=allowlist
+captureExtent=window
+codec=auto
+fps=30
+quality=20000
+cursor=true
+framerateMode=cfr
+bitrateMode=cbr
+clipResolution=1080p
+clipScale=stretch
+matchList=net-runelite-client-RuneLite
+blacklist=discord,brave-browser
+outputDir=/home/zanven/Videos/Replays
+region=2558x1412+1281+27
+pinAddress=0x559aa1b2c5f0
