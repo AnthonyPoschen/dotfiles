@@ -88,7 +88,6 @@ return {
 	-- This handles fancy notify such as proress counters
 	{
 		"rcarriga/nvim-notify",
-		dependencies = { "folke/tokyonight.nvim" },
 		name = "notify",
 		keys = {
 			{
@@ -100,7 +99,8 @@ return {
 			},
 		},
 		config = function(_, opts)
-			opts = vim.tbl_deep_extend("force", { background_colour = "#282A36" }, opts)
+			-- Follow whichever colorscheme is active, including the Tokyo Night fallback.
+			opts = vim.tbl_deep_extend("force", { background_colour = "Normal" }, opts)
 			require("notify").setup(opts)
 		end,
 		opts = {

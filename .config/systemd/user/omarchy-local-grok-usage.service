@@ -1,0 +1,9 @@
+[Unit]
+Description=Local Grok usage collector until Omarchy ships one
+Documentation=https://github.com/basecamp/omarchy/pull/6902
+ConditionPathExists=!/usr/share/omarchy/bin/omarchy-agent-usage-grok
+
+[Service]
+Type=oneshot
+Environment=OMARCHY_PATH=/usr/share/omarchy
+ExecStart=%h/.config/omarchy/agents/omarchy-local-grok-usage-update

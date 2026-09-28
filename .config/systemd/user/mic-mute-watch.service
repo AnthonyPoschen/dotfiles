@@ -1,0 +1,12 @@
+[Unit]
+Description=Play Discord mute/unmute cues when the mic mute state changes
+After=pipewire-pulse.service
+Wants=pipewire-pulse.service
+
+[Service]
+ExecStart=%h/.local/scripts/pedal/mic-mute-watch.sh
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

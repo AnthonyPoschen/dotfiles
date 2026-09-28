@@ -27,3 +27,10 @@ require("default.hypr.toggles")
 
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
+
+local cua_plugin = "/usr/lib/cua/hyprland/cua-hyprland-plugin.so"
+
+hl.on("hyprland.start", function()
+  hl.plugin.load(cua_plugin)
+  hl.config({ plugin = { cua = { enabled = true } } })
+end)
