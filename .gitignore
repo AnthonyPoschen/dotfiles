@@ -121,3 +121,4 @@
 .config/chromium-headless/
 .config/herdr/
 !.config/herdr/config.toml
+.config/nexus/
