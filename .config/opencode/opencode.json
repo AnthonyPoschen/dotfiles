@@ -31,6 +31,14 @@
     "atlassian": {
       "type": "remote",
       "url": "https://mcp.atlassian.com/v1/mcp/authv2"
+    },
+    "cua-driver": {
+      "type": "local",
+      "command": [
+        "/usr/bin/cua-driver",
+        "mcp"
+      ],
+      "enabled": true
     }
   },
   "provider": {

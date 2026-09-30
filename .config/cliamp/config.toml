@@ -7,7 +7,7 @@ speed = 1.00
 eq_preset = "Custom"
 eq = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 repeat = "All"
-visualizer = "Stereo"
+visualizer = "Bricks"
 [spotify]
 bitrate   = 320
 
