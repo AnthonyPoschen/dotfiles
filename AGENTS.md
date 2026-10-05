@@ -47,3 +47,5 @@ CI for Anthony's repos runs on the self-hosted GitHub Actions label
 - `AnthonyPoschen/k8s` → runner `k8s-house` (label `house`)
 
 When adding or editing workflows in those repos, use `runs-on: house`.
+
+`AnthonyPoschen/k8s` promote-genos reads private genos/genos-controller via repo secret `GENOS_READ_TOKEN` (fine-grained, read-only Contents on those two repos); the k8s push uses default `GITHUB_TOKEN`.
