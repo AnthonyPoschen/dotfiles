@@ -36,3 +36,13 @@ work on both machines in that file.
   `/home/` vs `/Users/`). Do not put credential helpers only in those
   files: `includeIf gitdir` does not apply outside a repo, including
   during `git clone`.
+
+## Genos CI runners
+
+Genos image and website CI run on the self-hosted GitHub Actions label
+`house`, not `ubuntu-latest`.
+
+- `AnthonyPoschen/genos` → runner `genos-house` (label `house`)
+- `AnthonyPoschen/genos-controller` → runner `genos-controller-house` (label `house`)
+
+When adding or editing workflows in those repos, use `runs-on: house`.
