@@ -36,3 +36,16 @@ work on both machines in that file.
   `/home/` vs `/Users/`). Do not put credential helpers only in those
   files: `includeIf gitdir` does not apply outside a repo, including
   during `git clone`.
+
+## CI runners (house)
+
+CI for Anthony's repos runs on the self-hosted GitHub Actions label
+`house`, not `ubuntu-latest`.
+
+- `AnthonyPoschen/genos` → runner `genos-house` (label `house`)
+- `AnthonyPoschen/genos-controller` → runner `genos-controller-house` (label `house`)
+- `AnthonyPoschen/k8s` → runner `k8s-house` (label `house`)
+
+When adding or editing workflows in those repos, use `runs-on: house`.
+
+`AnthonyPoschen/k8s` promote-genos reads private genos/genos-controller via repo secret `GENOS_READ_TOKEN` (fine-grained, read-only Contents on those two repos); the k8s push uses default `GITHUB_TOKEN`.
