@@ -37,12 +37,13 @@ work on both machines in that file.
   files: `includeIf gitdir` does not apply outside a repo, including
   during `git clone`.
 
-## Genos CI runners
+## CI runners (house)
 
-Genos image and website CI run on the self-hosted GitHub Actions label
+CI for Anthony's repos runs on the self-hosted GitHub Actions label
 `house`, not `ubuntu-latest`.
 
 - `AnthonyPoschen/genos` → runner `genos-house` (label `house`)
 - `AnthonyPoschen/genos-controller` → runner `genos-controller-house` (label `house`)
+- `AnthonyPoschen/k8s` → runner `k8s-house` (label `house`)
 
 When adding or editing workflows in those repos, use `runs-on: house`.
