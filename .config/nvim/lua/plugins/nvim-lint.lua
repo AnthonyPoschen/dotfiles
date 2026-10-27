@@ -7,6 +7,10 @@ return {
 			events = { "BufWritePost", "BufReadPost", "InsertLeave" },
 			linters_by_ft = {
 				fish = { "fish" },
+				go = { "golangcilint" },
+				css = { "stylelint" },
+				scss = { "stylelint" },
+				html = { "stylelint" },
 				-- Use the "*" filetype to run linters on all filetypes.
 				-- ['*'] = { 'global linter' },
 				-- Use the "_" filetype to run linters on filetypes that don't have other linters configured.
@@ -36,6 +40,107 @@ return {
 				end
 			end
 			lint.linters_by_ft = opts.linters_by_ft
+
+			-- Project config wins. The dotfiles config is the fallback.
+			local home = vim.loop.os_homedir()
+
+			local function project_config(filename, names)
+				local start = filename ~= "" and vim.fn.fnamemodify(filename, ":p") or vim.fn.getcwd()
+				return vim.fs.find(names, { path = start, upward = true, stop = home })[1]
+			end
+
+			local function has_package_stylelint(filename)
+				local start = filename ~= "" and vim.fn.fnamemodify(filename, ":p") or vim.fn.getcwd()
+				local packages = vim.fs.find("package.json", {
+					path = start,
+					upward = true,
+					stop = home,
+					limit = math.huge,
+				})
+				for _, pkg in ipairs(packages) do
+					local lines = vim.fn.readfile(pkg)
+					local ok, decoded = pcall(vim.json.decode, table.concat(lines, "\n"))
+					if ok and type(decoded) == "table" and decoded.stylelint then
+						return true
+					end
+				end
+				return false
+			end
+
+			local golangci = lint.linters.golangcilint
+			local golangci_names = {
+				".golangci.yml",
+				".golangci.yaml",
+				".golangci.toml",
+				".golangci.json",
+			}
+			-- nvim's cwd is often $HOME, which now has .golangci.yml, so an
+			-- unscoped run would always pick the dotfiles config. Pass the
+			-- nearest project file, or the dotfiles file when there is none.
+			if type(golangci.args) == "table" then
+				local golangci_target = table.remove(golangci.args)
+				vim.list_extend(golangci.args, {
+					"--config",
+					function()
+						local filename = vim.api.nvim_buf_get_name(0)
+						return project_config(filename, golangci_names) or vim.fn.expand("~/.golangci.yml")
+					end,
+					golangci_target,
+				})
+			end
+
+			local stylelint = lint.linters.stylelint
+			local stylelint_cmd = stylelint.cmd
+			-- Custom plugins require("stylelint") from the skill directory.
+			-- NODE_PATH is only a fallback after the project's own modules.
+			stylelint.env = vim.tbl_extend("force", stylelint.env or {}, {
+				NODE_PATH = vim.fn.expand("~/.config/stylelint/node_modules"),
+			})
+			stylelint.cmd = function()
+				local resolved = stylelint_cmd()
+				if resolved ~= "stylelint" then
+					return resolved
+				end
+				local home_bin = vim.fn.expand("~/.config/stylelint/node_modules/.bin/stylelint")
+				if vim.loop.fs_stat(home_bin) then
+					return home_bin
+				end
+				return "stylelint"
+			end
+			local stylelint_names = {
+				"stylelint.config.js",
+				"stylelint.config.cjs",
+				"stylelint.config.mjs",
+				".stylelintrc",
+				".stylelintrc.js",
+				".stylelintrc.cjs",
+				".stylelintrc.json",
+				".stylelintrc.yml",
+				".stylelintrc.yaml",
+			}
+			-- Same cwd problem as golangci-lint. A package.json "stylelint"
+			-- key has no file to pass, so repeat the formatter flag and let
+			-- Stylelint read that key from the file path.
+			vim.list_extend(stylelint.args, {
+				function()
+					local filename = vim.api.nvim_buf_get_name(0)
+					if not project_config(filename, stylelint_names) and has_package_stylelint(filename) then
+						return "--formatter"
+					end
+					return "--config"
+				end,
+				function()
+					local filename = vim.api.nvim_buf_get_name(0)
+					local found = project_config(filename, stylelint_names)
+					if found then
+						return found
+					end
+					if has_package_stylelint(filename) then
+						return "json"
+					end
+					return vim.fn.expand("~/.config/stylelint/stylelint.config.cjs")
+				end,
+			})
 
 			function M.debounce(ms, fn)
 				local timer = vim.loop.new_timer()

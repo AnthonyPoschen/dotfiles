@@ -70,6 +70,8 @@
 .config/GIMP/
 .config/obs-studio/logs/
 .config/opencode/node_modules/
+.config/stylelint/node_modules/
+!/.golangci.yml
 .config/opencode/package.json
 .config/opencode/package-lock.json
 .config/opencode/bun.lock

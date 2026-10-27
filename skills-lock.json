@@ -19,6 +19,12 @@
       "skillPath": "skills/gitops-repo-audit/SKILL.md",
       "computedHash": "993332d18e70d52d438d0d44a8039427e7b44f2a43099e31efeeda788de26743"
     },
+    "lint-rules": {
+      "source": "AnthonyPoschen/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/lint-rules/SKILL.md",
+      "computedHash": "3c5b30fbd687db41f50f5dc16b00fc4f141b2a7483a49f1237fbb1f8e738f0e3"
+    },
     "skill-creator": {
       "source": "anthropics/skills",
       "sourceType": "github",
