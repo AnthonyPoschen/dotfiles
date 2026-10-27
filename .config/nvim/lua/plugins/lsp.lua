@@ -539,6 +539,7 @@ return {
 				"html",
 			}
 			local mason_tools = {
+				"golangci-lint",
 				"gotests",
 				"markdownlint",
 				"prettier",

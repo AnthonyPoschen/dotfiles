@@ -1,0 +1,10 @@
+{
+  "name": "stylelint-global",
+  "private": true,
+  "description": "Dependencies for the global Stylelint fallback in stylelint.config.cjs.",
+  "devDependencies": {
+    "postcss-html": "1.8.0",
+    "stylelint": "16.23.1",
+    "stylelint-declaration-strict-value": "1.10.11"
+  }
+}
